@@ -1,0 +1,93 @@
+09/07/2020 18:59:52 - INFO - transformers.training_args -   PyTorch: setting up devices
+09/07/2020 18:59:55 - WARNING - __main__ -   Process rank: -1, device: cuda, n_gpu: 1, distributed training: False, 16-bits training: True
+09/07/2020 18:59:55 - INFO - __main__ -   Training/evaluation parameters TrainingArguments(output_dir='output_dir/boolq_idk_roberta-l', overwrite_output_dir=False, do_train=True, do_eval=True, do_predict=False, evaluate_during_training=True, per_device_train_batch_size=8, per_device_eval_batch_size=8, per_gpu_train_batch_size=8, per_gpu_eval_batch_size=24, gradient_accumulation_steps=1, learning_rate=1e-05, weight_decay=0.0, adam_epsilon=1e-08, max_grad_norm=1.0, num_train_epochs=5.0, max_steps=-1, warmup_steps=0, logging_dir='runs/Sep07_18-59-52_higdon', logging_first_step=False, logging_steps=500, save_steps=20000, save_total_limit=None, no_cuda=False, seed=42, fp16=True, fp16_opt_level='O1', local_rank=-1, tpu_num_cores=None, tpu_metrics_debug=False, dataloader_drop_last=False)
+09/07/2020 18:59:55 - INFO - transformers.configuration_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-large-config.json from cache at /shared/.cache/transformers/c22e0b5bbb7c0cb93a87a2ae01263ae715b4c18d692b1740ce72cacaa99ad184.2d28da311092e99a05f9ee17520204614d60b0bfdb32f8a75644df7737b6a748
+09/07/2020 18:59:55 - INFO - transformers.configuration_utils -   Model config RobertaConfig {
+  "architectures": [
+    "RobertaForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "bos_token_id": 0,
+  "eos_token_id": 2,
+  "finetuning_task": "rte",
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 1024,
+  "id2label": {
+    "0": "LABEL_0",
+    "1": "LABEL_1",
+    "2": "LABEL_2"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 4096,
+  "label2id": {
+    "LABEL_0": 0,
+    "LABEL_1": 1,
+    "LABEL_2": 2
+  },
+  "layer_norm_eps": 1e-05,
+  "max_position_embeddings": 514,
+  "model_type": "roberta",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 24,
+  "pad_token_id": 1,
+  "type_vocab_size": 1,
+  "vocab_size": 50265
+}
+
+09/07/2020 18:59:55 - INFO - transformers.configuration_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-large-config.json from cache at /shared/.cache/transformers/c22e0b5bbb7c0cb93a87a2ae01263ae715b4c18d692b1740ce72cacaa99ad184.2d28da311092e99a05f9ee17520204614d60b0bfdb32f8a75644df7737b6a748
+09/07/2020 18:59:55 - INFO - transformers.configuration_utils -   Model config RobertaConfig {
+  "architectures": [
+    "RobertaForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "bos_token_id": 0,
+  "eos_token_id": 2,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 1024,
+  "initializer_range": 0.02,
+  "intermediate_size": 4096,
+  "layer_norm_eps": 1e-05,
+  "max_position_embeddings": 514,
+  "model_type": "roberta",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 24,
+  "pad_token_id": 1,
+  "type_vocab_size": 1,
+  "vocab_size": 50265
+}
+
+09/07/2020 18:59:55 - INFO - transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-large-vocab.json from cache at /shared/.cache/transformers/1ae1f5b6e2b22b25ccc04c000bb79ca847aa226d0761536b011cf7e5868f0655.ef00af9e673c7160b4d41cfda1f48c5f4cba57d5142754525572a846a1ab1b9b
+09/07/2020 18:59:55 - INFO - transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-large-merges.txt from cache at /shared/.cache/transformers/f8f83199a6270d582d6245dc100e99c4155de81c9745c6248077018fe01abcfb.70bec105b4158ed9a1747fea67a43f5dee97855c64d62b6ec3742f4cfdb5feda
+09/07/2020 18:59:55 - INFO - transformers.modeling_utils -   loading weights file https://cdn.huggingface.co/roberta-large-pytorch_model.bin from cache at /shared/.cache/transformers/2339ac1858323405dffff5156947669fed6f63a0c34cfab35bda4f78791893d2.fc7abf72755ecc4a75d0d336a93c1c63358d2334f5998ed326f3b0da380bf536
+09/07/2020 19:00:03 - INFO - transformers.modeling_utils -   Weights of RobertaForSequenceClassification not initialized from pretrained model: ['classifier.dense.weight', 'classifier.dense.bias', 'classifier.out_proj.weight', 'classifier.out_proj.bias']
+09/07/2020 19:00:03 - INFO - transformers.modeling_utils -   Weights from pretrained model not used in RobertaForSequenceClassification: ['lm_head.bias', 'lm_head.dense.weight', 'lm_head.dense.bias', 'lm_head.layer_norm.weight', 'lm_head.layer_norm.bias', 'lm_head.decoder.weight']
+09/07/2020 19:00:03 - INFO - transformers.data.datasets.glue -   Creating features from dataset file at data/glue/RTE/
+Traceback (most recent call last):
+  File "transformers/examples/text-classification/run_glue.py", line 253, in <module>
+    main()
+  File "transformers/examples/text-classification/run_glue.py", line 145, in main
+    GlueDataset(data_args, tokenizer=tokenizer, cache_dir=model_args.cache_dir) if training_args.do_train else None
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.7/site-packages/transformers/data/datasets/glue.py", line 130, in __init__
+    output_mode=self.output_mode,
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.7/site-packages/transformers/data/processors/glue.py", line 64, in glue_convert_examples_to_features
+    examples, tokenizer, max_length=max_length, task=task, label_list=label_list, output_mode=output_mode
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.7/site-packages/transformers/data/processors/glue.py", line 138, in _glue_convert_examples_to_features
+    labels = [label_from_example(example) for example in examples]
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.7/site-packages/transformers/data/processors/glue.py", line 138, in <listcomp>
+    labels = [label_from_example(example) for example in examples]
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.7/site-packages/transformers/data/processors/glue.py", line 133, in label_from_example
+    return label_map[example.label]
+KeyError: 'not_entailment'
+
+If you suspect this is an IPython 7.18.1 bug, please report it at:
+    https://github.com/ipython/ipython/issues
+or send an email to the mailing list at ipython-dev@python.org
+
+You can print a more detailed traceback right now with "%tb", or use "%debug"
+to interactively debug it.
+
+Extra-detailed tracebacks for bug-reporting purposes can be enabled via:
+    %config Application.verbose_crash=True
+

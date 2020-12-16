@@ -1,0 +1,98 @@
+BE-BORN
+There is a birth.
+
+MARRY
+There is a marriage.
+
+DIVORCE
+There is a divorce.
+
+INJURE
+There is an injury.
+
+DIE
+There is a death.
+
+TRANSPORT
+There is a a transportation of vehicle, weapon, or person from one place to another.
+
+TRANSFER-OWNERSHIP
+There is a transfer of ownership.
+
+TRANSFER-MONEY
+There is a transfer of money.
+
+START-ORG
+There is a start of organization.
+
+MERGE-ORG
+There is a merger of organizations.
+
+DECLARE-BANKRUPTCY
+There is a bankruptcy.
+
+END-ORG
+There is an end of organization.
+
+ATTACK
+There is an attack.
+
+DEMONSTRATE
+There is a demonstration or protest.
+
+MEET
+There is a meeting.
+
+PHONE-WRITE
+There is a phone of written communication between two parties.
+
+START-POSITION
+There is someone hired.
+
+END-POSITION
+There is someone leaving a position.
+
+NOMINATE
+There is someone nominated for a position.
+
+ELECT
+There is an election.
+
+ARREST-JAIL
+There is someone arrested.
+
+RELEASE-PAROLE
+There is someone released or on parole.
+
+TRIAL-HEARING
+There is a trial or hearing.
+
+CHARGE-INDICT
+There is a charge or indictment.
+
+SUE
+There is a lawsuit.
+
+CONVICT
+There is a conviction.
+
+SENTENCE
+There is someone under sentence.
+
+FINE
+There is a fine on someone.
+
+EXECUTE
+There is an execution of a legally condemned person.
+
+EXTRADITE
+There is an extradition.
+
+ACQUIT
+There is an acquittal.
+
+PARDON
+There is someone pardoned.
+
+APPEAL
+There is an appeal to a court.

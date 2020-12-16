@@ -1,0 +1,486 @@
+nohup: ignoring input
+importing Jupyter notebook from trigger_detector_probe.ipynb
+('bert', False, False, 'all', False, 0.985)
+Finished.
+('bert', False, False, 'all', False, 0.99)
+Finished.
+('bert', False, False, 'all', False, 0.995)
+Finished.
+('bert', False, False, 'all', True, 0.985)
+Finished.
+('bert', False, False, 'all', True, 0.99)
+Finished.
+('bert', False, False, 'all', True, 0.995)
+Finished.
+('bert', False, False, ['V'], False, 0.985)
+Finished.
+('bert', False, False, ['V'], False, 0.99)
+Finished.
+('bert', False, False, ['V'], False, 0.995)
+Finished.
+('bert', False, False, ['V'], True, 0.985)
+Finished.
+('bert', False, False, ['V'], True, 0.99)
+Finished.
+('bert', False, False, ['V'], True, 0.995)
+Finished.
+('bert', False, False, ['V', 'ARG0', 'ARG1'], False, 0.985)
+Finished.
+('bert', False, False, ['V', 'ARG0', 'ARG1'], False, 0.99)
+Finished.
+('bert', False, False, ['V', 'ARG0', 'ARG1'], False, 0.995)
+Finished.
+('bert', False, False, ['V', 'ARG0', 'ARG1'], True, 0.985)
+Finished.
+('bert', False, False, ['V', 'ARG0', 'ARG1'], True, 0.99)
+Finished.
+('bert', False, False, ['V', 'ARG0', 'ARG1'], True, 0.995)
+Finished.
+('bert', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.985)
+Finished.
+('bert', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.99)
+Finished.
+('bert', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.995)
+Finished.
+('bert', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.985)
+Finished.
+('bert', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.99)
+Finished.
+('bert', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.995)
+Finished.
+('bert', False, False, ['V', 'ARG0'], False, 0.985)
+Finished.
+('bert', False, False, ['V', 'ARG0'], False, 0.99)
+Finished.
+('bert', False, False, ['V', 'ARG0'], False, 0.995)
+Finished.
+('bert', False, False, ['V', 'ARG0'], True, 0.985)
+Finished.
+('bert', False, False, ['V', 'ARG0'], True, 0.99)
+Finished.
+('bert', False, False, ['V', 'ARG0'], True, 0.995)
+Finished.
+('bert', False, False, ['V', 'ARG1'], False, 0.985)
+Finished.
+('bert', False, False, ['V', 'ARG1'], False, 0.99)
+Finished.
+('bert', False, False, ['V', 'ARG1'], False, 0.995)
+Finished.
+('bert', False, False, ['V', 'ARG1'], True, 0.985)
+Finished.
+('bert', False, False, ['V', 'ARG1'], True, 0.99)
+Finished.
+('bert', False, False, ['V', 'ARG1'], True, 0.995)
+Finished.
+('bert', True, False, 'all', False, 0.985)
+Finished.
+('bert', True, False, 'all', False, 0.99)
+Finished.
+('bert', True, False, 'all', False, 0.995)
+Finished.
+('bert', True, False, 'all', True, 0.985)
+Finished.
+('bert', True, False, 'all', True, 0.99)
+Finished.
+('bert', True, False, 'all', True, 0.995)
+Finished.
+('bert', True, False, ['V'], False, 0.985)
+Finished.
+('bert', True, False, ['V'], False, 0.99)
+Finished.
+('bert', True, False, ['V'], False, 0.995)
+Finished.
+('bert', True, False, ['V'], True, 0.985)
+Finished.
+('bert', True, False, ['V'], True, 0.99)
+Finished.
+('bert', True, False, ['V'], True, 0.995)
+Finished.
+('bert', True, False, ['V', 'ARG0', 'ARG1'], False, 0.985)
+Finished.
+('bert', True, False, ['V', 'ARG0', 'ARG1'], False, 0.99)
+Finished.
+('bert', True, False, ['V', 'ARG0', 'ARG1'], False, 0.995)
+Finished.
+('bert', True, False, ['V', 'ARG0', 'ARG1'], True, 0.985)
+Finished.
+('bert', True, False, ['V', 'ARG0', 'ARG1'], True, 0.99)
+Finished.
+('bert', True, False, ['V', 'ARG0', 'ARG1'], True, 0.995)
+Finished.
+('bert', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.985)
+Finished.
+('bert', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.99)
+Finished.
+('bert', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.995)
+Finished.
+('bert', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.985)
+Finished.
+('bert', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.99)
+Finished.
+('bert', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.995)
+Finished.
+('bert', True, False, ['V', 'ARG0'], False, 0.985)
+Finished.
+('bert', True, False, ['V', 'ARG0'], False, 0.99)
+Finished.
+('bert', True, False, ['V', 'ARG0'], False, 0.995)
+Finished.
+('bert', True, False, ['V', 'ARG0'], True, 0.985)
+Finished.
+('bert', True, False, ['V', 'ARG0'], True, 0.99)
+Finished.
+('bert', True, False, ['V', 'ARG0'], True, 0.995)
+Finished.
+('bert', True, False, ['V', 'ARG1'], False, 0.985)
+Finished.
+('bert', True, False, ['V', 'ARG1'], False, 0.99)
+Finished.
+('bert', True, False, ['V', 'ARG1'], False, 0.995)
+Finished.
+('bert', True, False, ['V', 'ARG1'], True, 0.985)
+Finished.
+('bert', True, False, ['V', 'ARG1'], True, 0.99)
+Finished.
+('bert', True, False, ['V', 'ARG1'], True, 0.995)
+Finished.
+('bert', True, True, 'all', False, 0.985)
+Finished.
+('bert', True, True, 'all', False, 0.99)
+Finished.
+('bert', True, True, 'all', False, 0.995)
+Finished.
+('bert', True, True, 'all', True, 0.985)
+Finished.
+('bert', True, True, 'all', True, 0.99)
+Finished.
+('bert', True, True, 'all', True, 0.995)
+Finished.
+('bert', True, True, ['V'], False, 0.985)
+Finished.
+('bert', True, True, ['V'], False, 0.99)
+Finished.
+('bert', True, True, ['V'], False, 0.995)
+Finished.
+('bert', True, True, ['V'], True, 0.985)
+Finished.
+('bert', True, True, ['V'], True, 0.99)
+Finished.
+('bert', True, True, ['V'], True, 0.995)
+Finished.
+('bert', True, True, ['V', 'ARG0', 'ARG1'], False, 0.985)
+Finished.
+('bert', True, True, ['V', 'ARG0', 'ARG1'], False, 0.99)
+Finished.
+('bert', True, True, ['V', 'ARG0', 'ARG1'], False, 0.995)
+Finished.
+('bert', True, True, ['V', 'ARG0', 'ARG1'], True, 0.985)
+Finished.
+('bert', True, True, ['V', 'ARG0', 'ARG1'], True, 0.99)
+Finished.
+('bert', True, True, ['V', 'ARG0', 'ARG1'], True, 0.995)
+Finished.
+('bert', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.985)
+Finished.
+('bert', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.99)
+Finished.
+('bert', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.995)
+Finished.
+('bert', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.985)
+Finished.
+('bert', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.99)
+Finished.
+('bert', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.995)
+Finished.
+('bert', True, True, ['V', 'ARG0'], False, 0.985)
+Finished.
+('bert', True, True, ['V', 'ARG0'], False, 0.99)
+Finished.
+('bert', True, True, ['V', 'ARG0'], False, 0.995)
+Finished.
+('bert', True, True, ['V', 'ARG0'], True, 0.985)
+Finished.
+('bert', True, True, ['V', 'ARG0'], True, 0.99)
+Finished.
+('bert', True, True, ['V', 'ARG0'], True, 0.995)
+Finished.
+('bert', True, True, ['V', 'ARG1'], False, 0.985)
+Finished.
+Traceback (most recent call last):
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/tarfile.py", line 2171, in makefile
+    copyfileobj(source, target, tarinfo.size, ReadError, bufsize)
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/tarfile.py", line 252, in copyfileobj
+    dst.write(buf)
+OSError: [Errno 28] No space left on device
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "param_tune.py", line 82, in <module>
+    predictor = Predictor.from_path("https://s3-us-west-2.amazonaws.com/allennlp/models/bert-base-srl-2019.06.17.tar.gz")
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/allennlp/predictors/predictor.py", line 256, in from_path
+    return Predictor.from_archive(load_archive(archive_path, cuda_device=cuda_device), predictor_name,
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/allennlp/models/archival.py", line 230, in load_archive
+    cuda_device=cuda_device)
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/allennlp/models/model.py", line 327, in load
+    return cls.by_name(model_type)._load(config, serialization_dir, weights_file, cuda_device)
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/allennlp/models/model.py", line 265, in _load
+    model = Model.from_params(vocab=vocab, params=model_params)
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/allennlp/common/from_params.py", line 365, in from_params
+    return subclass.from_params(params=params, **extras)
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/allennlp/common/from_params.py", line 388, in from_params
+    return cls(**kwargs)  # type: ignore
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/allennlp/models/srl_bert.py", line 51, in __init__
+    self.bert_model = BertModel.from_pretrained(bert_model)
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/pytorch_pretrained_bert/modeling.py", line 590, in from_pretrained
+    archive.extractall(tempdir)
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/tarfile.py", line 2010, in extractall
+    numeric_owner=numeric_owner)
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/tarfile.py", line 2052, in extract
+    numeric_owner=numeric_owner)
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/tarfile.py", line 2122, in _extract_member
+    self.makefile(tarinfo, targetpath)
+  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/tarfile.py", line 2171, in makefile
+    copyfileobj(source, target, tarinfo.size, ReadError, bufsize)
+OSError: [Errno 28] No space left on device
+
+
+
+
+
+
+nohup: ignoring input
+importing Jupyter notebook from trigger_detector_probe.ipynb
+('bert', True, True, ['V', 'ARG1'], False, 0.99)
+Finished.
+('bert', True, True, ['V', 'ARG1'], False, 0.995)
+Finished.
+('bert', True, True, ['V', 'ARG1'], True, 0.985)
+Finished.
+('bert', True, True, ['V', 'ARG1'], True, 0.99)
+Finished.
+('bert', True, True, ['V', 'ARG1'], True, 0.995)
+Finished.
+('bert-l', False, False, 'all', False, 0.985)
+Finished.
+('bert-l', False, False, 'all', False, 0.99)
+Finished.
+('bert-l', False, False, 'all', False, 0.995)
+Finished.
+('bert-l', False, False, 'all', True, 0.985)
+Finished.
+('bert-l', False, False, 'all', True, 0.99)
+Finished.
+('bert-l', False, False, 'all', True, 0.995)
+Finished.
+('bert-l', False, False, ['V'], False, 0.985)
+Finished.
+('bert-l', False, False, ['V'], False, 0.99)
+Finished.
+('bert-l', False, False, ['V'], False, 0.995)
+Finished.
+('bert-l', False, False, ['V'], True, 0.985)
+Finished.
+('bert-l', False, False, ['V'], True, 0.99)
+Finished.
+('bert-l', False, False, ['V'], True, 0.995)
+Finished.
+('bert-l', False, False, ['V', 'ARG0', 'ARG1'], False, 0.985)
+Finished.
+('bert-l', False, False, ['V', 'ARG0', 'ARG1'], False, 0.99)
+Finished.
+('bert-l', False, False, ['V', 'ARG0', 'ARG1'], False, 0.995)
+Finished.
+('bert-l', False, False, ['V', 'ARG0', 'ARG1'], True, 0.985)
+Finished.
+('bert-l', False, False, ['V', 'ARG0', 'ARG1'], True, 0.99)
+Finished.
+('bert-l', False, False, ['V', 'ARG0', 'ARG1'], True, 0.995)
+Finished.
+('bert-l', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.985)
+Finished.
+('bert-l', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.99)
+Finished.
+('bert-l', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.995)
+Finished.
+('bert-l', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.985)
+Finished.
+('bert-l', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.99)
+Finished.
+('bert-l', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.995)
+Finished.
+('bert-l', False, False, ['V', 'ARG0'], False, 0.985)
+Finished.
+('bert-l', False, False, ['V', 'ARG0'], False, 0.99)
+Finished.
+('bert-l', False, False, ['V', 'ARG0'], False, 0.995)
+Finished.
+('bert-l', False, False, ['V', 'ARG0'], True, 0.985)
+Finished.
+('bert-l', False, False, ['V', 'ARG0'], True, 0.99)
+Finished.
+('bert-l', False, False, ['V', 'ARG0'], True, 0.995)
+Finished.
+('bert-l', False, False, ['V', 'ARG1'], False, 0.985)
+Finished.
+('bert-l', False, False, ['V', 'ARG1'], False, 0.99)
+Finished.
+('bert-l', False, False, ['V', 'ARG1'], False, 0.995)
+Finished.
+('bert-l', False, False, ['V', 'ARG1'], True, 0.985)
+Finished.
+('bert-l', False, False, ['V', 'ARG1'], True, 0.99)
+Finished.
+('bert-l', False, False, ['V', 'ARG1'], True, 0.995)
+Finished.
+('bert-l', True, False, 'all', False, 0.985)
+Finished.
+('bert-l', True, False, 'all', False, 0.99)
+Finished.
+('bert-l', True, False, 'all', False, 0.995)
+Finished.
+('bert-l', True, False, 'all', True, 0.985)
+Finished.
+('bert-l', True, False, 'all', True, 0.99)
+Finished.
+('bert-l', True, False, 'all', True, 0.995)
+Finished.
+('bert-l', True, False, ['V'], False, 0.985)
+Finished.
+('bert-l', True, False, ['V'], False, 0.99)
+Finished.
+('bert-l', True, False, ['V'], False, 0.995)
+Finished.
+('bert-l', True, False, ['V'], True, 0.985)
+Finished.
+('bert-l', True, False, ['V'], True, 0.99)
+Finished.
+('bert-l', True, False, ['V'], True, 0.995)
+Finished.
+('bert-l', True, False, ['V', 'ARG0', 'ARG1'], False, 0.985)
+Finished.
+('bert-l', True, False, ['V', 'ARG0', 'ARG1'], False, 0.99)
+Finished.
+('bert-l', True, False, ['V', 'ARG0', 'ARG1'], False, 0.995)
+Finished.
+('bert-l', True, False, ['V', 'ARG0', 'ARG1'], True, 0.985)
+Finished.
+('bert-l', True, False, ['V', 'ARG0', 'ARG1'], True, 0.99)
+Finished.
+('bert-l', True, False, ['V', 'ARG0', 'ARG1'], True, 0.995)
+Finished.
+('bert-l', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.985)
+Finished.
+('bert-l', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.99)
+Finished.
+('bert-l', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.995)
+Finished.
+('bert-l', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.985)
+Finished.
+('bert-l', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.99)
+Finished.
+('bert-l', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.995)
+Finished.
+('bert-l', True, False, ['V', 'ARG0'], False, 0.985)
+Finished.
+('bert-l', True, False, ['V', 'ARG0'], False, 0.99)
+Finished.
+('bert-l', True, False, ['V', 'ARG0'], False, 0.995)
+Finished.
+('bert-l', True, False, ['V', 'ARG0'], True, 0.985)
+Finished.
+('bert-l', True, False, ['V', 'ARG0'], True, 0.99)
+Finished.
+('bert-l', True, False, ['V', 'ARG0'], True, 0.995)
+Finished.
+('bert-l', True, False, ['V', 'ARG1'], False, 0.985)
+Finished.
+('bert-l', True, False, ['V', 'ARG1'], False, 0.99)
+Finished.
+('bert-l', True, False, ['V', 'ARG1'], False, 0.995)
+Finished.
+('bert-l', True, False, ['V', 'ARG1'], True, 0.985)
+Finished.
+('bert-l', True, False, ['V', 'ARG1'], True, 0.99)
+Finished.
+('bert-l', True, False, ['V', 'ARG1'], True, 0.995)
+Finished.
+('bert-l', True, True, 'all', False, 0.985)
+Finished.
+('bert-l', True, True, 'all', False, 0.99)
+Finished.
+('bert-l', True, True, 'all', False, 0.995)
+Finished.
+nohup: ignoring input
+importing Jupyter notebook from trigger_detector_probe.ipynb
+('bert-l', True, True, 'all', True, 0.985)
+Finished.
+('bert-l', True, True, 'all', True, 0.99)
+Finished.
+('bert-l', True, True, 'all', True, 0.995)
+Finished.
+('bert-l', True, True, ['V'], False, 0.985)
+Finished.
+('bert-l', True, True, ['V'], False, 0.99)
+Finished.
+('bert-l', True, True, ['V'], False, 0.995)
+Finished.
+('bert-l', True, True, ['V'], True, 0.985)
+Finished.
+('bert-l', True, True, ['V'], True, 0.99)
+Finished.
+('bert-l', True, True, ['V'], True, 0.995)
+Finished.
+('bert-l', True, True, ['V', 'ARG0', 'ARG1'], False, 0.985)
+Finished.
+('bert-l', True, True, ['V', 'ARG0', 'ARG1'], False, 0.99)
+Finished.
+('bert-l', True, True, ['V', 'ARG0', 'ARG1'], False, 0.995)
+Finished.
+('bert-l', True, True, ['V', 'ARG0', 'ARG1'], True, 0.985)
+Finished.
+('bert-l', True, True, ['V', 'ARG0', 'ARG1'], True, 0.99)
+Finished.
+('bert-l', True, True, ['V', 'ARG0', 'ARG1'], True, 0.995)
+Finished.
+('bert-l', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.985)
+Finished.
+('bert-l', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.99)
+Finished.
+('bert-l', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.995)
+Finished.
+('bert-l', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.985)
+Finished.
+('bert-l', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.99)
+Finished.
+('bert-l', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.995)
+Finished.
+('bert-l', True, True, ['V', 'ARG0'], False, 0.985)
+Finished.
+('bert-l', True, True, ['V', 'ARG0'], False, 0.99)
+Finished.
+('bert-l', True, True, ['V', 'ARG0'], False, 0.995)
+Finished.
+('bert-l', True, True, ['V', 'ARG0'], True, 0.985)
+Finished.
+('bert-l', True, True, ['V', 'ARG0'], True, 0.99)
+Finished.
+('bert-l', True, True, ['V', 'ARG0'], True, 0.995)
+Finished.
+('bert-l', True, True, ['V', 'ARG1'], False, 0.985)
+Finished.
+('bert-l', True, True, ['V', 'ARG1'], False, 0.99)
+Finished.
+('bert-l', True, True, ['V', 'ARG1'], False, 0.995)
+Finished.
+('bert-l', True, True, ['V', 'ARG1'], True, 0.985)
+Finished.
+('bert-l', True, True, ['V', 'ARG1'], True, 0.99)
+Finished.
+('bert-l', True, True, ['V', 'ARG1'], True, 0.995)
+Finished.
+('roberta', False, False, ['V', 'ARG0'], True, 0.985)
+Finished.
+('roberta', False, False, ['V', 'ARG0'], True, 0.99)
+Finished.
+('roberta', False, False, ['V', 'ARG1'], False, 0.985)

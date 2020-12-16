@@ -1,0 +1,218 @@
+nohup: ignoring input
+importing Jupyter notebook from trigger_detector_probe.ipynb
+('roberta-l', False, False, 'all', False, 0.985)
+Finished.
+('roberta-l', False, False, 'all', False, 0.99)
+Finished.
+('roberta-l', False, False, 'all', False, 0.995)
+Finished.
+('roberta-l', False, False, 'all', True, 0.985)
+Finished.
+('roberta-l', False, False, 'all', True, 0.99)
+Finished.
+('roberta-l', False, False, 'all', True, 0.995)
+Finished.
+('roberta-l', False, False, ['V'], False, 0.985)
+Finished.
+('roberta-l', False, False, ['V'], False, 0.99)
+Finished.
+('roberta-l', False, False, ['V'], False, 0.995)
+Finished.
+('roberta-l', False, False, ['V'], True, 0.985)
+Finished.
+('roberta-l', False, False, ['V'], True, 0.99)
+Finished.
+('roberta-l', False, False, ['V'], True, 0.995)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0', 'ARG1'], False, 0.985)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0', 'ARG1'], False, 0.99)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0', 'ARG1'], False, 0.995)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0', 'ARG1'], True, 0.985)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0', 'ARG1'], True, 0.99)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0', 'ARG1'], True, 0.995)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.985)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.99)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.995)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.985)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.99)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.995)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0'], False, 0.985)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0'], False, 0.99)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0'], False, 0.995)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0'], True, 0.985)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0'], True, 0.99)
+Finished.
+('roberta-l', False, False, ['V', 'ARG0'], True, 0.995)
+Finished.
+('roberta-l', False, False, ['V', 'ARG1'], False, 0.985)
+Finished.
+('roberta-l', False, False, ['V', 'ARG1'], False, 0.99)
+Finished.
+('roberta-l', False, False, ['V', 'ARG1'], False, 0.995)
+Finished.
+('roberta-l', False, False, ['V', 'ARG1'], True, 0.985)
+Finished.
+('roberta-l', False, False, ['V', 'ARG1'], True, 0.99)
+Finished.
+('roberta-l', False, False, ['V', 'ARG1'], True, 0.995)
+Finished.
+('roberta-l', True, False, 'all', False, 0.985)
+Finished.
+('roberta-l', True, False, 'all', False, 0.99)
+Finished.
+('roberta-l', True, False, 'all', False, 0.995)
+Finished.
+('roberta-l', True, False, 'all', True, 0.985)
+Finished.
+('roberta-l', True, False, 'all', True, 0.99)
+Finished.
+('roberta-l', True, False, 'all', True, 0.995)
+Finished.
+('roberta-l', True, False, ['V'], False, 0.985)
+Finished.
+('roberta-l', True, False, ['V'], False, 0.99)
+Finished.
+('roberta-l', True, False, ['V'], False, 0.995)
+Finished.
+('roberta-l', True, False, ['V'], True, 0.985)
+Finished.
+('roberta-l', True, False, ['V'], True, 0.99)
+Finished.
+('roberta-l', True, False, ['V'], True, 0.995)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0', 'ARG1'], False, 0.985)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0', 'ARG1'], False, 0.99)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0', 'ARG1'], False, 0.995)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0', 'ARG1'], True, 0.985)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0', 'ARG1'], True, 0.99)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0', 'ARG1'], True, 0.995)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.985)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.99)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.995)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.985)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.99)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.995)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0'], False, 0.985)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0'], False, 0.99)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0'], False, 0.995)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0'], True, 0.985)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0'], True, 0.99)
+Finished.
+('roberta-l', True, False, ['V', 'ARG0'], True, 0.995)
+Finished.
+('roberta-l', True, False, ['V', 'ARG1'], False, 0.985)
+Finished.
+('roberta-l', True, False, ['V', 'ARG1'], False, 0.99)
+Finished.
+('roberta-l', True, False, ['V', 'ARG1'], False, 0.995)
+Finished.
+('roberta-l', True, False, ['V', 'ARG1'], True, 0.985)
+Finished.
+('roberta-l', True, False, ['V', 'ARG1'], True, 0.99)
+Finished.
+('roberta-l', True, False, ['V', 'ARG1'], True, 0.995)
+Finished.
+('roberta-l', True, True, 'all', False, 0.985)
+Finished.
+('roberta-l', True, True, 'all', False, 0.99)
+Finished.
+('roberta-l', True, True, 'all', False, 0.995)
+Finished.
+('roberta-l', True, True, 'all', True, 0.985)
+Finished.
+('roberta-l', True, True, 'all', True, 0.99)
+Finished.
+('roberta-l', True, True, 'all', True, 0.995)
+Finished.
+('roberta-l', True, True, ['V'], False, 0.985)
+Finished.
+('roberta-l', True, True, ['V'], False, 0.99)
+Finished.
+('roberta-l', True, True, ['V'], False, 0.995)
+Finished.
+('roberta-l', True, True, ['V'], True, 0.985)
+Finished.
+('roberta-l', True, True, ['V'], True, 0.99)
+Finished.
+('roberta-l', True, True, ['V'], True, 0.995)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0', 'ARG1'], False, 0.985)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0', 'ARG1'], False, 0.99)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0', 'ARG1'], False, 0.995)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0', 'ARG1'], True, 0.985)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0', 'ARG1'], True, 0.99)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0', 'ARG1'], True, 0.995)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.985)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.99)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], False, 0.995)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.985)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.99)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0', 'ARG1', 'ARG2'], True, 0.995)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0'], False, 0.985)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0'], False, 0.99)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0'], False, 0.995)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0'], True, 0.985)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0'], True, 0.99)
+Finished.
+('roberta-l', True, True, ['V', 'ARG0'], True, 0.995)
+Finished.
+('roberta-l', True, True, ['V', 'ARG1'], False, 0.985)
+Finished.
+('roberta-l', True, True, ['V', 'ARG1'], False, 0.99)
+Finished.
+('roberta-l', True, True, ['V', 'ARG1'], False, 0.995)
+Finished.
+('roberta-l', True, True, ['V', 'ARG1'], True, 0.985)
+Finished.
+('roberta-l', True, True, ['V', 'ARG1'], True, 0.99)
+Finished.
+('roberta-l', True, True, ['V', 'ARG1'], True, 0.995)
+Finished.

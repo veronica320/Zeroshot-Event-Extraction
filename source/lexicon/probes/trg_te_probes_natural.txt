@@ -1,0 +1,98 @@
+BE-BORN
+Someone is born.
+
+MARRY
+Someone is married.
+
+DIVORCE
+Someone is divorced.
+
+INJURE
+Someone is injured.
+
+DIE
+Someone is killed.
+
+TRANSPORT
+A vehicle, weapon, or person is transported from one place to another.
+
+TRANSFER-OWNERSHIP
+There is a transfer of ownership.
+
+TRANSFER-MONEY
+There is a transfer of money.
+
+START-ORG
+An organization is started.
+
+MERGE-ORG
+An organization is merged.
+
+DECLARE-BANKRUPTCY
+There is a bankruptcy.
+
+END-ORG
+An organization is ended.
+
+ATTACK
+There is an attack.
+
+DEMONSTRATE
+There is a demonstration or protest.
+
+MEET
+There is a meeting.
+
+PHONE-WRITE
+Someone calls or writes to someone else.
+
+START-POSITION
+Someone starts working in a position.
+
+END-POSITION
+Someone stops working in a position.
+
+NOMINATE
+Someone is nominated for a position.
+
+ELECT
+Someone is elected.
+
+ARREST-JAIL
+Someone is arrested.
+
+RELEASE-PAROLE
+Someone is released or on parole.
+
+TRIAL-HEARING
+There is a trial or hearing.
+
+CHARGE-INDICT
+Someone is accused of a crime.
+
+SUE
+Someone is sued.
+
+CONVICT
+Someone is convicted.
+
+SENTENCE
+Someone is sentenced.
+
+FINE
+Someone is fined.
+
+EXECUTE
+A legally condemned person is executed.
+
+EXTRADITE
+Someone is extradited.
+
+ACQUIT
+Someone is acquitted.
+
+PARDON
+Someone is pardoned.
+
+APPEAL
+Someone lodges an appeal.

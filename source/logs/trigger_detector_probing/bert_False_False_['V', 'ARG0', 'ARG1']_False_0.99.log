@@ -1,0 +1,329 @@
+Rudolph Giuliani will wed his companion, Judith Nathan, on May 24 in the ex-mayor's old home, Gracie Mansion
+[[[3, 4], 'Marry', 'wed']]
+[]
+
+His successor, Mayor Michael Bloomberg, will perform the ceremony
+[]
+[[(6, 7), 'Nominate', 'perform', 0.9935234785079956, None]]
+
+The Giuliani-Nathan nuptials will be a first for Bloomberg, who is making an exception from his policy of not performing weddings, said Bloomberg spokesman Ed Skyler
+[]
+[[(11, 12), 'Phone-Write', 'making', 0.9900916814804077, None], [(19, 20), 'Attack', 'performing', 0.990810751914978, None]]
+
+Giuliani, 58, proposed to Nathan, a former nurse, during a November business trip to Paris	_  five months after he finalized his divorce from Donna Hanover after 20 years of marriage
+[]
+[[(2, 3), 'Start-Position', 'proposed', 0.9921293258666992, None], [(20, 21), 'Divorce', 'finalized', 0.9933446645736694, None]]
+
+During the legal proceedings leading up to the divorce, a judge ruled that Nathan could not visit Gracie Mansion, the official mayoral residence, as long as Giuliani's children lived there
+[]
+[[(11, 12), 'Transfer-Ownership', 'ruled', 0.9923425316810608, None], [(16, 17), 'Transport', 'visit', 0.9924507737159729, None], [(28, 29), 'Fine', 'lived', 0.9920231103897095, None]]
+
+The divorce settlement called for Giuliani to pay Hanover more than $6.8 million
+[[[7, 8], 'Transfer-Money', 'pay']]
+[[(3, 4), 'End-Position', 'called', 0.9920229911804199, None], [(7, 8), 'Transport', 'pay', 0.9928688406944275, None]]
+
+In interviews last year, Giuliani said Nathan gave him ``tremendous emotional support'' through his treatment for prostate cancer and as he led the city during the aftermath of the Sept. 11 terrorist attack on the World Trade Center
+[]
+[[(7, 8), 'Transport', 'gave', 0.9925042390823364, None], [(21, 22), 'Elect', 'led', 0.9932684302330017, None]]
+
+Last month, she and her fiance  _  an old high school sweetheart  _  invited the press along as they went shopping for wedding bands, saying they are planning a wedding in the New York City area this summer
+[]
+[[(13, 14), 'Marry', 'invited', 0.9933614730834961, None], [(19, 20), 'Injure', 'went', 0.9925079941749573, None], [(24, 25), 'Phone-Write', 'saying', 0.9917639493942261, None], [(27, 28), 'Merge-Org', 'planning', 0.9920188784599304, None]]
+
+Giuliani's first marriage to his second cousin, Regina Peruggi, lasted about 14 years
+[]
+[[(9, 10), 'End-Position', 'lasted', 0.9923375248908997, None]]
+
+It was annulled by the Catholic Church because the couple had not obtained a church dispensation required when second cousins marry
+[[[20, 21], 'Marry', 'marry']]
+[[(2, 3), 'Transfer-Ownership', 'annulled', 0.9922916293144226, None], [(12, 13), 'Transport', 'obtained', 0.9930196404457092, None]]
+
+Nathan divorced wallpaper salesman Bruce Nathan in 1992
+[[[1, 2], 'Divorce', 'divorced']]
+[[(1, 2), 'Transport', 'divorced', 0.9926944971084595, None]]
+
+Giuliani regularly officiated at weddings while in office
+[]
+[[(2, 3), 'Divorce', 'officiated', 0.9928788542747498, None]]
+
+US President George W. Bush told Canadian Prime Minister Jean Chretien by telephone Monday that he looked forward to seeing him at the upcoming summit of major industrialized nations and Russia, the White House said Tuesday
+[[[5, 6], 'Phone-Write', 'told']]
+[[(5, 6), 'Be-Born', 'told', 0.9934051632881165, None], [(16, 17), 'Charge-Indict', 'looked', 0.9933416247367859, None], [(27, 28), 'Charge-Indict', 'industrialized', 0.9917764663696289, None]]
+
+The two leaders discussed the upcoming G-8 meeting, US-Canada (relations) and other international issues of concern," Bush spokesman Ari Fleischer said days before the June 1-3 summit, to be held in France
+[[[3, 4], 'Phone-Write', 'discussed']]
+[[(3, 4), 'Nominate', 'discussed', 0.9934659600257874, None], [(29, 30), 'Arrest-Jail', 'held', 0.9931401610374451, None]]
+
+On Monday, Chretien told reporters that he and Bush, who had not spoken since late February, discussed a wide range of issues, including Iraq, the upcoming summit of the Group of Eight industrial powers and aid to Africa
+[[[16, 17], 'Phone-Write', 'discussed']]
+[[(3, 4), 'Nominate', 'told', 0.9932565689086914, None], [(12, 13), 'Merge-Org', 'spoken', 0.9900748133659363, None], [(16, 17), 'Release-Parole', 'discussed', 0.9929829835891724, None], [(22, 23), 'Be-Born', 'including', 0.9932548999786377, None]]
+
+Amid a chill in relations over the war in Iraq, which Canada opposed, Bush indefinitely postponed a visit to Canada, instead choosing to host Australian Prime Minster John Howard, who endorsed that military campaign
+[]
+[[(12, 13), 'Marry', 'opposed', 0.9934199452400208, None], [(15, 16), 'Injure', 'postponed', 0.9921196699142456, None], [(23, 24), 'Transport', 'host', 0.9922670722007751, None], [(30, 31), 'Transport', 'endorsed', 0.9927379488945007, None]]
+
+Ocalan was moved by the government to its embassy compound in Kenya, where he was captured by Turkish commandos
+[[[2, 3], 'Transport', 'moved']]
+[[(2, 3), 'Trial-Hearing', 'moved', 0.9920883774757385, None], [(15, 16), 'Transfer-Ownership', 'captured', 0.9936037659645081, None]]
+
+Naxakis and two of Ocalan's Kurdish associates are being tried on criminal charges of endangering national security
+[[[9, 10], 'Trial-Hearing', 'tried']]
+[[(9, 10), 'Start-Position', 'tried', 0.9931588768959045, None]]
+
+The retired Greek officer said he had been trying to get Ocalan to The Netherlands, home to a large Kurdish community
+[[[10, 11], 'Transport', 'get']]
+[[(10, 11), 'Charge-Indict', 'get', 0.9926801919937134, None]]
+
+Ocalan, being tried in absentia, was indicted for entering the country illegally, a misdemeanor
+[[[2, 3], 'Trial-Hearing', 'tried'], [[6, 7], 'Charge-Indict', 'indicted'], [[8, 9], 'Transport', 'entering']]
+[[(6, 7), 'Phone-Write', 'indicted', 0.99247145652771, None]]
+
+Ocalan, leader of the Kurdistan Workers Party, or PKK, is serving a life sentence in Turkey for leading a 15-year insurgency against the country that left 37,000 people dead
+[[[10, 11], 'Arrest-Jail', 'serving']]
+[[(10, 11), 'Divorce', 'serving', 0.99354088306427, None], [(17, 18), 'Transfer-Ownership', 'leading', 0.9936510920524597, None], [(25, 26), 'Marry', 'left', 0.9933567643165588, None]]
+
+He is being tried in Greece in absentia
+[[[3, 4], 'Trial-Hearing', 'tried']]
+[]
+
+Naxakis is one of 13 people on trial for bringing the fugitive guerrilla leader to Greece
+[[[9, 10], 'Transport', 'bringing']]
+[]
+
+The lawyer for a Russian military journalist convicted of treason filed an appeal Wednesday in an effort to overturn the guilty verdict against his client, who was released on parole earlier this year, news agencies reported
+[[[27, 28], 'Release-Parole', 'released'], [[7, 8], 'Convict', 'convicted']]
+[[(10, 11), 'Transport', 'filed', 0.9923233985900879, None], [(18, 19), 'Transport', 'overturn', 0.9931477904319763, None], [(27, 28), 'Start-Org', 'released', 0.9923658967018127, None], [(35, 36), 'Phone-Write', 'reported', 0.9933918118476868, None]]
+
+Grigory Pasko's lawyer Genri Reznik filed the appeal with Russian Supreme Court, the Interfax and ITAR-Tass news agencies reported
+[]
+[[(5, 6), 'Injure', 'filed', 0.9926167130470276, None], [(18, 19), 'Elect', 'reported', 0.9935193657875061, None]]
+
+Reznik said he addressed the new appeal directly to Supreme Court Chairman Vyacheslav Lebedev and asked that it not be considered by military judges ``because the military justice system has adopted a biased attitude against Pasko,'' Interfax reported
+[]
+[[(3, 4), 'Charge-Indict', 'addressed', 0.9923302531242371, None], [(15, 16), 'Nominate', 'asked', 0.99275803565979, None], [(20, 21), 'Transport', 'considered', 0.9922164678573608, None], [(30, 31), 'Be-Born', 'adopted', 0.9929776787757874, None], [(37, 38), 'Nominate', 'reported', 0.9925113916397095, None]]
+
+Pasko, whose sentence included time served, was released in January for good behavior after serving more than two-thirds of the sentence
+[[[7, 8], 'Release-Parole', 'released']]
+[[(3, 4), 'Transport', 'included', 0.9919692873954773, None], [(5, 6), 'Transport', 'served', 0.9907068610191345, None], [(7, 8), 'Transport', 'released', 0.9931120276451111, None], [(14, 15), 'Sentence', 'serving', 0.9933993816375732, None]]
+
+Reznik said an initial appeal he lodged the day Pasko was freed never reached the presidium of the Supreme Court, according to Interfax
+[[[11, 12], 'Release-Parole', 'freed']]
+[[(6, 7), 'Be-Born', 'lodged', 0.9922803640365601, None], [(13, 14), 'Start-Position', 'reached', 0.9929619431495667, None]]
+
+Pasko was sentenced to four years in prison in December 2001 for illegally attending a meeting of top military commanders and taking notes there
+[[[2, 3], 'Sentence', 'sentenced']]
+[[(21, 22), 'Merge-Org', 'taking', 0.9919553399085999, None]]
+
+The lawyer said the court's military board had refused to launch proceedings on the appeal
+[]
+[[(8, 9), 'Be-Born', 'refused', 0.9921178221702576, None], [(10, 11), 'Transport', 'launch', 0.993255615234375, None]]
+
+He asked the court to invalidate the verdict and throw out the criminal case against Pasko, they said
+[]
+[[(1, 2), 'Convict', 'asked', 0.9931063055992126, None], [(5, 6), 'Injure', 'invalidate', 0.9930534958839417, None], [(9, 10), 'Injure', 'throw', 0.9933162331581116, None]]
+
+Toujan Faisal, 54, said she was informed of the refusal by an Interior Ministry committee overseeing election preparations
+[]
+[[(6, 7), 'Phone-Write', 'informed', 0.9924546480178833, None], [(15, 16), 'Acquit', 'overseeing', 0.9933021068572998, None]]
+
+The excuse is invalid because I've been convicted on political not criminal grounds, which doesn't violate my right for contesting the elections,'' Faisal told The Associated Press
+[[[7, 8], 'Convict', 'convicted']]
+[[(7, 8), 'Injure', 'convicted', 0.9930889010429382, None], [(15, 16), 'Transport', 'violate', 0.9921413660049438, None], [(19, 20), 'Phone-Write', 'contesting', 0.9919638633728027, None], [(23, 24), 'Be-Born', 'told', 0.9929296374320984, None]]
+
+She lost her seat in the 1997 election
+[[[1, 2], 'Elect', 'lost']]
+[]
+
+Jordanian authorities on Monday said Jordan's first female lawmaker was ineligible to run in June 17 parliamentary elections following her conviction last year over publishing information that harmed the government's reputation
+[]
+[[(12, 13), 'Injure', 'run', 0.9935199618339539, None], [(24, 25), 'Injure', 'publishing', 0.991706132888794, None], [(27, 28), 'Phone-Write', 'harmed', 0.9914358258247375, None]]
+
+Faisal was convicted in May 2002 for publishing false and exaggerated information abroad that harmed the government's reputation and dignity
+[[[2, 3], 'Convict', 'convicted']]
+[[(2, 3), 'Merge-Org', 'convicted', 0.9906724095344543, None], [(7, 8), 'Be-Born', 'publishing', 0.9929293990135193, None], [(14, 15), 'Injure', 'harmed', 0.9926450252532959, None]]
+
+She was sentenced to 1{ years in jail
+[[[2, 3], 'Sentence', 'sentenced']]
+[]
+
+But after spending 40 days in prison, Jordan's King Abdullah II pardoned the former legislator known for her harsh criticism of the state
+[[[11, 12], 'Pardon', 'pardoned']]
+[[(2, 3), 'Transport', 'spending', 0.9933454990386963, None], [(11, 12), 'Sue', 'pardoned', 0.9934043288230896, None]]
+
+Jordan's electoral law bans Jordanians from contesting the polls if they were convicted of any crime, except political, and sentenced to more than one year in jail
+[[[12, 13], 'Convict', 'convicted'], [[19, 20], 'Sentence', 'sentenced']]
+[[(3, 4), 'Be-Born', 'bans', 0.9926738142967224, None], [(6, 7), 'Merge-Org', 'contesting', 0.9921358823776245, None], [(19, 20), 'Phone-Write', 'sentenced', 0.9903727769851685, None]]
+
+Russia has accepted a US$150 million World Bank loan to combat the spread of AIDS and tuberculosis, ending a negotiating process that lasted four years, World Bank officials said Friday
+[]
+[[(2, 3), 'Transport', 'accepted', 0.9931950569152832, None], [(10, 11), 'Divorce', 'combat', 0.9929381012916565, None], [(17, 18), 'Phone-Write', 'ending', 0.9907298684120178, None], [(22, 23), 'Transport', 'lasted', 0.9929179549217224, None]]
+
+But after drawn-out talks, President Vladimir Putin signed off on the loan, which will take effect this year, the World Bank said
+[]
+[[(7, 8), 'Start-Position', 'signed', 0.9933950304985046, None], [(14, 15), 'Trial-Hearing', 'take', 0.9924184083938599, None]]
+
+The World Bank first offered the loan in 1999, but disagreements over treatment kept the project on hold
+[]
+[[(4, 5), 'Marry', 'offered', 0.9930671453475952, None], [(13, 14), 'Transfer-Money', 'kept', 0.9921007752418518, None]]
+
+Former Danish international Stig Toefting dropped his appeal of an assault conviction and will serve a four-month jail sentence, Denmark's TV2 reported Monday
+[]
+[[(5, 6), 'End-Org', 'dropped', 0.9925393462181091, None], [(14, 15), 'Elect', 'serve', 0.9937132000923157, None], [(21, 22), 'End-Org', 'reported', 0.9919987320899963, None]]
+
+He was sentenced to four months in prison, but appealed
+[[[2, 3], 'Sentence', 'sentenced'], [[9, 10], 'Appeal', 'appealed']]
+[]
+
+TV2, quoting Toefting's lawyer Anders Nemeth, reported that that 33-year-old midfielder was ready to serve his sentence immediately
+[]
+[[(6, 7), 'Demonstrate', 'reported', 0.993029773235321, None], [(14, 15), 'Meet', 'serve', 0.9914641976356506, None]]
+
+It was unclear whether Toefting would return to Bolton after serving his sentence
+[[[6, 7], 'Start-Position', 'return']]
+[[(10, 11), 'Merge-Org', 'serving', 0.9924007654190063, None]]
+
+Toefting was convicted in October 2002 of assaulting a pair of restaurant workers during a night out with national squad teammates in the capital, Copenhagen
+[[[7, 8], 'Attack', 'assaulting'], [[2, 3], 'Convict', 'convicted']]
+[[(7, 8), 'Merge-Org', 'assaulting', 0.992149829864502, None]]
+
+Earlier this month, Toefting said English Premier League club Bolton let him go so he could prepare for the appeal
+[[[12, 13], 'End-Position', 'go']]
+[[(10, 11), 'Be-Born', 'let', 0.9929414987564087, None]]
+
+The club said it wasn't aware of Toefting's decision to drop his appeal
+[]
+[]
+
+The hearing was scheduled for April 10
+[]
+[[(3, 4), 'Phone-Write', 'scheduled', 0.9911609888076782, None]]
+
+Toefting transferred to Bolton in February 2002 from German club Hamburg
+[[[1, 2], 'Start-Position', 'transferred'], [[1, 2], 'End-Position', 'transferred']]
+[]
+
+Toefting has been convicted before
+[[[3, 4], 'Convict', 'convicted']]
+[]
+
+In 1999 he was given a 20-day suspended sentence for assaulting a fan who berated him for playing with German club Duisburg
+[[[10, 11], 'Attack', 'assaulting']]
+[[(4, 5), 'Nominate', 'given', 0.9936425685882568, None], [(7, 8), 'Transport', 'suspended', 0.9928382039070129, None], [(10, 11), 'Transport', 'assaulting', 0.9930872321128845, None], [(14, 15), 'Trial-Hearing', 'berated', 0.9918891787528992, None]]
+
+The popular player  _  known for his temperament and the words ``No Regret'' tattooed across his chest  _  retired from Denmark's national team after it was knocked out in the second round of the 2002 World Cup
+[[[18, 19], 'End-Position', 'retired']]
+[[(4, 5), 'Phone-Write', 'known', 0.9900340437889099, None], [(13, 14), 'Appeal', 'tattooed', 0.9925029277801514, None], [(18, 19), 'Phone-Write', 'retired', 0.9921099543571472, None]]
+
+Toefting joined the Danish squad in 1993 and has 41 caps
+[[[1, 2], 'Start-Position', 'joined']]
+[[(1, 2), 'Sentence', 'joined', 0.993544340133667, None]]
+
+But others note that trucks were seen carrying the rods out of their normal storage area months ago, and it is unclear where they are _ or even whether the United States is sniffing for the krypton gas in the right place
+[[[7, 8], 'Transport', 'carrying']]
+[[(2, 3), 'Transfer-Ownership', 'note', 0.9932206869125366, None]]
+
+Roh has said any pre-emptive strike against the North's nuclear facilities could prove disastrous
+[]
+[[(12, 13), 'Transport', 'prove', 0.9913041591644287, None]]
+
+U.S. satellites have been watching North Korean nuclear activity intently since late last year, when the North evicted international inspectors
+[[[17, 18], 'Transport', 'evicted']]
+[[(4, 5), 'Merge-Org', 'watching', 0.9921332001686096, None], [(17, 18), 'Phone-Write', 'evicted', 0.9907851219177246, None]]
+
+Managing director Toyoda, 46, grandson of Kiichiro Toyoda and the eldest son of Toyota honorary chairman Shoichiro Toyoda, will become one of 14 senior managing directors under a streamlined management system set to be introduced after a shareholders' meeting in June, the company said in a statement
+[[[19, 20], 'Start-Position', 'become'], [[19, 20], 'End-Position', 'become']]
+[[(0, 1), 'Transport', 'Managing', 0.9925826787948608, None], [(19, 20), 'Transfer-Ownership', 'become', 0.9933991432189941, None], [(24, 25), 'Transport', 'managing', 0.9927666187286377, None], [(31, 32), 'Transport', 'set', 0.9923146367073059, None], [(34, 35), 'Transport', 'introduced', 0.9929417371749878, None]]
+
+Kiichiro Toyoda founded the automaker in 1937, transforming the loom manufacturer started by his father into an automaker
+[[[11, 12], 'Start-Org', 'started'], [[2, 3], 'Start-Org', 'founded']]
+[[(2, 3), 'Start-Position', 'founded', 0.9938825368881226, None], [(7, 8), 'Transfer-Ownership', 'transforming', 0.9932696223258972, None], [(11, 12), 'Injure', 'started', 0.9929927587509155, None]]
+
+Toyota Motor Corp. said Tuesday it will promote Akio Toyoda, a grandson of the company's founder who is widely viewed as a candidate to some day head Japan's largest automaker
+[[[26, 27], 'Start-Position', 'head']]
+[[(7, 8), 'Be-Born', 'promote', 0.9926367998123169, None], [(26, 27), 'Phone-Write', 'head', 0.9911136031150818, None]]
+
+Toyoda, who joined Toyota, based in Toyota city, central Japan, in 1984, spearheaded the automaker's Internet and telematics business  _  a technology that puts wireless communications into vehicles
+[[[2, 3], 'Start-Position', 'joined']]
+[[(2, 3), 'Transport', 'joined', 0.9930602312088013, None], [(12, 13), 'Start-Position', 'spearheaded', 0.9934335947036743, None], [(23, 24), 'Phone-Write', 'puts', 0.9934403300285339, None]]
+
+But in such close-quarters fighting, they would lose much of the technological advantage of their air supremacy, which would have to be curtailed because bombing in a city can cause large civilian casualties
+[[[24, 25], 'Attack', 'bombing']]
+[[(7, 8), 'Transfer-Ownership', 'lose', 0.992909848690033, None], [(22, 23), 'Execute', 'curtailed', 0.9926740527153015, None]]
+
+Bet`fow Central Command chief Gen. Tommy Franks and his field commanders face a big decision _ whether to rush into the city of 5 million where Hussein's regime has gathered its most-trusted forces or wait and see if the war can be won without paying the price of street-to-street urban fighting
+[[[18, 19], 'Transport', 'rush']]
+[[(11, 12), 'Fine', 'face', 0.9931089878082275, None], [(18, 19), 'Fine', 'rush', 0.9924178123474121, None], [(29, 30), 'Nominate', 'gathered', 0.9933615922927856, None], [(34, 35), 'Fine', 'wait', 0.9915645122528076, None], [(36, 37), 'Fine', 'see', 0.9923096895217896, None]]
+
+Having punched through severely depleted Republican Guard divisions that formed Baghdad's outer defensive ring, U.S. Army and Marine forces are likely to pause again to test the Iraqi capital's inner defenses and waall but evaporated under the weight of the U.S. assault
+[]
+[[(1, 2), 'Start-Org', 'punched', 0.9929694533348083, None], [(4, 5), 'Start-Org', 'depleted', 0.9919002056121826, None], [(9, 10), 'Start-Org', 'formed', 0.9924306273460388, None], [(22, 23), 'Merge-Org', 'pause', 0.9917426705360413, None], [(25, 26), 'Elect', 'test', 0.9934410452842712, None], [(34, 35), 'Elect', 'evaporated', 0.9931586384773254, None]]
+
+We are not expecting to drive into Baghdad suddenly and seize it
+[[[5, 6], 'Transport', 'drive']]
+[[(3, 4), 'Injure', 'expecting', 0.993421733379364, None], [(5, 6), 'Appeal', 'drive', 0.9923346638679504, None], [(10, 11), 'Charge-Indict', 'seize', 0.9931154847145081, None]]
+
+`We are expectingn or at least planning for, a very difficult fight ahead,'' Gen. Stanley McChrystal said at the Pentagon Tuesday
+[]
+[[(6, 7), 'Injure', 'planning', 0.9909769296646118, None]]
+
+If these patrols meet little opposition, thousands of troops could rush into the city
+[[[10, 11], 'Transport', 'rush']]
+[[(3, 4), 'Start-Position', 'meet', 0.9925260543823242, None], [(10, 11), 'Meet', 'rush', 0.9934303164482117, None]]
+
+If the Iraqis respond forcefully, the Army and Marine units could withdraw and await the 4th Mechanized Infantry Division, which will soon start moving north from Kuwait
+[[[23, 24], 'Transport', 'moving']]
+[[(3, 4), 'Phone-Write', 'respond', 0.9931278228759766, None], [(11, 12), 'Start-Position', 'withdraw', 0.9924560785293579, None], [(13, 14), 'Transport', 'await', 0.9925705790519714, None], [(22, 23), 'Phone-Write', 'start', 0.9914686679840088, None]]
+
+Thousands of refugees have fled the city, apparently providing information to the British that has led to raids on military and Baath Party sites in the city
+[[[4, 5], 'Transport', 'fled'], [[17, 18], 'Attack', 'raids']]
+[[(4, 5), 'End-Position', 'fled', 0.9934583306312561, None], [(8, 9), 'Marry', 'providing', 0.993395984172821, None], [(15, 16), 'Fine', 'led', 0.9912089109420776, None]]
+
+The key endgame may be whether the U.S. can parse out the key regime centers of power in Baghdad and attack them without having to fight into the city, or at least locate them well enough to atman of the Center for Strategic and International Studies said in his daily war report
+[[[20, 21], 'Attack', 'attack'], [[25, 26], 'Attack', 'fight']]
+[[(9, 10), 'Divorce', 'parse', 0.9929056167602539, None], [(20, 21), 'Charge-Indict', 'attack', 0.9928376078605652, None], [(25, 26), 'Phone-Write', 'fight', 0.9907131791114807, None], [(32, 33), 'Merge-Org', 'locate', 0.9908400177955627, None]]
+
+U.S. strategists say that Hussein, if he is still alive and in control of his forces, might like a bloody battle in Baghdad because such fighting could cause heavy U.S. casualties
+[]
+[[(2, 3), 'Sentence', 'say', 0.9935547709465027, None], [(16, 17), 'Start-Org', 'might', 0.9920931458473206, None], [(17, 18), 'Merge-Org', 'like', 0.9921720027923584, None]]
+
+His last hope for survival might be that the United States loses its taste for such losses and forces President Bush to negotiate a compromise that would allow Hussein and his family to keep power in Baghdad
+[]
+[[(11, 12), 'Transport', 'loses', 0.9933844208717346, None], [(26, 27), 'Execute', 'would', 0.9918394088745117, None], [(27, 28), 'Sentence', 'allow', 0.9919319748878479, None], [(33, 34), 'Merge-Org', 'keep', 0.9929153919219971, None]]
+
+While two guard divisions have apparently been smashed, there are three others in the Baghdad area
+[[[7, 8], 'Attack', 'smashed']]
+[[(7, 8), 'Fine', 'smashed', 0.9929903745651245, None]]
+
+`The Republican Guard has taken a massive hammering at every level and is now scattered and deploying somewhat erratically at the brigade level,'' he said
+[]
+[[(4, 5), 'Phone-Write', 'taken', 0.99257892370224, None], [(16, 17), 'Appeal', 'deploying', 0.9906468391418457, None]]
+
+The Iraqis still haven't used chemical weapons, even though many experts feared such attacks as the U.S. troops neared Baghdad
+[]
+[[(4, 5), 'Transfer-Ownership', 'used', 0.9928712248802185, None], [(11, 12), 'Merge-Org', 'feared', 0.9919014573097229, None], [(18, 19), 'Fine', 'neared', 0.9930394291877747, None]]
+
+Instead of an all-out assault, analysts expect the United States to follow the example of British forces outside the southern Iraqi city of Basra
+[]
+[[(6, 7), 'Transfer-Ownership', 'expect', 0.9926540851593018, None], [(11, 12), 'Marry', 'follow', 0.9934520721435547, None]]
+
+But he also said, ``He may destroy them to embarrass us,'' to show the world he never had such weapons and that Bush invaded for no reason other than aggression
+[[[23, 24], 'Attack', 'invaded']]
+[[(6, 7), 'Charge-Indict', 'destroy', 0.9921858310699463, None], [(9, 10), 'Phone-Write', 'embarrass', 0.9922845363616943, None], [(12, 13), 'Release-Parole', 'show', 0.9931273460388184, None], [(23, 24), 'Merge-Org', 'invaded', 0.9922683835029602, None]]
+
+But there would be lots of casualties on all sides
+[]
+[]
+
+They are likely to mount small probing patrols into the city to determine the level of Iraqi resistance
+[[[4, 5], 'Transport', 'mount']]
+[[(4, 5), 'Extradite', 'mount', 0.9923967719078064, None], [(12, 13), 'Marry', 'determine', 0.9925650358200073, None]]
+
+Before going in (with a full assault), you have to decide if it's worth the risks, and ... you have to know who's there in the way of Iraqi forces and the amount of potential damage to civilians,'' he said
+[]
+[[(10, 11), 'Sentence', 'decide', 0.9930302500724792, None], [(21, 22), 'Phone-Write', 'know', 0.9923940896987915, None]]
+
+If U.S. forces seriously degrade Iraq's half-dozen Republican Guard divisions before that final battle, and only have to face perhaps 30,000 Special Republican Guard, fedayeen, and related personnel, the task will not be as hard as it might have been,'' he said
+[]
+[[(4, 5), 'Elect', 'degrade', 0.9932678937911987, None], [(18, 19), 'Elect', 'face', 0.9936798810958862, None]]
+
+{'nw': {'TI': {'P': 0.2406576980568012, 'R': 0.39655172413793105, 'F1': 0.29953488372093023}, 'TC': {'P': 0.013452914798206279, 'R': 0.022167487684729065, 'F1': 0.01674418604651163}}}

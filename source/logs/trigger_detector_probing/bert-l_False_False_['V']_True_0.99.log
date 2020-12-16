@@ -1,0 +1,329 @@
+Rudolph Giuliani will wed his companion, Judith Nathan, on May 24 in the ex-mayor's old home, Gracie Mansion
+[[[3, 4], 'Marry', 'wed']]
+[]
+
+His successor, Mayor Michael Bloomberg, will perform the ceremony
+[]
+[[(6, 7), 'Phone-Write', 'perform', 0.9985697269439697, None]]
+
+The Giuliani-Nathan nuptials will be a first for Bloomberg, who is making an exception from his policy of not performing weddings, said Bloomberg spokesman Ed Skyler
+[]
+[[(11, 12), 'Transfer-Ownership', 'making', 0.9983412027359009, None], [(19, 20), 'Transfer-Ownership', 'performing', 0.9956771731376648, None]]
+
+Giuliani, 58, proposed to Nathan, a former nurse, during a November business trip to Paris	_  five months after he finalized his divorce from Donna Hanover after 20 years of marriage
+[]
+[[(20, 21), 'Transfer-Money', 'finalized', 0.9922326803207397, None]]
+
+During the legal proceedings leading up to the divorce, a judge ruled that Nathan could not visit Gracie Mansion, the official mayoral residence, as long as Giuliani's children lived there
+[]
+[[(11, 12), 'Transfer-Ownership', 'ruled', 0.9936226010322571, None], [(16, 17), 'Transfer-Ownership', 'visit', 0.9940324425697327, None], [(28, 29), 'Die', 'lived', 0.9995631575584412, None]]
+
+The divorce settlement called for Giuliani to pay Hanover more than $6.8 million
+[[[7, 8], 'Transfer-Money', 'pay']]
+[[(3, 4), 'Phone-Write', 'called', 0.9977587461471558, None], [(7, 8), 'Transfer-Ownership', 'pay', 0.9983832836151123, None]]
+
+In interviews last year, Giuliani said Nathan gave him ``tremendous emotional support'' through his treatment for prostate cancer and as he led the city during the aftermath of the Sept. 11 terrorist attack on the World Trade Center
+[]
+[[(7, 8), 'Transfer-Ownership', 'gave', 0.99941086769104, None], [(21, 22), 'Transfer-Ownership', 'led', 0.9928971529006958, None]]
+
+Last month, she and her fiance  _  an old high school sweetheart  _  invited the press along as they went shopping for wedding bands, saying they are planning a wedding in the New York City area this summer
+[]
+[[(19, 20), 'Transfer-Ownership', 'went', 0.9984276294708252, None], [(20, 21), 'Transfer-Ownership', 'shopping', 0.9997798800468445, None], [(24, 25), 'Transfer-Ownership', 'saying', 0.9913075566291809, None]]
+
+Giuliani's first marriage to his second cousin, Regina Peruggi, lasted about 14 years
+[]
+[[(9, 10), 'Transfer-Ownership', 'lasted', 0.9976285099983215, None]]
+
+It was annulled by the Catholic Church because the couple had not obtained a church dispensation required when second cousins marry
+[[[20, 21], 'Marry', 'marry']]
+[[(12, 13), 'Meet', 'obtained', 0.9960777163505554, None], [(16, 17), 'Phone-Write', 'required', 0.99397873878479, None]]
+
+Nathan divorced wallpaper salesman Bruce Nathan in 1992
+[[[1, 2], 'Divorce', 'divorced']]
+[]
+
+Giuliani regularly officiated at weddings while in office
+[]
+[[(2, 3), 'Meet', 'officiated', 0.9992303848266602, None]]
+
+US President George W. Bush told Canadian Prime Minister Jean Chretien by telephone Monday that he looked forward to seeing him at the upcoming summit of major industrialized nations and Russia, the White House said Tuesday
+[[[5, 6], 'Phone-Write', 'told']]
+[[(5, 6), 'Transfer-Money', 'told', 0.994938850402832, None], [(16, 17), 'Transfer-Ownership', 'looked', 0.9940673112869263, None], [(27, 28), 'Transfer-Ownership', 'industrialized', 0.9950533509254456, None]]
+
+The two leaders discussed the upcoming G-8 meeting, US-Canada (relations) and other international issues of concern," Bush spokesman Ari Fleischer said days before the June 1-3 summit, to be held in France
+[[[3, 4], 'Phone-Write', 'discussed']]
+[[(3, 4), 'Transfer-Ownership', 'discussed', 0.9959325194358826, None], [(29, 30), 'Transfer-Ownership', 'held', 0.9956153631210327, None]]
+
+On Monday, Chretien told reporters that he and Bush, who had not spoken since late February, discussed a wide range of issues, including Iraq, the upcoming summit of the Group of Eight industrial powers and aid to Africa
+[[[16, 17], 'Phone-Write', 'discussed']]
+[[(3, 4), 'Transfer-Money', 'told', 0.994938850402832, None], [(16, 17), 'Transfer-Ownership', 'discussed', 0.9959325194358826, None], [(22, 23), 'Phone-Write', 'including', 0.9992772936820984, None]]
+
+Amid a chill in relations over the war in Iraq, which Canada opposed, Bush indefinitely postponed a visit to Canada, instead choosing to host Australian Prime Minster John Howard, who endorsed that military campaign
+[]
+[[(23, 24), 'Transfer-Ownership', 'host', 0.9904273748397827, None]]
+
+Ocalan was moved by the government to its embassy compound in Kenya, where he was captured by Turkish commandos
+[[[2, 3], 'Transport', 'moved']]
+[[(2, 3), 'Transfer-Ownership', 'moved', 0.9981865286827087, None], [(15, 16), 'Transfer-Ownership', 'captured', 0.9981003403663635, None]]
+
+Naxakis and two of Ocalan's Kurdish associates are being tried on criminal charges of endangering national security
+[[[9, 10], 'Trial-Hearing', 'tried']]
+[[(9, 10), 'Transport', 'tried', 0.9976904392242432, None], [(14, 15), 'Attack', 'endangering', 0.9985307455062866, None]]
+
+The retired Greek officer said he had been trying to get Ocalan to The Netherlands, home to a large Kurdish community
+[[[10, 11], 'Transport', 'get']]
+[[(8, 9), 'Transfer-Ownership', 'trying', 0.9941932559013367, None], [(10, 11), 'Phone-Write', 'get', 0.996482253074646, None]]
+
+Ocalan, being tried in absentia, was indicted for entering the country illegally, a misdemeanor
+[[[2, 3], 'Trial-Hearing', 'tried'], [[6, 7], 'Charge-Indict', 'indicted'], [[8, 9], 'Transport', 'entering']]
+[[(2, 3), 'Transfer-Ownership', 'tried', 0.9928272366523743, None], [(6, 7), 'Transfer-Money', 'indicted', 0.9937146306037903, None], [(8, 9), 'Transfer-Money', 'entering', 0.9921135902404785, None]]
+
+Ocalan, leader of the Kurdistan Workers Party, or PKK, is serving a life sentence in Turkey for leading a 15-year insurgency against the country that left 37,000 people dead
+[[[10, 11], 'Arrest-Jail', 'serving']]
+[[(10, 11), 'Meet', 'serving', 0.9949576258659363, None], [(25, 26), 'Transfer-Ownership', 'left', 0.9956609606742859, None]]
+
+He is being tried in Greece in absentia
+[[[3, 4], 'Trial-Hearing', 'tried']]
+[[(3, 4), 'Transfer-Ownership', 'tried', 0.9928272366523743, None]]
+
+Naxakis is one of 13 people on trial for bringing the fugitive guerrilla leader to Greece
+[[[9, 10], 'Transport', 'bringing']]
+[[(9, 10), 'Transfer-Ownership', 'bringing', 0.9988647699356079, None]]
+
+The lawyer for a Russian military journalist convicted of treason filed an appeal Wednesday in an effort to overturn the guilty verdict against his client, who was released on parole earlier this year, news agencies reported
+[[[27, 28], 'Release-Parole', 'released'], [[7, 8], 'Convict', 'convicted']]
+[[(7, 8), 'Transfer-Ownership', 'convicted', 0.9978145360946655, None], [(10, 11), 'Phone-Write', 'filed', 0.997297465801239, None], [(18, 19), 'Transfer-Ownership', 'overturn', 0.9954279661178589, None]]
+
+Grigory Pasko's lawyer Genri Reznik filed the appeal with Russian Supreme Court, the Interfax and ITAR-Tass news agencies reported
+[]
+[[(5, 6), 'Phone-Write', 'filed', 0.997297465801239, None]]
+
+Reznik said he addressed the new appeal directly to Supreme Court Chairman Vyacheslav Lebedev and asked that it not be considered by military judges ``because the military justice system has adopted a biased attitude against Pasko,'' Interfax reported
+[]
+[[(3, 4), 'Meet', 'addressed', 0.995998740196228, None], [(30, 31), 'Transfer-Ownership', 'adopted', 0.9973468780517578, None]]
+
+Pasko, whose sentence included time served, was released in January for good behavior after serving more than two-thirds of the sentence
+[[[7, 8], 'Release-Parole', 'released']]
+[[(3, 4), 'Phone-Write', 'included', 0.9975005984306335, None], [(5, 6), 'Transfer-Money', 'served', 0.9948499798774719, None], [(7, 8), 'Transfer-Money', 'released', 0.9934284090995789, None], [(14, 15), 'Meet', 'serving', 0.9949576258659363, None]]
+
+Reznik said an initial appeal he lodged the day Pasko was freed never reached the presidium of the Supreme Court, according to Interfax
+[[[11, 12], 'Release-Parole', 'freed']]
+[[(6, 7), 'Transfer-Ownership', 'lodged', 0.9905309081077576, None], [(11, 12), 'Transfer-Ownership', 'freed', 0.9935277104377747, None], [(13, 14), 'Transfer-Money', 'reached', 0.9908662438392639, None]]
+
+Pasko was sentenced to four years in prison in December 2001 for illegally attending a meeting of top military commanders and taking notes there
+[[[2, 3], 'Sentence', 'sentenced']]
+[[(2, 3), 'Transport', 'sentenced', 0.9984612464904785, None], [(13, 14), 'Transfer-Ownership', 'attending', 0.9964166879653931, None], [(21, 22), 'Transfer-Ownership', 'taking', 0.9990110397338867, None]]
+
+The lawyer said the court's military board had refused to launch proceedings on the appeal
+[]
+[[(10, 11), 'Transfer-Money', 'launch', 0.9961652755737305, None]]
+
+He asked the court to invalidate the verdict and throw out the criminal case against Pasko, they said
+[]
+[[(9, 10), 'Transfer-Ownership', 'throw', 0.9971153736114502, None]]
+
+Toujan Faisal, 54, said she was informed of the refusal by an Interior Ministry committee overseeing election preparations
+[]
+[[(6, 7), 'Phone-Write', 'informed', 0.9968155026435852, None], [(15, 16), 'Transfer-Ownership', 'overseeing', 0.9971219897270203, None]]
+
+The excuse is invalid because I've been convicted on political not criminal grounds, which doesn't violate my right for contesting the elections,'' Faisal told The Associated Press
+[[[7, 8], 'Convict', 'convicted']]
+[[(19, 20), 'Demonstrate', 'contesting', 0.9962595701217651, None], [(23, 24), 'Transfer-Money', 'told', 0.994938850402832, None]]
+
+She lost her seat in the 1997 election
+[[[1, 2], 'Elect', 'lost']]
+[]
+
+Jordanian authorities on Monday said Jordan's first female lawmaker was ineligible to run in June 17 parliamentary elections following her conviction last year over publishing information that harmed the government's reputation
+[]
+[[(12, 13), 'Transfer-Ownership', 'run', 0.9987389445304871, None], [(18, 19), 'Phone-Write', 'following', 0.9910534024238586, None], [(24, 25), 'Transfer-Ownership', 'publishing', 0.9960556030273438, None], [(27, 28), 'Transfer-Ownership', 'harmed', 0.9969775676727295, None]]
+
+Faisal was convicted in May 2002 for publishing false and exaggerated information abroad that harmed the government's reputation and dignity
+[[[2, 3], 'Convict', 'convicted']]
+[[(2, 3), 'Transfer-Ownership', 'convicted', 0.9978145360946655, None], [(7, 8), 'Transfer-Ownership', 'publishing', 0.9960556030273438, None], [(14, 15), 'Transfer-Ownership', 'harmed', 0.9969775676727295, None]]
+
+She was sentenced to 1{ years in jail
+[[[2, 3], 'Sentence', 'sentenced']]
+[[(2, 3), 'Transport', 'sentenced', 0.9984612464904785, None]]
+
+But after spending 40 days in prison, Jordan's King Abdullah II pardoned the former legislator known for her harsh criticism of the state
+[[[11, 12], 'Pardon', 'pardoned']]
+[[(11, 12), 'Transfer-Ownership', 'pardoned', 0.9949315190315247, None], [(15, 16), 'Transfer-Ownership', 'known', 0.995081901550293, None]]
+
+Jordan's electoral law bans Jordanians from contesting the polls if they were convicted of any crime, except political, and sentenced to more than one year in jail
+[[[12, 13], 'Convict', 'convicted'], [[19, 20], 'Sentence', 'sentenced']]
+[[(6, 7), 'Demonstrate', 'contesting', 0.9962595701217651, None], [(12, 13), 'Transfer-Ownership', 'convicted', 0.9978145360946655, None], [(19, 20), 'Transport', 'sentenced', 0.9984612464904785, None]]
+
+Russia has accepted a US$150 million World Bank loan to combat the spread of AIDS and tuberculosis, ending a negotiating process that lasted four years, World Bank officials said Friday
+[]
+[[(10, 11), 'Attack', 'combat', 0.9993694424629211, None], [(17, 18), 'Transfer-Ownership', 'ending', 0.9979934692382812, None], [(22, 23), 'Transfer-Ownership', 'lasted', 0.9976285099983215, None]]
+
+But after drawn-out talks, President Vladimir Putin signed off on the loan, which will take effect this year, the World Bank said
+[]
+[[(14, 15), 'Transfer-Ownership', 'take', 0.9960242509841919, None]]
+
+The World Bank first offered the loan in 1999, but disagreements over treatment kept the project on hold
+[]
+[[(4, 5), 'Transfer-Ownership', 'offered', 0.9963074922561646, None]]
+
+Former Danish international Stig Toefting dropped his appeal of an assault conviction and will serve a four-month jail sentence, Denmark's TV2 reported Monday
+[]
+[[(5, 6), 'Transfer-Ownership', 'dropped', 0.9961726069450378, None], [(14, 15), 'Transfer-Ownership', 'serve', 0.9980337023735046, None]]
+
+He was sentenced to four months in prison, but appealed
+[[[2, 3], 'Sentence', 'sentenced'], [[9, 10], 'Appeal', 'appealed']]
+[[(2, 3), 'Transport', 'sentenced', 0.9984612464904785, None]]
+
+TV2, quoting Toefting's lawyer Anders Nemeth, reported that that 33-year-old midfielder was ready to serve his sentence immediately
+[]
+[[(1, 2), 'Transfer-Ownership', 'quoting', 0.9933185577392578, None], [(14, 15), 'Transfer-Ownership', 'serve', 0.9980337023735046, None]]
+
+It was unclear whether Toefting would return to Bolton after serving his sentence
+[[[6, 7], 'Start-Position', 'return']]
+[[(6, 7), 'Phone-Write', 'return', 0.9944053888320923, None], [(10, 11), 'Meet', 'serving', 0.9949576258659363, None]]
+
+Toefting was convicted in October 2002 of assaulting a pair of restaurant workers during a night out with national squad teammates in the capital, Copenhagen
+[[[7, 8], 'Attack', 'assaulting'], [[2, 3], 'Convict', 'convicted']]
+[[(2, 3), 'Transfer-Ownership', 'convicted', 0.9978145360946655, None]]
+
+Earlier this month, Toefting said English Premier League club Bolton let him go so he could prepare for the appeal
+[[[12, 13], 'End-Position', 'go']]
+[[(12, 13), 'Transfer-Ownership', 'go', 0.9960706233978271, None], [(16, 17), 'Transfer-Ownership', 'prepare', 0.9949325919151306, None]]
+
+The club said it wasn't aware of Toefting's decision to drop his appeal
+[]
+[[(10, 11), 'Transfer-Ownership', 'drop', 0.9948074221611023, None]]
+
+The hearing was scheduled for April 10
+[]
+[]
+
+Toefting transferred to Bolton in February 2002 from German club Hamburg
+[[[1, 2], 'Start-Position', 'transferred'], [[1, 2], 'End-Position', 'transferred']]
+[]
+
+Toefting has been convicted before
+[[[3, 4], 'Convict', 'convicted']]
+[[(3, 4), 'Transfer-Ownership', 'convicted', 0.9978145360946655, None]]
+
+In 1999 he was given a 20-day suspended sentence for assaulting a fan who berated him for playing with German club Duisburg
+[[[10, 11], 'Attack', 'assaulting']]
+[[(4, 5), 'Transfer-Ownership', 'given', 0.9978741407394409, None], [(17, 18), 'Transfer-Ownership', 'playing', 0.9932032823562622, None]]
+
+The popular player  _  known for his temperament and the words ``No Regret'' tattooed across his chest  _  retired from Denmark's national team after it was knocked out in the second round of the 2002 World Cup
+[[[18, 19], 'End-Position', 'retired']]
+[[(4, 5), 'Transfer-Ownership', 'known', 0.995081901550293, None], [(18, 19), 'Transfer-Ownership', 'retired', 0.9921119213104248, None]]
+
+Toefting joined the Danish squad in 1993 and has 41 caps
+[[[1, 2], 'Start-Position', 'joined']]
+[[(1, 2), 'Transfer-Money', 'joined', 0.9971545934677124, None]]
+
+But others note that trucks were seen carrying the rods out of their normal storage area months ago, and it is unclear where they are _ or even whether the United States is sniffing for the krypton gas in the right place
+[[[7, 8], 'Transport', 'carrying']]
+[[(2, 3), 'Transfer-Ownership', 'note', 0.9975411891937256, None], [(6, 7), 'Transfer-Ownership', 'seen', 0.9923874139785767, None], [(7, 8), 'Transport', 'carrying', 0.9989757537841797, None]]
+
+Roh has said any pre-emptive strike against the North's nuclear facilities could prove disastrous
+[]
+[[(12, 13), 'Transfer-Ownership', 'prove', 0.9954925775527954, None]]
+
+U.S. satellites have been watching North Korean nuclear activity intently since late last year, when the North evicted international inspectors
+[[[17, 18], 'Transport', 'evicted']]
+[[(17, 18), 'Transport', 'evicted', 0.993654727935791, None]]
+
+Managing director Toyoda, 46, grandson of Kiichiro Toyoda and the eldest son of Toyota honorary chairman Shoichiro Toyoda, will become one of 14 senior managing directors under a streamlined management system set to be introduced after a shareholders' meeting in June, the company said in a statement
+[[[19, 20], 'Start-Position', 'become'], [[19, 20], 'End-Position', 'become']]
+[[(0, 1), 'Meet', 'Managing', 0.9915850162506104, None], [(24, 25), 'Meet', 'managing', 0.9915850162506104, None], [(31, 32), 'Transfer-Ownership', 'set', 0.9962990880012512, None], [(34, 35), 'Transfer-Ownership', 'introduced', 0.9966434240341187, None]]
+
+Kiichiro Toyoda founded the automaker in 1937, transforming the loom manufacturer started by his father into an automaker
+[[[11, 12], 'Start-Org', 'started'], [[2, 3], 'Start-Org', 'founded']]
+[[(7, 8), 'Transfer-Ownership', 'transforming', 0.9966333508491516, None], [(11, 12), 'Transfer-Ownership', 'started', 0.9971532821655273, None]]
+
+Toyota Motor Corp. said Tuesday it will promote Akio Toyoda, a grandson of the company's founder who is widely viewed as a candidate to some day head Japan's largest automaker
+[[[26, 27], 'Start-Position', 'head']]
+[[(7, 8), 'Transfer-Money', 'promote', 0.9960755705833435, None], [(19, 20), 'Transfer-Ownership', 'viewed', 0.9974088072776794, None], [(26, 27), 'Transfer-Ownership', 'head', 0.9978190660476685, None]]
+
+Toyoda, who joined Toyota, based in Toyota city, central Japan, in 1984, spearheaded the automaker's Internet and telematics business  _  a technology that puts wireless communications into vehicles
+[[[2, 3], 'Start-Position', 'joined']]
+[[(2, 3), 'Transfer-Money', 'joined', 0.9971545934677124, None], [(4, 5), 'Transfer-Ownership', 'based', 0.995555579662323, None], [(12, 13), 'Attack', 'spearheaded', 0.9996291399002075, None], [(23, 24), 'Transfer-Ownership', 'puts', 0.9964280724525452, None]]
+
+But in such close-quarters fighting, they would lose much of the technological advantage of their air supremacy, which would have to be curtailed because bombing in a city can cause large civilian casualties
+[[[24, 25], 'Attack', 'bombing']]
+[[(7, 8), 'Transfer-Ownership', 'lose', 0.9979931116104126, None]]
+
+Bet`fow Central Command chief Gen. Tommy Franks and his field commanders face a big decision _ whether to rush into the city of 5 million where Hussein's regime has gathered its most-trusted forces or wait and see if the war can be won without paying the price of street-to-street urban fighting
+[[[18, 19], 'Transport', 'rush']]
+[[(11, 12), 'Transfer-Ownership', 'face', 0.9979009628295898, None], [(18, 19), 'Transfer-Ownership', 'rush', 0.9957038760185242, None], [(29, 30), 'Transfer-Ownership', 'gathered', 0.9930253028869629, None], [(36, 37), 'Phone-Write', 'see', 0.9990795850753784, None], [(44, 45), 'Transfer-Ownership', 'paying', 0.9987558126449585, None]]
+
+Having punched through severely depleted Republican Guard divisions that formed Baghdad's outer defensive ring, U.S. Army and Marine forces are likely to pause again to test the Iraqi capital's inner defenses and waall but evaporated under the weight of the U.S. assault
+[]
+[[(1, 2), 'Transfer-Ownership', 'punched', 0.997575581073761, None], [(4, 5), 'Transfer-Ownership', 'depleted', 0.9959206581115723, None], [(9, 10), 'Meet', 'formed', 0.9984633922576904, None], [(25, 26), 'Phone-Write', 'test', 0.9944937825202942, None]]
+
+We are not expecting to drive into Baghdad suddenly and seize it
+[[[5, 6], 'Transport', 'drive']]
+[[(5, 6), 'Transfer-Ownership', 'drive', 0.9974572062492371, None], [(10, 11), 'Demonstrate', 'seize', 0.9993020296096802, None]]
+
+`We are expectingn or at least planning for, a very difficult fight ahead,'' Gen. Stanley McChrystal said at the Pentagon Tuesday
+[]
+[[(6, 7), 'Transfer-Ownership', 'planning', 0.9963628649711609, None]]
+
+If these patrols meet little opposition, thousands of troops could rush into the city
+[[[10, 11], 'Transport', 'rush']]
+[[(3, 4), 'Meet', 'meet', 0.9997009038925171, None], [(10, 11), 'Meet', 'rush', 0.9996589422225952, None]]
+
+If the Iraqis respond forcefully, the Army and Marine units could withdraw and await the 4th Mechanized Infantry Division, which will soon start moving north from Kuwait
+[[[23, 24], 'Transport', 'moving']]
+[[(3, 4), 'Phone-Write', 'respond', 0.9978652596473694, None], [(11, 12), 'Attack', 'withdraw', 0.9992454051971436, None], [(13, 14), 'Demonstrate', 'await', 0.9998403787612915, None], [(22, 23), 'Transfer-Money', 'start', 0.9953603148460388, None], [(23, 24), 'Transfer-Ownership', 'moving', 0.9987059831619263, None]]
+
+Thousands of refugees have fled the city, apparently providing information to the British that has led to raids on military and Baath Party sites in the city
+[[[4, 5], 'Transport', 'fled'], [[17, 18], 'Attack', 'raids']]
+[[(4, 5), 'Transport', 'fled', 0.9995077848434448, None], [(8, 9), 'Transfer-Ownership', 'providing', 0.9972018003463745, None], [(15, 16), 'Transfer-Ownership', 'led', 0.9928971529006958, None]]
+
+The key endgame may be whether the U.S. can parse out the key regime centers of power in Baghdad and attack them without having to fight into the city, or at least locate them well enough to atman of the Center for Strategic and International Studies said in his daily war report
+[[[20, 21], 'Attack', 'attack'], [[25, 26], 'Attack', 'fight']]
+[[(9, 10), 'Transfer-Ownership', 'parse', 0.9926020503044128, None], [(20, 21), 'Meet', 'attack', 0.9966052770614624, None], [(32, 33), 'Transfer-Ownership', 'locate', 0.9983537197113037, None]]
+
+U.S. strategists say that Hussein, if he is still alive and in control of his forces, might like a bloody battle in Baghdad because such fighting could cause heavy U.S. casualties
+[]
+[[(2, 3), 'Transfer-Money', 'say', 0.9963456988334656, None], [(16, 17), 'Attack', 'might', 0.9989302754402161, None], [(17, 18), 'Attack', 'like', 0.9937340617179871, None]]
+
+His last hope for survival might be that the United States loses its taste for such losses and forces President Bush to negotiate a compromise that would allow Hussein and his family to keep power in Baghdad
+[]
+[[(22, 23), 'Transfer-Ownership', 'negotiate', 0.9973008036613464, None], [(27, 28), 'Phone-Write', 'allow', 0.9963002800941467, None], [(33, 34), 'Transfer-Money', 'keep', 0.9948864579200745, None]]
+
+While two guard divisions have apparently been smashed, there are three others in the Baghdad area
+[[[7, 8], 'Attack', 'smashed']]
+[]
+
+`The Republican Guard has taken a massive hammering at every level and is now scattered and deploying somewhat erratically at the brigade level,'' he said
+[]
+[[(4, 5), 'Transfer-Ownership', 'taken', 0.99689120054245, None], [(14, 15), 'Transfer-Ownership', 'scattered', 0.9977370500564575, None], [(16, 17), 'Attack', 'deploying', 0.9996534585952759, None]]
+
+The Iraqis still haven't used chemical weapons, even though many experts feared such attacks as the U.S. troops neared Baghdad
+[]
+[[(4, 5), 'Attack', 'used', 0.9996583461761475, None], [(11, 12), 'Transfer-Ownership', 'feared', 0.9943504929542542, None], [(18, 19), 'Transfer-Ownership', 'neared', 0.9971917271614075, None]]
+
+Instead of an all-out assault, analysts expect the United States to follow the example of British forces outside the southern Iraqi city of Basra
+[]
+[[(11, 12), 'Transfer-Money', 'follow', 0.992567777633667, None]]
+
+But he also said, ``He may destroy them to embarrass us,'' to show the world he never had such weapons and that Bush invaded for no reason other than aggression
+[[[23, 24], 'Attack', 'invaded']]
+[[(12, 13), 'Transfer-Money', 'show', 0.9916404485702515, None], [(23, 24), 'Attack', 'invaded', 0.9990177154541016, None]]
+
+But there would be lots of casualties on all sides
+[]
+[]
+
+They are likely to mount small probing patrols into the city to determine the level of Iraqi resistance
+[[[4, 5], 'Transport', 'mount']]
+[[(4, 5), 'Transfer-Ownership', 'mount', 0.9969996809959412, None], [(12, 13), 'Transfer-Ownership', 'determine', 0.994030773639679, None]]
+
+Before going in (with a full assault), you have to decide if it's worth the risks, and ... you have to know who's there in the way of Iraqi forces and the amount of potential damage to civilians,'' he said
+[]
+[[(1, 2), 'Transfer-Ownership', 'going', 0.9987137317657471, None], [(10, 11), 'Transfer-Ownership', 'decide', 0.9947510361671448, None], [(12, 13), 'Transfer-Ownership', "'s", 0.9905195236206055, None], [(21, 22), 'Demonstrate', 'know', 0.9977138042449951, None], [(22, 23), 'Transfer-Ownership', "'s", 0.9905195236206055, None]]
+
+If U.S. forces seriously degrade Iraq's half-dozen Republican Guard divisions before that final battle, and only have to face perhaps 30,000 Special Republican Guard, fedayeen, and related personnel, the task will not be as hard as it might have been,'' he said
+[]
+[[(18, 19), 'Transfer-Ownership', 'face', 0.9979009628295898, None]]
+
+{'nw': {'TI': {'P': 0.25040544923775543, 'R': 0.8318965517241379, 'F1': 0.38494141111942154}, 'TC': {'P': 0.053843658773921506, 'R': 0.1788793103448276, 'F1': 0.08277237596609326}}}

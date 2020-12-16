@@ -1,0 +1,222 @@
+BE-BORN
+Person_Arg:The person who is born
+Time_Arg:When the birth takes place
+Place_Arg:Where the birth takes place
+
+MARRY
+Person_Arg:The people who are married
+Time_Arg:When the marriage takes place
+Place_Arg:Where the marriage takes place
+
+DIVORCE
+Person_Arg:The people who are divorced
+Time_Arg:When the divorce takes place
+Place_Arg:Where the divorce takes place
+
+INJURE
+Agent_Arg:The attacking agent
+Victim_Arg:The harmed person
+Instrument_Arg:The device used to inflict the harm
+Place_Arg:Where the injuring takes place
+Time_Arg:When the injuring takes place
+
+DIE
+Agent_Arg:The killer
+Victim_Arg:The person who died
+Instrument_Arg:The device used to kill
+Place_Arg:Where the death takes place
+Time_Arg:When the death takes place
+
+TRANSPORT
+Agent_Arg:The agent responsible for the transport event
+Artifact_Arg:The person doing the traveling or the artifact being transported
+Vehicle_Arg:The vehicle used to transport the person or artifact
+Price_Arg:The price of transporting the person or artifact
+Origin_Arg:Where the transporting originated
+Destination_Arg:Where the transporting is directed
+Time_Arg:When the transporting takes place
+
+TRANSFER-OWNERSHIP
+Buyer_Arg:The buying agent
+Seller_Arg:The selling agent
+Artifact_Arg:The item or organization that was bought or sold
+Price_Arg:The sale price
+Beneficiary_Arg:The agent that benefits from the transaction
+Time_Arg:When the sale takes place
+Place_Arg:Where the sale takes place
+
+TRANSFER-MONEY
+Giver_Arg:The donating agent
+Recipient_Arg:The recipient agent
+Beneficiary_Arg:The agent that benefits from the transfer
+Money_Arg:The amount given, donated or loaned
+Time_Arg:When the amount is transferred
+Place_Arg:Where the transaction takes place
+
+START-ORG
+Agent_Arg:The founder
+Org_Arg:The organization that is started
+Time_Arg:When the organization is started
+Place_Arg:Where the organization is started
+
+MERGE-ORG
+Org_Arg:The organization that is merged
+Time_Arg:When the merger takes place
+Place_Arg:Where the merger takes place
+
+DECLARE-BANKRUPTCY
+Org_Arg:The organization declaring bankruptcy
+Time_Arg:When the bankruptcy is declared
+Place_Arg:Where the declaration takes place
+
+END-ORG
+Org_Arg:The organization that is ended
+Time_Arg:When the organization is ended
+Place_Arg:Where the organization is ended
+
+ATTACK
+Attacker_Arg:The attacking agent
+Target_Arg:The target of the attack
+Instrument_Arg:The instrument used in the attack
+Place_Arg:Where the attack takes place
+Time_Arg:When the attack takes place
+
+DEMONSTRATE
+Entity_Arg:The demonstrating agent
+Time_Arg:When the demonstration takes place
+Place_Arg:Where the demonstration takes place
+
+MEET
+Entity_Arg:The agents who are meeting
+Time_Arg:When the meeting takes place
+Place_Arg:Where the meeting takes place
+
+PHONE-WRITE
+Entity_Arg:The communicating agents
+Time_Arg:When the communication takes place
+
+START-POSITION
+Person_Arg:The employee
+Entity_Arg:The employer
+Position_Arg:The job title for the position being started
+Time_Arg:When the employment relationship begins
+Place_Arg:Where the employment relationship begins
+
+END-POSITION
+Person_Arg:The employee
+Entity_Arg:The employer
+Position_Arg:The job title for the position being ended
+Time_Arg:When the employment relationship ends
+Place_Arg:Where the employment relationship ends
+
+NOMINATE
+Agent_Arg:The person nominated
+Person_Arg:The nominating agent
+Position_Arg:The job title for the position being nominated to
+Time_Arg:When the nomination takes place
+Place_Arg:Where the nomination takes place
+
+ELECT
+Agent_Arg:The person elected
+Person_Arg:The voting agent
+Position_Arg:The job title for the position being nominated to
+Time_Arg:When the election takes place
+Place_Arg:Where the election takes place
+
+ARREST-JAIL
+Agent_Arg:The person who is jailed or arrested
+Person_Arg:The jailer or the arresting agent
+Crime_Arg:The crime for which the person is being jailed or arrested
+Time_Arg:When the person is arrested or sent to jail
+Place_Arg:Where the person is arrested or where they are in jail
+
+RELEASE-PAROLE
+Person_Arg:The person who is released
+Entity_Arg:The former captor agent
+Crime_Arg:The crime for which the released person was being held
+Time_Arg:When the release takes place
+Place_Arg:Where the release takes place
+
+TRIAL-HEARING
+Defendant_Arg:The agent on trial
+Prosecutor_Arg:The prosecuting agent
+Crime_Arg:The crime for which the defendant is being tried
+Adjudicator_Arg:The judge or court
+Time_Arg:When the trial takes place
+Place_Arg:Where the trial takes place
+
+CHARGE-INDICT
+Defendant_Arg:The agent that is indicted
+Prosecutor_Arg:The agent bringing charges or executing the indictment
+Crime_Arg:The crime for which the defendant is being indicted
+Adjudicator_Arg:The judge or court
+Time_Arg:When the indictment takes place
+Place_Arg:Where the indictment takes place
+
+SUE
+Plaintiff_Arg:The suing agent
+Defendant_Arg:The agent being sued
+Crime_Arg:The crime for which the defenddant is being sued
+Adjudicator_Arg:The judge or court
+Time_Arg:When the suit takes place
+Place_Arg:Where the suit takes place
+
+CONVICT
+Defendant_Arg:The convicted agent
+Crime_Arg:The crime for which the defendant has been convicted
+Adjudicator_Arg:The judge or court
+Time_Arg:When the conviction takes place
+Place_Arg:Where the conviction takes place
+
+SENTENCE
+Defendant_Arg:The agent who is sentenced
+Crime_Arg:The crime for which the person is being sentenced
+Sentence_Arg:The sentence
+Adjudicator_Arg:The judge or court
+Time_Arg:The time of the sentencing
+Place_Arg:Where the sentencing takes place
+
+FINE
+Adjudicator_Arg:The entity doing the fining
+Entity_Arg:The entity that was fined
+Crime_Arg:The crime for which the entity is being fined
+Money_Arg:The amount of the fine
+Time_Arg:When the fining takes place
+Place_Arg:Where the fining takes place
+
+EXECUTE
+Agent_Arg:The agent responsible for carrying out the execution
+Person_Arg:The person executed
+Crime_Arg:The crime for which the person is being executed
+Time_Arg:When the execution takes place
+Place_Arg:Where the execution takes place
+
+EXTRADITE
+Agent_Arg:The extraditing agent
+Person_Arg:The person being extradicted
+Crime_Arg:The crime for which the person is being extradited
+Origin_Arg:The original location of the person being extradited
+Destination_Arg:Where the person is extradited to
+Time_Arg:When the extradition takes place
+
+ACQUIT
+Adjudicator_Arg:The judge or court
+Defendant_Arg:The agent being acquitted
+Crime_Arg:The crime of which the defendant is being
+Time_Arg:When the acquittal takes place
+Place_Arg:Where the acquittal takes place
+
+PARDON
+Adjudicator_Arg:The state official who does the pardoning
+Defendant_Arg:The agent being pardoned
+Crime_Arg:The crime of which the defendant is being pardoned
+Time_Arg:When the pardon takes place
+Place_Arg:Where the pardon takes place
+
+APPEAL
+Defendant_Arg:The defendant
+Prosecutor_Arg:The prosecuting agent
+Crime_Arg:The crime which is the subject of the appeal
+Adjudicator_Arg:The judge or court
+Time_Arg:When the appeal takes place
+Place_Arg:Where the appeal takes place
