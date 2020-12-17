@@ -14,6 +14,8 @@ from pprint import pprint
 
 # config
 print(os.getcwd())
+os.chdir('source')
+print(os.getcwd())
 config_path = 'config/hm_config.json'
 config = Config.from_json_file(config_path)
 
