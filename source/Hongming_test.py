@@ -9,7 +9,7 @@ from data import IEDataset
 from utils import generate_vocabs
 from pprint import pprint
 
-root_path = ('/shared/hzhangal/Projects/probing_for_event/source')
+root_path = ('/shared/hzhangal/Projects/Probing_for_Event/source')
 os.chdir(root_path)
 
 # config
