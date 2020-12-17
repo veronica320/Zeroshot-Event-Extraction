@@ -9,13 +9,13 @@ from data import IEDataset
 from utils import generate_vocabs
 from pprint import pprint
 
-# root_path = ('/shared/lyuqing/probing_for_event')
-# os.chdir(root_path)
+root_path = ('/shared/hzhangal/Projects/probing_for_event/source')
+os.chdir(root_path)
 
 # config
-print(os.getcwd())
-os.chdir('source')
-print(os.getcwd())
+# print(os.getcwd())
+# os.chdir('source')
+# print(os.getcwd())
 config_path = 'config/hm_config.json'
 config = Config.from_json_file(config_path)
 
