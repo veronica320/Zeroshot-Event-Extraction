@@ -68,6 +68,6 @@ for inst1, inst2 in zip(gold_dataset, pred_dataset):
     gold_graphs.append(inst1.graph)
     pred_graphs.append(inst2.graph)
 
-scores = (gold_graphs, pred_graphs)
+scores = score_graphs(gold_graphs, pred_graphs)
 print(scores)
 
