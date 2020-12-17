@@ -8,11 +8,11 @@ from configuration import Config
 from nltk import pos_tag
 import pprint
 
-root_path = ('/shared/lyuqing/probing_for_event')
+root_path = ('/shared/hzhangal/Projects/Probing_for_Event')
 os.chdir(root_path)
 
 # config
-config_path = 'config/hm_config.json'
+config_path = 'source/config/hm_config.json'
 config = Config.from_json_file(config_path)
 
 classification_only = config.classification_only
