@@ -12,7 +12,7 @@ root_path = ('/shared/lyuqing/probing_for_event')
 os.chdir(root_path)
 
 # config
-config_path = (f'{root_path}/source/config/te_optimal.json')
+config_path = (f'{root_path}/source/config/hm_config.json')
 config = Config.from_json_file(config_path)
 
 classification_only = config.classification_only
@@ -68,6 +68,6 @@ for inst1, inst2 in zip(gold_dataset, pred_dataset):
     gold_graphs.append(inst1.graph)
     pred_graphs.append(inst2.graph)
 
-scores = score_graphs(gold_graphs, pred_graphs)
+scores = (gold_graphs, pred_graphs)
 print(scores)
 
