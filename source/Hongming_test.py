@@ -2,11 +2,11 @@
 import os
 import json
 from argparse import ArgumentParser
-from source.model_te import EventDetectorTE
-from source.configuration import Config
+from model_te import EventDetectorTE
+from configuration import Config
 import torch
-from source.data import IEDataset
-from source.utils import generate_vocabs
+from data import IEDataset
+from utils import generate_vocabs
 from pprint import pprint
 
 root_path = ('/shared/lyuqing/probing_for_event')
