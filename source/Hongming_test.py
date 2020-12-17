@@ -13,6 +13,7 @@ from pprint import pprint
 # os.chdir(root_path)
 
 # config
+print(os.getcwd())
 config_path = 'config/hm_config.json'
 config = Config.from_json_file(config_path)
 
