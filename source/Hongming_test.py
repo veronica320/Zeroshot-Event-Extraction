@@ -13,7 +13,7 @@ root_path = ('/shared/lyuqing/probing_for_event')
 os.chdir(root_path)
 
 # config
-config_path = 'config/hm_config.json'
+config_path = 'source/config/hm_config.json'
 config = Config.from_json_file(config_path)
 
 classification_only = config.classification_only
