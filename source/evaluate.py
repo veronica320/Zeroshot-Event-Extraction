@@ -8,11 +8,11 @@ from configuration import Config
 from nltk import pos_tag
 import pprint
 
-root_path = ('/shared/hzhangal/Projects/Probing_for_Event')
+root_path = ('/shared/lyuqing/probing_for_event')
 os.chdir(root_path)
 
 # config
-config_path = 'source/config/hm_config.json'
+config_path = '/shared/hzhangal/Projects/Probing_for_Event/source/config/hm_config.json'
 config = Config.from_json_file(config_path)
 
 classification_only = config.classification_only
@@ -31,7 +31,7 @@ tune_on_gdl = eval(config.tune_on_gdl)
 
 frn = config.input_file.split('/')[-1].split('.')[0]
 
-output_file = f"output_dir/{frn}_{'cls_' if classification_only else ''}m:{bert_model_type}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_tp:{trg_probe_type}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
+output_file = f"/shared/hzhangal/Projects/Probing_for_Event/output_dir/{frn}_{'cls_' if classification_only else ''}m:{bert_model_type}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_tp:{trg_probe_type}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
 
 gold_dataset = IEDataset(config.input_file)
 pred_dataset = IEDataset(output_file)
