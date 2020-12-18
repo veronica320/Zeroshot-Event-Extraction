@@ -48,6 +48,8 @@ class EventDetectorQA():
 			self.gpu_devices = None
 
 		self.classification_only = config.classification_only
+		self.gold_trigger = config.gold_trigger
+
 		self.srl_args = eval(config.srl_args)
 		self.trg_thresh = eval(config.trg_thresh)
 		self.arg_thresh = eval(config.arg_thresh)
@@ -138,17 +140,20 @@ class EventDetectorQA():
 		sent = instance.sentence
 		tokens_gold = instance.tokens  # ACE tokens
 
-		if self.classification_only:  # classification only
-
-			# Get the gold identified triggers and arguments
+		if self.gold_trigger: # directly return gold trigger identification + classification results
 			for event in instance.events:
-				gold_identified_res = {"event_type": None,
-									   "trigger": event["trigger"].copy(),
-									   "arguments": [
-										   {"text": arg["text"], "role": None, "start": arg["start"],
-											"end": arg["end"]}
-										   for arg in event["arguments"]]}
-				pred_events.append(gold_identified_res)
+				gold_trg_res = {"event_type": event['event_type'],
+				                "trigger": event["trigger"].copy(),
+				                "arguments": []}
+				pred_events.append(gold_trg_res)
+
+		elif self.classification_only:  # do trigger classification only
+			# Get the gold identified triggers
+			for event in instance.events:
+				gold_trg_res = {"event_type": None,
+				                "trigger": event["trigger"].copy(),
+				                "arguments": []}
+				pred_events.append(gold_trg_res)
 
 			for event_id, event in enumerate(pred_events):  # Classify each gold trigger
 				trigger_text = event["trigger"]["text"]
@@ -174,7 +179,7 @@ class EventDetectorQA():
 				pred_events[event_id]["trigger"]['confidence'] = confidence
 				pred_events[event_id]['srl_id'] = srl_id
 
-		else:  # identification + classification
+		else:  # do trigger identification + classification
 			for srl_id, text_piece in text_pieces.items():
 				trigger_text = trg_cands[srl_id][1]
 				context = text_piece
@@ -204,6 +209,13 @@ class EventDetectorQA():
 		verb_srl2gold, nom_srl2gold = srl2gold_maps
 
 		if self.classification_only:
+			for gold_event, pred_event in zip(instance.events, pred_events):
+				pred_event['arguments'] = [{"text": arg["text"],
+				                            "role": None,
+				                            "start": arg["start"],
+				                            "end": arg["end"]}
+				                           for arg in gold_event["arguments"]]
+
 			for event_id, event in enumerate(pred_events):
 				srl_id = event['srl_id']
 				trigger_text = event['trigger']['text']

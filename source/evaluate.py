@@ -31,8 +31,8 @@ tune_on_gdl = eval(config.tune_on_gdl)
 
 frn = config.input_file.split('/')[-1].split('.')[0]
 
-output_file = f"output_dir/{frn}_{'cls_' if classification_only else ''}m:{bert_model_type}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_tp:{trg_probe_type}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
-
+# output_file = f"output_dir/{frn}_{'cls_' if classification_only else ''}m:{bert_model_type}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_tp:{trg_probe_type}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
+output_file = f"output_dir/dev_cls_m:robertal_t:0.99_a:0.9_['V', 'ARG1']_['verb', 'nom']_head:True_tp:topic_pps:max_conf+delta_an:True_cp:whenNone.event.json"
 gold_dataset = IEDataset(config.input_file)
 pred_dataset = IEDataset(output_file)
 

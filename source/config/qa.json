@@ -6,6 +6,7 @@
     "input_file": "data/ACE_oneie/en/event_only/dev.event.json",
 
     "classification_only": true,
+    "gold_trigger": true,
 
     "YN_QA_model_type": "roberta",
     "YN_idk": false,
