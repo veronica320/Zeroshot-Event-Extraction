@@ -295,7 +295,7 @@ class EventDetectorTE():
 
             orig_entail_prob = self.entailment(premise,
                                                hypothesis)  # original probability of "the premise entailing the hypothesis"
-            print(orig_entail_prob)
+            # print(orig_entail_prob)
             if self.pair_premise_strategy:  # use a minimal pair of premises
                 sub_pattern = '\s?' + trigger_text + '\s?'
                 truncated_premise = re.sub(pattern=sub_pattern, string=premise,
