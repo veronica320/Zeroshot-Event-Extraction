@@ -2,12 +2,13 @@
 import os
 import json
 from argparse import ArgumentParser
-from model_te import EventDetectorTE
+from Hongming_model_te import EventDetectorTE
 from configuration import Config
 import torch
 from data import IEDataset
 from utils import generate_vocabs
 from pprint import pprint
+from scorer import score_graphs
 
 root_path = ('/shared/lyuqing/probing_for_event')
 os.chdir(root_path)
@@ -67,6 +68,27 @@ with open(output_file, 'w') as fw:
 		          }
 
 		fw.write(json.dumps(output) + '\n')
+
+gold_dataset = IEDataset(config.input_file)
+pred_dataset = IEDataset(output_file)
+
+
+## Evaluate on all triggers in ACE
+vocabs = generate_vocabs([gold_dataset, pred_dataset])
+
+gold_dataset.numberize(vocabs)
+pred_dataset.numberize(vocabs)
+
+gold_graphs, pred_graphs = [], []
+
+i = 0
+for inst1, inst2 in zip(gold_dataset, pred_dataset):
+	i += 1
+	gold_graphs.append(inst1.graph)
+	pred_graphs.append(inst2.graph)
+
+scores = score_graphs(gold_graphs, pred_graphs)
+print(scores)
 
 
 
