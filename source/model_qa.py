@@ -58,6 +58,8 @@ class EventDetectorQA():
 		self.const_premise = eval(config.const_premise)
 		self.pair_premise_strategy = eval(config.pair_premise_strategy)
 
+		self.arg_probe_type = eval(config.arg_probe_type)
+
 		# Load trigger probes
 		probe_dir = 'source/lexicon/probes/'
 		trg_probes_frn = f'{probe_dir}trg_qa_probes_fine.txt' # TODO: other types of probes
@@ -65,9 +67,14 @@ class EventDetectorQA():
 			self.trg_probe_lexicon = load_trg_probe_lexicon(fr)
 
 		# Load argument probes and the SRL-to-ACE argument map
-		# arg_probes_frn = f'{probe_dir}arg_te_probes_manual.txt' # # TODO: add arg probe file
-		# with open('source/lexicon/arg_srl2ace.txt') as fr:
-		# 	self.arg_map = load_arg_map(fr)
+		if self.arg_probe_type == 'bool':
+			arg_probes_frn = f'{probe_dir}arg_qa_probes_bool.txt'
+		elif self.arg_probe_type == 'ex':
+			arg_probes_frn = f'{probe_dir}arg_qa_probes_ex.txt'
+		with open(arg_probes_frn, 'r') as fr:
+			self.arg_probe_lexicon = load_arg_probe_lexicon(fr, self.arg_probe_type)
+		with open('source/lexicon/arg_srl2ace.txt') as fr:
+			self.arg_map = load_arg_map(fr)
 
 		# Event types
 		self.trg_subtypes = self.trg_probe_lexicon.keys()
@@ -121,8 +128,7 @@ class EventDetectorQA():
 		pred_events = self.extract_triggers(instance, pred_events, srl_id_results, text_pieces, trg_cands)
 
 		# # predict arguments
-		# pred_events = self.extract_arguments(instance, pred_events, srl_id_results, text_pieces, trg_cands,
-		#                                      srl2gold_maps)
+		pred_events = self.extract_arguments(instance, pred_events, srl_id_results, text_pieces, trg_cands, srl2gold_maps)
 
 		return pred_events
 
@@ -203,29 +209,28 @@ class EventDetectorQA():
 				trigger_text = event['trigger']['text']
 				event_type = event['event_type']
 
-				# Get the premise
+				# Get the context
 				text_piece = None
 				if srl_id: # if the gold trigger is in the SRL predicates
 					srl_result = srl_id_results[srl_id]
 					srl_tokens = srl_result['words']
 					text_piece = ' '.join([srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if tag != 'O']) # Concatenate all SRL arguments as the premise
-				premise = text_piece if text_piece else sent
+				context = text_piece if text_piece else sent
 
 				# Classify each argument
 				cand_ace_args = self.arg_probe_lexicon[event_type]  # Take all ACE argument types of the current event type as candidates
 				for arg_id, arg in enumerate(event["arguments"]):
-					top_arg_name, top_arg_score = self.classify_an_argument(arg, event_type, premise, cand_ace_args)
+					top_arg_name, top_arg_score = self.classify_an_argument(arg, event_type, context, cand_ace_args)
 					event["arguments"][arg_id]['role'] = top_arg_name
 					event["arguments"][arg_id]['confidence'] = top_arg_score
 
 		else:
 			for event_id, event in enumerate(pred_events):
-				# Get the premise
 				srl_id = event['srl_id']
 				trigger_text = event['trigger']['text']
 				event_type = event['event_type']
 
-				# Get the premise
+				# Get the context
 				srl_result = srl_id_results[srl_id]
 				srl_tokens = srl_result['words']
 				text_piece = ' '.join([srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if tag != 'O'])
@@ -294,7 +299,7 @@ class EventDetectorQA():
 
 		return top_type, confidence
 
-	def classify_an_argument(self, arg, event_type, premise, cand_ace_args):
+	def classify_an_argument(self, arg, event_type, context, cand_ace_args):
 		"""Classify a single argument."""
 
 		cand_scores = {cand: 0 for cand in cand_ace_args}
@@ -302,9 +307,9 @@ class EventDetectorQA():
 		for cand_ace_arg in cand_ace_args:
 			if cand_ace_arg not in self.arg_probe_lexicon[event_type]: # TODO: check why cand_ace_arg can be None
 				continue
-			hypothesis = self.arg_probe_lexicon[event_type][cand_ace_arg]
-			hypothesis = hypothesis.replace('{}', arg_text)
-			confidence = self.entailment(premise, hypothesis)
+			question = self.arg_probe_lexicon[event_type][cand_ace_arg]
+			question = question.replace('{}', arg_text)
+			confidence = self.answer_yn(question, context)
 			cand_scores[cand_ace_arg] = confidence
 
 		sorted_cands = sorted(cand_scores.items(), key=lambda x: x[1], reverse=True)
@@ -312,7 +317,6 @@ class EventDetectorQA():
 		top_arg_name, top_arg_score = top_cand[0][:-4], top_cand[1]
 
 		return top_arg_name, top_arg_score
-
 
 	def predict_batch(self, batch):
 		# TODO

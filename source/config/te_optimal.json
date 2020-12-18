@@ -17,7 +17,7 @@
     "trg_probe_type": "['topical', 'natural', 'exist', 'prem-trg+type'][0]",
     "pair_premise_strategy": "[None, 'max_delta', 'max_conf+delta'][2]",
     "const_premise": "['false', 'whenNone', 'alwaystrg'][1]",
-    "tune_on_gdl": "[None, 'pos_only', 'pos_neg'][0]",
+    "tune_on_gdl": "[None, 'pos_only', 'pos_neg'][2]",
 
     "arg_probe_type": "['manual','auto_issth', 'auto_sthis'][0]",
     "identify_head": true
