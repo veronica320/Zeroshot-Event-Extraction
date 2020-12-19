@@ -388,7 +388,8 @@ class EventDetectorTE():
             tmp_hypothesis_list = hypothesis_dict[event_type]
             overall_score = 0
             for tmp_hypothesis in tmp_hypothesis_list:
-                # print(trigger_text + 'This text is about ' + tmp_hypothesis)
+                print(premise)
+                print(trigger_text + ' in this sentence is a kind of ' + tmp_hypothesis)
                 overall_score += self.entailment(premise, trigger_text + ' in this sentence is a kind of ' + tmp_hypothesis)
             result_dict[event_type] = overall_score/len(tmp_hypothesis_list)  # maximizing the original entailment prob
 
