@@ -240,7 +240,7 @@ class EventDetectorTE():
 
                 premise = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
 
-                top_type, confidence = self.classify_a_trigger(sent, trigger_text)
+                top_type, confidence = self.classify_a_trigger(premise, trigger_text)
 
                 pred_events[event_id]["event_type"] = top_type
                 pred_events[event_id]["text_piece"] = text_piece
@@ -387,13 +387,13 @@ class EventDetectorTE():
             #     result_dict[event_type] = orig_entail_prob  # maximizing the original entailment prob
 
             tmp_hypothesis_list = hypothesis_dict[event_type]
-            overall_score = 0
+            tmp_scores = list()
 
             for tmp_hypothesis in tmp_hypothesis_list:
 
                 # print(trigger_text + ' in this sentence is a kind of ' + tmp_hypothesis)
-                overall_score += self.entailment(premise, trigger_text + ' in this sentence is about ' + tmp_hypothesis)
-            result_dict[event_type] = overall_score/len(tmp_hypothesis_list)  # maximizing the original entailment prob
+                tmp_scores.append(self.entailment(premise, 'This text is about ' + tmp_hypothesis))
+            result_dict[event_type] = max(tmp_scores)  # maximizing the original entailment prob
 
         sorted_res = sorted(result_dict.items(), key=lambda x: x[1], reverse=True)
         top_type, confidence = sorted_res[0][0], sorted_res[0][1]  # Get the top event type and its confidence score
