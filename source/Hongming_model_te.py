@@ -323,34 +323,34 @@ class EventDetectorTE():
 
         result_dict = {}  # the temporary result dict for all possible event types. Format: {event_type:confidence_score, ...}
         for event_type in self.trg_subtypes:
-            label = self.trg_probe_lexicon[event_type]  # the (partial) probe from the lexicon
-            # See config_README for explanation of each trg_probe_type
-            if self.trg_probe_type == 'topical':
-                hypothesis = f'This text is about {label}.'
-            elif self.trg_probe_type == 'prem-trg+type':
-                hypothesis = re.sub(pattern=trigger_text, string=premise, repl=label).strip()
-            elif self.trg_probe_type in ['natural', 'exist']:
-                hypothesis = label
-            print(event_type)
-            print(hypothesis)
-            orig_entail_prob = self.entailment(premise,
-                                               hypothesis)  # original probability of "the premise entailing the hypothesis"
-            # print(orig_entail_prob)
-            if self.pair_premise_strategy:  # use a minimal pair of premises
-                sub_pattern = '\s?' + trigger_text + '\s?'
-                truncated_premise = re.sub(pattern=sub_pattern, string=premise,
-                                           repl=' ').strip()  # the truncated premise is the original premise - the trigger
-                truncated_entail_prob = self.entailment(truncated_premise,
-                                                        hypothesis)  # the probability of "the truncated premise entailing the hypothesis"
-                delta = orig_entail_prob - truncated_entail_prob  # the difference
-
-            if self.pair_premise_strategy == 'max_delta':
-                result_dict[event_type] = delta  # maximizing delta
-            elif self.pair_premise_strategy == 'max_conf+delta':
-                result_dict[
-                    event_type] = orig_entail_prob + delta  # maximizing the sum of the original entailment prob + delta
-            elif self.pair_premise_strategy == None:
-                result_dict[event_type] = orig_entail_prob  # maximizing the original entailment prob
+            # label = self.trg_probe_lexicon[event_type]  # the (partial) probe from the lexicon
+            # # See config_README for explanation of each trg_probe_type
+            # if self.trg_probe_type == 'topical':
+            #     hypothesis = f'This text is about {label}.'
+            # elif self.trg_probe_type == 'prem-trg+type':
+            #     hypothesis = re.sub(pattern=trigger_text, string=premise, repl=label).strip()
+            # elif self.trg_probe_type in ['natural', 'exist']:
+            #     hypothesis = label
+            # print(event_type)
+            # print(hypothesis)
+            # orig_entail_prob = self.entailment(premise,
+            #                                    hypothesis)  # original probability of "the premise entailing the hypothesis"
+            # # print(orig_entail_prob)
+            # if self.pair_premise_strategy:  # use a minimal pair of premises
+            #     sub_pattern = '\s?' + trigger_text + '\s?'
+            #     truncated_premise = re.sub(pattern=sub_pattern, string=premise,
+            #                                repl=' ').strip()  # the truncated premise is the original premise - the trigger
+            #     truncated_entail_prob = self.entailment(truncated_premise,
+            #                                             hypothesis)  # the probability of "the truncated premise entailing the hypothesis"
+            #     delta = orig_entail_prob - truncated_entail_prob  # the difference
+            #
+            # if self.pair_premise_strategy == 'max_delta':
+            #     result_dict[event_type] = delta  # maximizing delta
+            # elif self.pair_premise_strategy == 'max_conf+delta':
+            #     result_dict[
+            #         event_type] = orig_entail_prob + delta  # maximizing the sum of the original entailment prob + delta
+            # elif self.pair_premise_strategy == None:
+            #     result_dict[event_type] = orig_entail_prob  # maximizing the original entailment prob
 
             tmp_hypothesis_list = hypothesis_dict[event_type]
             overall_score = 0
