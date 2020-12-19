@@ -353,7 +353,8 @@ class EventDetectorTE():
 
     def classify_a_trigger(self, premise, trigger_text):
         """Classify a single trigger."""
-
+        print(premise)
+        print('Trigger:', trigger_text)
         result_dict = {}  # the temporary result dict for all possible event types. Format: {event_type:confidence_score, ...}
         for event_type in self.trg_subtypes:
             # label = self.trg_probe_lexicon[event_type]  # the (partial) probe from the lexicon
@@ -387,8 +388,7 @@ class EventDetectorTE():
 
             tmp_hypothesis_list = hypothesis_dict[event_type]
             overall_score = 0
-            print(premise)
-            print('Trigger:', trigger_text)
+
             for tmp_hypothesis in tmp_hypothesis_list:
 
                 # print(trigger_text + ' in this sentence is a kind of ' + tmp_hypothesis)
