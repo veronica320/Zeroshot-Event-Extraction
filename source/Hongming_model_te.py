@@ -240,7 +240,7 @@ class EventDetectorTE():
 
                 premise = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
 
-                top_type, confidence = self.classify_a_trigger(premise, trigger_text)
+                top_type, confidence = self.classify_a_trigger(sent, trigger_text)
 
                 pred_events[event_id]["event_type"] = top_type
                 pred_events[event_id]["text_piece"] = text_piece
