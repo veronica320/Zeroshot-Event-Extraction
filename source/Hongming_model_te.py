@@ -29,6 +29,45 @@ model_abbr_dict = {'xlmr_xnli': 'joeddav/xlm-roberta-large-xnli',
                    }
 
 
+
+hypothesis_dict = dict()
+hypothesis_dict['BE-BORN'] = ["someone's birth"]
+hypothesis_dict['MARRY'] = ["someone's marriage"]
+hypothesis_dict['DIVORCE'] = ["someone's divorce"]
+hypothesis_dict['INJURE'] = ["someone's injury"]
+hypothesis_dict['DIE'] = ["someone's death"]
+hypothesis_dict['TRANSPORT'] = ["someone or something moving from one place to another"]
+hypothesis_dict['TRANSFER-OWNERSHIP'] = ["a transfer of ownership"]
+hypothesis_dict['TRANSFER-MONEY'] = ["a transfer of money"]
+hypothesis_dict['START-ORG'] = ["starting an organization"]
+hypothesis_dict['MERGE-ORG'] = ["merging an organization"]
+hypothesis_dict['DECLARE-BANKRUPTCY'] = ["a bankruptcy"]
+hypothesis_dict['END-ORG'] = ["the end of an organization"]
+hypothesis_dict['ATTACK'] = ["an attack or a war"]
+hypothesis_dict['DEMONSTRATE'] = ["a demonstration"]
+hypothesis_dict['MEET'] = ["a meeting"]
+hypothesis_dict['PHONE-WRITE'] = ["a telephone or written communication with someone"]
+hypothesis_dict['START-POSITION'] = ["someone being hired"]
+hypothesis_dict['END-POSITION'] = ["someone no longer working on a position"]
+hypothesis_dict['NOMINATE'] = ["a nomination"]
+hypothesis_dict['ELECT'] = ["an election"]
+hypothesis_dict['ARREST-JAIL'] = ["an arrest"]
+hypothesis_dict['RELEASE-PAROLE'] = ["a release or parole"]
+hypothesis_dict['TRIAL-HEARING'] = ["a trial or hearing"]
+hypothesis_dict['CHARGE-INDICT'] = ["a charge or indictment"]
+hypothesis_dict['SUE'] = ["a suit"]
+hypothesis_dict['CONVICT'] = ["a conviction"]
+hypothesis_dict['SENTENCE'] = ["a sentencing"]
+hypothesis_dict['FINE'] = ["a fine"]
+hypothesis_dict['EXECUTE'] = ["an execution of a criminal"]
+hypothesis_dict['EXTRADITE'] = ["an extradition"]
+hypothesis_dict['ACQUIT'] = ["an acquittal"]
+hypothesis_dict['PARDON'] = ["someone being pardoned"]
+hypothesis_dict['APPEAL'] = ["making an appeal"]
+
+
+
+
 class EventDetectorTE():
     """The Textual-Entailment-based event extraction pipeline."""
 
@@ -312,6 +351,12 @@ class EventDetectorTE():
                     event_type] = orig_entail_prob + delta  # maximizing the sum of the original entailment prob + delta
             elif self.pair_premise_strategy == None:
                 result_dict[event_type] = orig_entail_prob  # maximizing the original entailment prob
+
+            tmp_hypothesis_list = hypothesis_dict[event_type]
+            overall_score = 0
+            for tmp_hypothesis in tmp_hypothesis_list:
+                overall_score += self.entailment(premise, 'This text is about ' + tmp_hypothesis)
+            result_dict[event_type] = overall_score/len(tmp_hypothesis_list)  # maximizing the original entailment prob
 
         sorted_res = sorted(result_dict.items(), key=lambda x: x[1], reverse=True)
         top_type, confidence = sorted_res[0][0], sorted_res[0][1]  # Get the top event type and its confidence score
