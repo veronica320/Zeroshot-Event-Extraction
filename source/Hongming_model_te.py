@@ -392,7 +392,7 @@ class EventDetectorTE():
             for tmp_hypothesis in tmp_hypothesis_list:
 
                 # print(trigger_text + ' in this sentence is a kind of ' + tmp_hypothesis)
-                tmp_scores.append(self.entailment(premise, 'This text is about ' + tmp_hypothesis))
+                tmp_scores.append(self.entailment(premise, 'It describes ' + tmp_hypothesis))
             result_dict[event_type] = max(tmp_scores)  # maximizing the original entailment prob
 
         sorted_res = sorted(result_dict.items(), key=lambda x: x[1], reverse=True)
