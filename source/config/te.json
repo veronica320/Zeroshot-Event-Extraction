@@ -1,12 +1,12 @@
 {
     "use_gpu": true,
-    "gpu_devices": "5",
+    "gpu_devices": "1",
     "bert_cache_dir": "/shared/.cache/transformers",
     "root_dir": "/shared/lyuqing/probing_for_event",
     "input_file": "data/ACE_oneie/en/event_only/dev.event.json",
 
-    "classification_only": true,
-    "gold_trigger": true,
+    "classification_only": false,
+    "gold_trigger": false,
 
     "bert_model_type": "robertal",
     "srl_args": "[['V'], ['V','ARG0','ARG1'], ['V','ARG0','ARG1','ARG2'], ['V','ARG0'], ['V', 'ARG1'], 'all'][-2]",
@@ -16,7 +16,7 @@
     "add_neutral": true,
 
     "trg_probe_type": "['topical', 'natural', 'exist', 'prem-trg+type'][0]",
-    "pair_premise_strategy": "[None, 'max_delta', 'max_conf+delta'][2]",
+    "pair_premise_strategy": "[None, 'max_delta', 'max_conf+delta'][0]",
     "const_premise": "['false', 'whenNone', 'alwaystrg'][1]",
     "tune_on_gdl": "[None, 'pos_only', 'pos_neg'][2]",
 

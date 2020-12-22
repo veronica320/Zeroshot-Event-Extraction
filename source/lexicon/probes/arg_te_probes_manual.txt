@@ -15,7 +15,8 @@ Time_Arg:{} is the time that someone is divorced.
 
 INJURE
 Agent_Arg:{} injures someone.
-Victim_Arg:{} is injured. 
+Victim_Arg:{} is injured.
+Instrument_Arg:Someone is injured with the instrument of {}.
 Place_Arg:{} is the place that someone is injured.
 Time_Arg:{} is the time that someone is injured.
 
@@ -116,7 +117,7 @@ Time_Arg:{} is the time that someone is nominated.
 Place_Arg:{} is the place that someone is nominated.
 
 ELECT
-Agent_Arg:{} elects someone.
+Entity_Arg:{} elects someone.
 Person_Arg:{} is elected.
 Position_Arg:Someone is elected to be {}.
 Time_Arg:The time of the election is {}.
