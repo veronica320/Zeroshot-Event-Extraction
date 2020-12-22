@@ -53,7 +53,8 @@ model_type = {
 	'xlnet': 'xlnet',
 	'xlm-roberta': 'xlm-roberta',
 	'xlm-roberta-l': 'xlm-roberta',
-	'xlm': 'xlm',	
+	'xlm': 'xlm',
+	'elior_bert-lc_mnli': 'bert',
 }
 		
 model_name = {
@@ -67,12 +68,13 @@ model_name = {
 	'xlm-roberta': 'xlm-roberta-base',
 	'xlm-roberta-l': 'xlm-roberta-large',
 	'xlm': 'xlm-mlm-100-1280',
+	'elior_bert-lc_mnli': 'output_model_dir/elior_bert-lc_mnli',
 }
 
 os.environ['CUDA_VISIBLE_DEVICES'] = args.cuda
 os.environ['DATA_DIR'] = f'data/{args.target}'
 os.environ['TRANS_DIR'] = 'transformers/examples/question-answering'
-os.environ['OUT_DIR'] = f'output_dir/{args.target}_{args.model}'
+os.environ['OUT_DIR'] = f'output_model_dir/{args.target}_{args.model}'
 
 if args.mode == 'train_eval':
 		os.system(f'\
