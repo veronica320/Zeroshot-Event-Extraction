@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="ssh://lyuqing@higdon.seas.upenn.edu:22/shared/lyuqing/probing_for_event/env/bin/python" name="Probing_for_Events" url="">
+      <webServer id="ssh://lyuqing@higdon.seas.upenn.edu:22/shared/lyuqing/probing_for_event/env/bin/python" name="Probing_for_Events" url="https://">
         <fileTransfer host="higdon.seas.upenn.edu" port="22" rootFolder="/shared/lyuqing/probing_for_event" accessType="SFTP">
           <option name="port" value="22" />
         </fileTransfer>

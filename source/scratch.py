@@ -1,82 +1,55 @@
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModelForQuestionAnswering
 import os
-import json
-import allennlp
-from allennlp.predictors.predictor import Predictor
-from model_te import EventDetectorTE
-from model_qa import EventDetectorQA
-from configuration import Config
 import torch
-from data import IEDataset
-from utils import generate_vocabs
-from pprint import pprint
-from scorer import score_graphs
+
+os.chdir('/shared/lyuqing/probing_for_event/')
+
+model_abbr_dict = {"bert":"bert",
+                   "bertl":"bert-l",
+                   "roberta":"roberta",
+                   "robertal":"roberta-l",
+                   "xlmr":"xlm-roberta",
+                   "xlmrl": "xlm-roberta-l",
+                   "mbert":"mbert",
+                   "mbert-c":"mbert-cased"
+                   }
 
 
-root_path = ('/shared/lyuqing/probing_for_event')
-os.chdir(root_path)
+gpu_devices = [0]
+model_dir = 'output_model_dir'
+EX_QA_model_type = 'roberta'
+EX_idk = False
+EX_model_name = model_abbr_dict[EX_QA_model_type]
+ex_qa_model_path = f"{model_dir}/qamr{'_idk' if EX_idk else ''}_{EX_model_name}"  # Extractive QA model
+ex_qa_model = AutoModelForQuestionAnswering.from_pretrained(ex_qa_model_path).to('cuda:' + str(gpu_devices[0]))
+ex_tokenizer = AutoTokenizer.from_pretrained(ex_qa_model_path)
 
-# config
-config_path = (f'{root_path}/source/config/qa.json')
-config = Config.from_json_file(config_path)
+def answer_ex(self, question, context):
+	"""Answers an extractive question. Outputs the answer span."""
+	if context and len(context) > 1:  # Capitalize the first letter of the premise
+		context = context[0].upper() + context[1:]
+	question = question[0].upper() + question[1:]
+	if question[-1] != '?':
+		question = question + '?'
 
-frn = config.input_file.split('/')[-1].split('.')[0]
+	# input_tensor = self.yn_tokenizer.encode_plus(question, context, return_tensors="pt").to(
+	# 	'cuda:' + str(self.gpu_devices[0]))
+	# classification_logits = self.yn_qa_model(**input_tensor)[0]
+	# probs = torch.softmax(classification_logits, dim=1).tolist()
+	# if self.YN_idk:  # class0:Yes, class1:No, class2:IDK
+	# 	yes_prob = probs[0][0]
+	# else:  # class0:No, class1:Yes
+	# 	yes_prob = probs[0][1]
 
-# Model predictions will be written to output_file.
-output_file = f"output_dir/QA/TITC_optimal.event.json"
-
-
-## Predict
-# print(f'Model config: {output_file}')
-# model = EventDetectorQA(config)
-# model.load_models()
-#
-# dataset = IEDataset(config.input_file)
-# vocabs = generate_vocabs([dataset])
-# dataset.numberize(vocabs)
-#
-# with open(output_file, 'w') as fw:
-#
-# 	for i, instance in enumerate(dataset):
-# 		print(i, instance.sentence)
-# 		pred_events = model.predict(instance)
-#
-# 		# Gold events and model predictions will also be printed.
-# 		print('Gold events:')
-# 		pprint(instance.events)
-# 		print('Pred events:')
-# 		pprint(pred_events)
-# 		print('\n')
-#
-# 		output = {'doc_id': instance.doc_id,
-# 		          'sent_id': instance.sent_id,
-# 		          'tokens': instance.tokens,
-# 		          'sentence': instance.sentence,
-# 		          'event_mentions': pred_events
-# 		          }
-#
-# 		fw.write(json.dumps(output) + '\n')
-
-
-## Evaluate
-
-gold_dataset = IEDataset(config.input_file)
-pred_dataset = IEDataset(output_file)
-
-
-## Evaluate on all triggers in ACE
-vocabs = generate_vocabs([gold_dataset, pred_dataset])
-
-gold_dataset.numberize(vocabs)
-pred_dataset.numberize(vocabs)
-
-gold_graphs, pred_graphs = [], []
-
-i = 0
-for inst1, inst2 in zip(gold_dataset, pred_dataset):
-    i += 1
-    gold_graphs.append(inst1.graph)
-    pred_graphs.append(inst2.graph)
-
-scores = score_graphs(gold_graphs, pred_graphs)
-print(scores)
-
+	input_tensor = ex_tokenizer(question, context, add_special_tokens=True, return_tensors="pt").to(
+		'cuda:' + str(gpu_devices[0]))
+	input_ids = input_tensor["input_ids"].tolist()[0]
+	text_tokens = ex_tokenizer.convert_ids_to_tokens(input_ids)
+	outputs = ex_qa_model(**input_tensor)
+	answer_start_scores = outputs.start_logits
+	answer_end_scores = outputs.end_logits
+	answer_start = torch.argmax(answer_start_scores)  # Get the most likely beginning of answer with the argmax of the score
+	answer_end = torch.argmax(answer_end_scores) + 1  # Get the most likely end of answer with the argmax of the score
+	answer = ex_tokenizer.convert_tokens_to_string(ex_tokenizer.convert_ids_to_tokens(input_ids[answer_start:answer_end]))
+	print(f"Question: {question}")
+	print(f"Answer: {answer}")

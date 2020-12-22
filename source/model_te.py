@@ -143,6 +143,26 @@ class EventDetectorTE():
 				                "arguments": []}
 				pred_events.append(gold_trg_res)
 
+				for event_id, event in enumerate(pred_events):  # Get the premise from SRL (for argument extraction)
+					trigger_text = event["trigger"]["text"]
+
+					# Get the premise
+					srl_id, text_piece = None, None
+					for id, cand in trg_cands.items():
+						if trigger_text in cand[1] or cand[1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
+							text_piece = text_pieces[id]  # Use the srl text piece as the premise
+							srl_id = id
+					if text_piece == None:  # if the gold trigger isn't in SRL prediates
+						if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
+							text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+					if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
+						text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+
+					premise = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
+
+					pred_events[event_id]["text_piece"] = text_piece
+					pred_events[event_id]['srl_id'] = srl_id
+
 		elif self.classification_only:  # do trigger classification only
 			# Get the gold identified triggers
 			for event in instance.events:
@@ -236,6 +256,8 @@ class EventDetectorTE():
 			for event_id, event in enumerate(pred_events):
 				# Get the premise
 				srl_id = event['srl_id']
+				if self.gold_trigger and srl_id == None: # the gold trigger isn't in SRL predicates. TE can't identify arguments.
+					continue
 				trigger_text = event['trigger']['text']
 				event_type = event['event_type']
 
@@ -252,7 +274,11 @@ class EventDetectorTE():
 					span = [j for j, tag in enumerate(srl_result['tags']) if tag[2:] == target_tag]  # TODO: multiple args for the same arg type
 					tokens = [word for i, word in enumerate(srl_tokens) if i in span]
 					if self.identify_head: # only retain the head
-						pos_tags = [tag for _, tag in pos_tag(tokens)]
+						try:
+							pos_tags = [tag for _, tag in pos_tag(tokens)]
+						except IndexError: # event 774: IndexError: string index out of range
+							span = [None]
+							continue
 						head_idx, token = get_head(self.dependency_parser, span, tokens, pos_tags)
 						span = [head_idx]
 					else: # retain the whole SRL argument

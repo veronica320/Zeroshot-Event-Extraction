@@ -73,6 +73,8 @@ class EventDetectorQA():
 			arg_probes_frn = f'{probe_dir}arg_qa_probes_bool.txt'
 		elif self.arg_probe_type == 'ex':
 			arg_probes_frn = f'{probe_dir}arg_qa_probes_ex.txt'
+		elif self.arg_probe_type == 'ex_wtrg': # instantiated trigger in the argument questions
+			arg_probes_frn = f'{probe_dir}arg_qa_probes_ex_wtrg.txt'
 		with open(arg_probes_frn, 'r') as fr:
 			self.arg_probe_lexicon = load_arg_probe_lexicon(fr, self.arg_probe_type)
 		with open('source/lexicon/arg_srl2ace.txt') as fr:
@@ -146,6 +148,26 @@ class EventDetectorQA():
 				                "trigger": event["trigger"].copy(),
 				                "arguments": []}
 				pred_events.append(gold_trg_res)
+
+			for event_id, event in enumerate(pred_events):  # Get the context from SRL (for argument extraction)
+				trigger_text = event["trigger"]["text"]
+
+				# Get the context
+				srl_id, text_piece = None, None
+				for id, cand in trg_cands.items():
+					if trigger_text in cand[1] or cand[1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
+						text_piece = text_pieces[id]  # Use the srl text piece as the premise
+						srl_id = id
+				if text_piece == None:  # if the gold trigger isn't in SRL prediates
+					if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
+						text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+				if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
+					text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+
+				context = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
+
+				pred_events[event_id]["text_piece"] = text_piece
+				pred_events[event_id]['srl_id'] = srl_id
 
 		elif self.classification_only:  # do trigger classification only
 			# Get the gold identified triggers
@@ -239,47 +261,84 @@ class EventDetectorQA():
 		else:
 			for event_id, event in enumerate(pred_events):
 				srl_id = event['srl_id']
+				if self.gold_trigger and srl_id == None and self.arg_probe_type == 'bool': # the gold trigger isn't in SRL predicates. YN QA can't identify arguments.
+					continue
 				trigger_text = event['trigger']['text']
 				event_type = event['event_type']
 
-				# Get the context
-				srl_result = srl_id_results[srl_id]
-				srl_tokens = srl_result['words']
-				text_piece = ' '.join([srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if tag != 'O'])
-				srl2gold = nom_srl2gold if srl_result['predicate_type'] == 'nom' else verb_srl2gold
+				## Get the context
+				# if srl_id: # TODO: add back
+				# 	srl_result = srl_id_results[srl_id]
+				# 	srl_tokens = srl_result['words']
+				# 	text_piece_tokens = [srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if tag != 'O']
+				# 	text_piece = ' '.join(text_piece_tokens)
+				# 	srl2gold = nom_srl2gold if srl_result['predicate_type'] == 'nom' else verb_srl2gold
+				# 	context_tokens = text_piece_tokens
+				# else:
+				context_tokens = tokens_gold
 
-				# Construct srl_arg_dict
-				srl_arg_dict = {}  # The span and tokens of all SRL arguments. Format: {'ARG0': [(span, token),(span, token)], 'ARG1': [(span, token), ...], ...}
-				tag_set = set([tag[2:] for tag in srl_result['tags'] if tag not in ['O', 'B-V', 'I-V']]) # SRL argument tags: ARG0, ARG1, ARGM-TMP...
-				for target_tag in tag_set:
-					span = [j for j, tag in enumerate(srl_result['tags']) if tag[2:] == target_tag]  # TODO: multiple args for the same arg type
-					tokens = [word for i, word in enumerate(srl_tokens) if i in span]
-					if self.identify_head: # only retain the head
-						pos_tags = [tag for _, tag in pos_tag(tokens)]
-						head_idx, token = get_head(self.dependency_parser, span, tokens, pos_tags)
-						span = [head_idx]
-					else: # retain the whole SRL argument
-						token = ' '.join([word for i, word in enumerate(srl_tokens) if i in span])
-					if None not in span:
-						span = (srl2gold[span[0]], srl2gold[span[-1]] + 1) # map SRL ids to gold ids
-						if target_tag not in srl_arg_dict:
-							srl_arg_dict[target_tag] = []
-						srl_arg_dict[target_tag].append((span, token))
+				if self.arg_probe_type == 'bool': # Y/N quesitons
+					# Construct srl_arg_dict
+					srl_arg_dict = {}  # The span and tokens of all SRL arguments. Format: {'ARG0': [(span, token),(span, token)], 'ARG1': [(span, token), ...], ...}
+					tag_set = set([tag[2:] for tag in srl_result['tags'] if tag not in ['O', 'B-V', 'I-V']]) # SRL argument tags: ARG0, ARG1, ARGM-TMP...
+					for target_tag in tag_set:
+						span = [j for j, tag in enumerate(srl_result['tags']) if tag[2:] == target_tag]  # TODO: multiple args for the same arg type
+						tokens = [word for i, word in enumerate(srl_tokens) if i in span]
+						if self.identify_head: # only retain the head
+							try:
+								pos_tags = [tag for _, tag in pos_tag(tokens)]
+							except IndexError: # event 774: IndexError: string index out of range
+								span = [None]
+								continue
+							head_idx, token = get_head(self.dependency_parser, span, tokens, pos_tags)
+							span = [head_idx]
+						else: # retain the whole SRL argument
+							token = ' '.join([word for i, word in enumerate(srl_tokens) if i in span])
+						if None not in span:
+							span = (srl2gold[span[0]], srl2gold[span[-1]] + 1) # map SRL ids to gold ids
+							if target_tag not in srl_arg_dict:
+								srl_arg_dict[target_tag] = []
+							srl_arg_dict[target_tag].append((span, token))
 
-				# Classify each SRL argument
-				for srl_arg_type, srl_arg_ists in srl_arg_dict.items():
-					if srl_arg_type not in self.arg_map[event_type]: # the SRL argument isn't a potential ACE argument
-						continue
-					cand_ace_args = self.arg_map[event_type][srl_arg_type] # Only take the ACE argument types in the SRL-to-ACE argument mapping as candidates
-					for srl_arg_ist in srl_arg_ists:  # an instance of SRL argument
-						top_arg_name, top_arg_score = self.classify_an_argument(srl_arg_ist, event_type, text_piece, cand_ace_args)
-						if top_arg_score >= self.arg_thresh:
-							event['arguments'].append({'text': srl_arg_ist[1],
-													   'role': top_arg_name,
-													   'start': srl_arg_ist[0][0],
-													   'end': srl_arg_ist[0][1],
-													   'confidence': top_arg_score,
-													  })
+					# Classify each SRL argument
+					for srl_arg_type, srl_arg_ists in srl_arg_dict.items():
+						if srl_arg_type not in self.arg_map[event_type]: # the SRL argument isn't a potential ACE argument
+							continue
+						cand_ace_args = self.arg_map[event_type][srl_arg_type] # Only take the ACE argument types in the SRL-to-ACE argument mapping as candidates
+						for srl_arg_ist in srl_arg_ists:  # an instance of SRL argument
+							top_arg_name, top_arg_score = self.classify_an_argument(srl_arg_ist, event_type, text_piece, cand_ace_args)
+							if top_arg_score >= self.arg_thresh:
+								event['arguments'].append({'text': srl_arg_ist[1],
+														   'role': top_arg_name,
+														   'start': srl_arg_ist[0][0],
+														   'end': srl_arg_ist[0][1],
+														   'confidence': top_arg_score,
+														  })
+				elif self.arg_probe_type.startswith('ex'): # Extractive questions
+					for cand_ace_arg in self.arg_probe_lexicon[event_type]:
+						question = self.arg_probe_lexicon[event_type][cand_ace_arg]
+						if self.arg_probe_type == 'ex_wtrg':
+							question = question.replace('{trigger}', trigger_text)
+						output = self.answer_ex(question, context_tokens)
+						span = output['span']
+						confidence = output["confidence"]
+						if span and confidence >= self.arg_thresh: # top answer is not None; confidence is high enough
+							answer_tokens = output['answer_tokens']
+							arg_text = ' '.join(answer_tokens)
+							if self.identify_head: # get the head
+								pos_tags = [tag for _, tag in pos_tag(answer_tokens)]
+								head_idx, head_token = get_head(self.dependency_parser, span, answer_tokens, pos_tags)
+								if head_idx: # TODO: check when head is None
+									span = (head_idx, head_idx+1)
+									arg_text = head_token
+							event['arguments'].append({'text': arg_text,
+							                           'role': cand_ace_arg[:-4],
+							                           'start': span[0],
+							                           'end': span[1],
+							                           'confidence': confidence,
+							                           })
+						else: # no answer; or confidence isn't high enough
+							continue
 
 		return pred_events
 
@@ -364,3 +423,66 @@ class EventDetectorQA():
 			yes_prob = probs[0][1]
 		return yes_prob
 
+	def answer_ex(self, question, context_tokens):
+		"""Answers an extractive question."""
+
+		if context_tokens and len(context_tokens) > 1:  # Capitalize the first letter of the context
+			context_tokens[0] = context_tokens[0][0].upper() + context_tokens[0][1:]
+		question = question[0].upper() + question[1:]
+		if question[-1] != '?':
+			question = question + '?'
+
+		question_tensor = self.ex_tokenizer.encode(question, return_tensors="pt")
+		question_input_ids = question_tensor.tolist()[0]
+		question_tokens = self.ex_tokenizer.convert_ids_to_tokens(question_input_ids)
+		question_len = len(question_input_ids)
+
+		context_tensor, context_bert_tokens, goldid_2_bertid, bertid_2_goldid = gold_to_bert_tokens(self.ex_tokenizer, context_tokens)
+
+		input_tensor = torch.cat((question_tensor, context_tensor), 1).to('cuda:' + str(self.gpu_devices[0]))
+		input_ids = input_tensor.tolist()[0]
+		bert_tokens = question_tokens + context_bert_tokens
+		try:
+			outputs = self.ex_qa_model(input_tensor)
+		except RuntimeError: # TODO: Expected tensor for argument #1 'indices' to have scalar type Long; but got torch.cuda.FloatTensor instead (while checking arguments for embedding)
+			print(question, question_tokens)
+			print(question_tokens)
+			print(input_tensor)
+			return {'span': None,
+		        'answer': None,
+		        'answer_tokens': None,
+		        'confidence': None,
+		        }
+		answer_start_scores = outputs[0]
+		answer_end_scores = outputs[1]
+		start_probs = torch.softmax(answer_start_scores, dim=1).tolist()[0]
+		end_probs = torch.softmax(answer_end_scores, dim=1).tolist()[0]
+		answer_start = torch.argmax(
+			answer_start_scores).tolist()  # Get the most likely beginning of answer with the argmax of the score
+		answer_end = torch.argmax(
+			answer_end_scores).tolist()  # Get the most likely end of answer with the argmax of the score
+		confidence = np.mean([start_probs[answer_start], end_probs[answer_end]])
+
+		bert_span = (answer_start - question_len, answer_end - question_len)
+
+		if bert_span[0] >= bert_span[1]:  # no answer
+			gold_span = None
+			answer = None
+			answer_tokens = None
+		else:
+			try:
+				gold_span = (bertid_2_goldid[bert_span[0]], bertid_2_goldid[bert_span[1]] + 1)
+			except IndexError:
+				print(bertid_2_goldid)
+				print(context_bert_tokens)
+				print(context_tokens)
+				print(answer_start, answer_end)
+				print(bert_span)
+				gold_span, answer, answer_tokens = None, None, None
+			answer_tokens = context_tokens[gold_span[0]:gold_span[1]]
+			answer = ' '.join(answer_tokens)
+		return {'span': gold_span,
+		        'answer': answer,
+		        'answer_tokens': answer_tokens,
+		        'confidence': confidence,
+		        }
