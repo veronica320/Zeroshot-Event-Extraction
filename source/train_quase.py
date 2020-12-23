@@ -6,7 +6,7 @@ import os
 import sys
 import argparse
 
-os.environ['PYTORCH_TRANSFORMERS_CACHE'] = '/shared/.cache/transformers_backup'
+os.environ['PYTORCH_TRANSFORMERS_CACHE'] = '/shared/.cache/transformers'
 os.chdir('/shared/lyuqing/probing_for_event/')
 
 parser = argparse.ArgumentParser(description='Process finetune config.')

@@ -7,13 +7,14 @@
 # nohup python train_quase.py --mode train_eval --target qamr --model xlm --cuda 1 > logs/xlm.log 2>&1 &
 # nohup python train_quase.py --mode train_eval --target qamr --model mbert-c --cuda 2 > logs/mbert-c.log 2>&1 &
 # nohup python train_quase.py --mode train_eval --target qamr --model xlm-roberta-l --cuda 1 > logs/xlm-roberta-l.log 2>&1 &
+# nohup python train_quase.py --mode train_eval --target qamr --model elior_bert-lc_mnli --cuda 2,4 > logs/elior_bert-lc_mnli_qamr.log 2>&1 &
 
 ## Finetune an extractive QA model on QAMR + SQuAD 2.0
 #nohup python train_quase.py --mode train_eval --target qamr-squad2 --model bert --cuda 0 > logs/bert_qamr+squad2.log 2>&1 &
 #nohup python train_quase.py --mode train_eval --target qamr-squad2 --model roberta --cuda 1 > logs/roberta_qamr+squad2.log 2>&1 &
 #nohup python train_quase.py --mode train_eval --target qamr-squad2 --model bert-l --cuda 2 > logs/bert-l_qamr+squad2.log 2>&1 &
 #nohup python train_quase.py --mode train_eval --target qamr-squad2 --model roberta-l --cuda 3 > logs/roberta-l_qamr+squad2.log 2>&1 &
-nohup python train_quase.py --mode train_eval --target qamr-squad2 --model elior_bert-lc_mnli --cuda 0,1 > logs/elior_bert-lc_mnli_qamr+squad2.log 2>&1 &
+#nohup python train_quase.py --mode train_eval --target qamr-squad2 --model elior_bert-lc_mnli --cuda 0,1 > logs/elior_bert-lc_mnli_qamr+squad2.log 2>&1 &
 
 ## Finetune a Y/N model on BoolQ (without IDK)
 # nohup python train_yn.py --mode train_eval --target MRPC --model bert --cuda 2 > logs/MPRC.log 2>&1 &

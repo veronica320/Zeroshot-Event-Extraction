@@ -14,8 +14,9 @@ Place_Arg:is {} the place that someone is divorced
 Time_Arg:is {} the time that someone is divorced
 
 INJURE
-Agent_Arg:does {} injure anyone
+Entity_Arg:does {} injure anyone
 Victim_Arg:is {} injured
+Instrument_Arg:is someone injured with the instrument of {}
 Place_Arg:is {} the place that someone is injured
 Time_Arg:is {} the time that someone is injured
 
@@ -116,7 +117,7 @@ Time_Arg:is {} the time that someone is nominated
 Place_Arg:is {} the place that someone is nominated
 
 ELECT
-Agent_Arg:does {} elect anyone
+Entity_Arg:does {} elect anyone
 Person_Arg:is {} elected
 Position_Arg:is someone elected to be {}
 Time_Arg:is the time of the election {}
