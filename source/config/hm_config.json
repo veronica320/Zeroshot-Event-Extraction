@@ -8,7 +8,7 @@
     "classification_only": true,
 
     "bert_model_type": "robertal",
-    "srl_args": "[['V'], ['V','ARG0','ARG1'], ['V','ARG0','ARG1','ARG2'], ['V','ARG0'], ['V', 'ARG1'], 'all'][-2]",
+    "srl_args": "[['V'], ['V','ARG0','ARG1'], ['V','ARG0','ARG1','ARG2'], ['V','ARG0'], ['V', 'ARG1'], 'all'][2]",
     "trg_thresh": "[0.80, 0.85, 0.900, 0.95, 0.97, 0.98, 0.99][-1]",
     "arg_thresh": "[0.900, 0.95, 0.99][0]",
     "predicate_type": "[['verb'], ['nom'], ['verb','nom']][-1]",
