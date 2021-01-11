@@ -96,6 +96,7 @@ if args.mode == 'train_eval':
 			--output_dir $OUT_DIR \
 			--overwrite_output \
 			--fp16 \
+			--version_2_with_negative \
 			')
 elif args.mode == 'eval':
 		os.system('\
@@ -110,4 +111,5 @@ elif args.mode == 'eval':
 			--max_seq_length 80 \
 			--doc_stride 40 \
 			--output_dir $OUT_DIR \
+			--version_2_with_negative \
 			'.format(model_type[args.model], model_name[args.model]))		
