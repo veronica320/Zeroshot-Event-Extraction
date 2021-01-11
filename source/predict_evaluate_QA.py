@@ -1,16 +1,5 @@
 import os
-import json
-import allennlp
-from allennlp.predictors.predictor import Predictor
-from model_te import EventDetectorTE
-from model_qa import EventDetectorQA
 from configuration import Config
-import torch
-from data import IEDataset
-from utils import generate_vocabs
-from pprint import pprint
-from scorer import score_graphs
-
 
 root_path = ('/shared/lyuqing/probing_for_event')
 os.chdir(root_path)
@@ -19,9 +8,22 @@ os.chdir(root_path)
 config_path = (f'{root_path}/source/config/qa.json')
 config = Config.from_json_file(config_path)
 
+os.environ['CUDA_VISIBLE_DEVICES'] = config.gpu_devices
+
+import torch
+import json
+import allennlp
+from allennlp.predictors.predictor import Predictor
+from model_te import EventDetectorTE
+from model_qa import EventDetectorQA
+from data import IEDataset
+from utils import generate_vocabs
+from pprint import pprint
+from scorer import score_graphs
+
 YN_QA_model_type = config.YN_QA_model_type # Yes/No QA model
 YN_idk = config.YN_idk # IDK class in Yes/No QA model
-EX_QA_model_type = config.YN_QA_model_type # Extractive QA model
+EX_QA_model_type = config.EX_QA_model_type # Extractive QA model
 EX_idk = config.EX_idk # IDK class in Extractive QA model
 
 classification_only = config.classification_only
@@ -39,6 +41,7 @@ pair_premise_strategy = eval(config.pair_premise_strategy)
 arg_probe_type = eval(config.arg_probe_type)
 
 frn = config.input_file.split('/')[-1].split('.')[0]
+
 
 # Model predictions will be written to output_file.
 output_file = f"output_dir/QA/{frn}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}ynm:{YN_QA_model_type + ('_idk' if YN_idk else '')}_exm:{EX_QA_model_type + ('_idk' if EX_idk else '')}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"

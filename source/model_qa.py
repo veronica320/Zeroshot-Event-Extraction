@@ -26,7 +26,12 @@ model_abbr_dict = {"bert":"bert",
                    "xlmr":"xlm-roberta",
                    "xlmrl": "xlm-roberta-l",
                    "mbert":"mbert",
-                   "mbert-c":"mbert-cased"
+                   "mbert-c":"mbert-cased",
+                   "elior_bert-lc_mnli":"elior_bert-lc_mnli",
+                   "elior_bert_squad2":"elior_bert_squad2",
+                   "elior_roberta_squad2":"elior_roberta_squad2",
+                   "elior_bert-lc_mnli_squad2":"elior_bert-lc_mnli_squad2",
+                   "elior_bert-lc_mnli_squad2_nolastlayer":"elior_bert-lc_mnli_squad2_nolastlayer",
                    }
 
 
@@ -39,7 +44,7 @@ class EventDetectorQA():
 		self.YN_QA_model_type = config.YN_QA_model_type # Yes/No QA model
 		self.YN_idk = config.YN_idk # IDK class in Yes/No QA model
 
-		self.EX_QA_model_type = config.YN_QA_model_type # Extractive QA model
+		self.EX_QA_model_type = config.EX_QA_model_type # Extractive QA model
 		self.EX_idk = config.EX_idk # IDK class in Extractive QA model
 
 		if config.use_gpu and config.gpu_devices != -1:
@@ -100,14 +105,19 @@ class EventDetectorQA():
 		YN_model_name = model_abbr_dict[self.YN_QA_model_type]
 		EX_model_name = model_abbr_dict[self.EX_QA_model_type]
 		yn_qa_model_path = f"{model_dir}/boolq{'_idk' if self.YN_idk else ''}_{YN_model_name}" # Yes/No QA model
-		ex_qa_model_path = f"{model_dir}/qamr{'_idk' if self.EX_idk else ''}_{EX_model_name}" # Extractive QA model
+		if EX_model_name in ['elior_bert_squad2', 'elior_roberta_squad2', 'elior_bert-lc_mnli_squad2', 'elior_bert-lc_mnli_squad2_nolastlayer']:
+			ex_qa_model_path = f"{model_dir}/{EX_model_name}" # Extractive QA model
+		else:
+			ex_qa_model_path = f"{model_dir}/qamr{'-squad2' if self.EX_idk else ''}_{EX_model_name}" # Extractive QA model
+
 
 		print(f'Loading QA models...')
 		if self.gpu_devices:
+
 			self.yn_qa_model = AutoModelForSequenceClassification.from_pretrained(yn_qa_model_path
-			                                                                      ).to('cuda:' + str(self.gpu_devices[0]))
+			                                                                      ).to('cuda:0')
 			self.ex_qa_model = AutoModelForQuestionAnswering.from_pretrained(ex_qa_model_path
-			                                                                 ).to('cuda:' + str(self.gpu_devices[0]))
+			                                                                 ).to('cuda:0')
 		else:
 			self.yn_qa_model = AutoModelForSequenceClassification.from_pretrained(yn_qa_model_path)
 			self.ex_qa_model = AutoModelForQuestionAnswering.from_pretrained(ex_qa_model_path)
@@ -266,16 +276,17 @@ class EventDetectorQA():
 				trigger_text = event['trigger']['text']
 				event_type = event['event_type']
 
-				## Get the context
-				# if srl_id: # TODO: add back
-				# 	srl_result = srl_id_results[srl_id]
-				# 	srl_tokens = srl_result['words']
-				# 	text_piece_tokens = [srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if tag != 'O']
-				# 	text_piece = ' '.join(text_piece_tokens)
-				# 	srl2gold = nom_srl2gold if srl_result['predicate_type'] == 'nom' else verb_srl2gold
-				# 	context_tokens = text_piece_tokens
-				# else:
-				context_tokens = tokens_gold
+				# Get the context
+				if srl_id: # TODO: add back
+					srl_result = srl_id_results[srl_id]
+					srl_tokens = srl_result['words']
+					text_piece_tokens = [srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if tag != 'O']
+					text_piece_token_ids = [i for i, tag in enumerate(srl_result['tags']) if tag != 'O']
+					text_piece = ' '.join(text_piece_tokens)
+					srl2gold = nom_srl2gold if srl_result['predicate_type'] == 'nom' else verb_srl2gold
+					context_tokens = text_piece_tokens
+				else:
+					context_tokens = tokens_gold
 
 				if self.arg_probe_type == 'bool': # Y/N quesitons
 					# Construct srl_arg_dict
@@ -319,7 +330,10 @@ class EventDetectorQA():
 						question = self.arg_probe_lexicon[event_type][cand_ace_arg]
 						if self.arg_probe_type == 'ex_wtrg':
 							question = question.replace('{trigger}', trigger_text)
-						output = self.answer_ex(question, context_tokens)
+						try:
+							output = self.answer_ex(question, context_tokens)
+						except RuntimeError:
+							continue
 						span = output['span']
 						confidence = output["confidence"]
 						if span and confidence >= self.arg_thresh: # top answer is not None; confidence is high enough
@@ -327,10 +341,25 @@ class EventDetectorQA():
 							arg_text = ' '.join(answer_tokens)
 							if self.identify_head: # get the head
 								pos_tags = [tag for _, tag in pos_tag(answer_tokens)]
-								head_idx, head_token = get_head(self.dependency_parser, span, answer_tokens, pos_tags)
-								if head_idx: # TODO: check when head is None
-									span = (head_idx, head_idx+1)
-									arg_text = head_token
+								if answer_tokens: # TODO: check why answer_token = [] and span = (0,0)
+									try:
+										head_idx, head_token = get_head(self.dependency_parser, span, answer_tokens, pos_tags)
+									except IndexError:
+										head_idx, head_token = None, None
+										# print(answer_tokens, span)
+									if head_idx: # TODO: check when head is None
+										span = (head_idx, head_idx+1)
+										arg_text = head_token
+							if srl_id: # map context ids back to ACE gold ids
+								start, end_pre = span[0], span[1]-1
+								start_in_srl, end_in_srl = text_piece_token_ids[start], text_piece_token_ids[end_pre]+1
+								try:
+									gold_start, gold_end = srl2gold[start_in_srl], srl2gold[end_in_srl]
+								except KeyError:
+									print(srl2gold)
+									print(span)
+									gold_start, gold_end = None, None
+								span = (gold_start, gold_end)
 							event['arguments'].append({'text': arg_text,
 							                           'role': cand_ace_arg[:-4],
 							                           'start': span[0],
@@ -414,7 +443,7 @@ class EventDetectorQA():
 		if question[-1] != '?':
 			question = question+'?'
 
-		input_tensor = self.yn_tokenizer.encode_plus(question, context, return_tensors="pt").to('cuda:' + str(self.gpu_devices[0]))
+		input_tensor = self.yn_tokenizer.encode_plus(question, context, return_tensors="pt").to('cuda:0')
 		classification_logits = self.yn_qa_model(**input_tensor)[0]
 		probs = torch.softmax(classification_logits, dim=1).tolist()
 		if self.YN_idk: # class0:Yes, class1:No, class2:IDK
@@ -437,22 +466,47 @@ class EventDetectorQA():
 		question_tokens = self.ex_tokenizer.convert_ids_to_tokens(question_input_ids)
 		question_len = len(question_input_ids)
 
-		context_tensor, context_bert_tokens, goldid_2_bertid, bertid_2_goldid = gold_to_bert_tokens(self.ex_tokenizer, context_tokens)
+		context_tensor, context_bert_tokens, goldid_2_bertid, bertid_2_goldid = gold_to_bert_tokens(self.ex_tokenizer, context_tokens, self.EX_QA_model_type)
+		context_len = len(context_bert_tokens)
 
-		input_tensor = torch.cat((question_tensor, context_tensor), 1).to('cuda:' + str(self.gpu_devices[0]))
+		input_tensor = torch.cat((question_tensor, context_tensor), 1).to('cuda:0')
 		input_ids = input_tensor.tolist()[0]
 		bert_tokens = question_tokens + context_bert_tokens
-		try:
-			outputs = self.ex_qa_model(input_tensor)
-		except RuntimeError: # TODO: Expected tensor for argument #1 'indices' to have scalar type Long; but got torch.cuda.FloatTensor instead (while checking arguments for embedding)
-			print(question, question_tokens)
-			print(question_tokens)
-			print(input_tensor)
-			return {'span': None,
-		        'answer': None,
-		        'answer_tokens': None,
-		        'confidence': None,
-		        }
+
+		if self.EX_QA_model_type in ['bert', 'bertl', 'elior_bert-lc_mnli', 'elior_bert_squad2', 'elior_bert-lc_mnli_squad2', 'elior_bert-lc_mnli_squad2_nolastlayer']:
+			token_type_ids = torch.tensor([0] * question_len + [1] * context_len)
+			token_type_ids = torch.unsqueeze(token_type_ids, 0).to('cuda:0')
+
+			attention_mask = torch.tensor([1] * (question_len + context_len)).to('cuda:0')
+			attention_mask = torch.unsqueeze(attention_mask, 0).to('cuda:0')
+
+			input_dict = {'input_ids': input_tensor,
+			              'token_type_ids': token_type_ids,
+			              'attention_mask': attention_mask}
+			# try:
+			outputs = self.ex_qa_model(**input_dict)
+			# except RuntimeError:  # TODO: Expected tensor for argument #1 'indices' to have scalar type Long; but got torch.cuda.FloatTensor instead (while checking arguments for embedding)
+			# 	print(question, question_tokens)
+			# 	print(question_tokens)
+			# 	print(input_tensor)
+			# 	return {'span': None,
+			# 	        'answer': None,
+			# 	        'answer_tokens': None,
+			# 	        'confidence': None,
+			# 	        }
+		else:
+			try:
+				outputs = self.ex_qa_model(input_tensor)
+			except RuntimeError:  # TODO: Expected tensor for argument #1 'indices' to have scalar type Long; but got torch.cuda.FloatTensor instead (while checking arguments for embedding)
+				print(question, question_tokens)
+				print(question_tokens)
+				print(input_tensor)
+				return {'span': None,
+				        'answer': None,
+				        'answer_tokens': None,
+				        'confidence': None,
+				        }
+
 		answer_start_scores = outputs[0]
 		answer_end_scores = outputs[1]
 		start_probs = torch.softmax(answer_start_scores, dim=1).tolist()[0]
@@ -465,20 +519,24 @@ class EventDetectorQA():
 
 		bert_span = (answer_start - question_len, answer_end - question_len)
 
-		if bert_span[0] >= bert_span[1]:  # no answer
+		if bert_span[0] > bert_span[1]:  # no answer
 			gold_span = None
 			answer = None
 			answer_tokens = None
 		else:
 			try:
 				gold_span = (bertid_2_goldid[bert_span[0]], bertid_2_goldid[bert_span[1]] + 1)
-			except IndexError:
+			except: # TODO: check why
 				print(bertid_2_goldid)
 				print(context_bert_tokens)
 				print(context_tokens)
 				print(answer_start, answer_end)
 				print(bert_span)
-				gold_span, answer, answer_tokens = None, None, None
+				return {'span': None,
+				        'answer': None,
+				        'answer_tokens': None,
+				        'confidence': None,
+				        }
 			answer_tokens = context_tokens[gold_span[0]:gold_span[1]]
 			answer = ' '.join(answer_tokens)
 		return {'span': gold_span,
