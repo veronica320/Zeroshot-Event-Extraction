@@ -28,6 +28,18 @@ parser.add_argument("--target",
 				required=True,
 				help="Target data to tune on.",
 		)
+parser.add_argument("--train_file",
+				default=None,
+				type=str,
+				required=False,
+				help="train_file name.",
+		)
+parser.add_argument("--pred_file",
+				default=None,
+				type=str,
+				required=False,
+				help="predict_file name.",
+		)
 parser.add_argument("--model",
 				default='bert',
 				type=str,
@@ -55,6 +67,8 @@ model_type = {
 	'xlm-roberta-l': 'xlm-roberta',
 	'xlm': 'xlm',
 	'elior_bert-lc_mnli': 'bert',
+	'elior_bert-lc_mnli_squad2': 'bert',
+	'squad2_mbert': 'bert',
 }
 		
 model_name = {
@@ -71,22 +85,41 @@ model_name = {
 	'elior_bert-lc_mnli': 'output_model_dir/elior_bert-lc_mnli',
 }
 
+if args.model in model_name:
+	os.environ['MODEL_NAME'] = model_name[args.model]
+else:
+	os.environ['MODEL_NAME'] = f'output_model_dir/{args.model}'
+
+
+
 os.environ['CUDA_VISIBLE_DEVICES'] = args.cuda
 os.environ['DATA_DIR'] = f'data/{args.target}'
 os.environ['TRANS_DIR'] = 'transformers/examples/question-answering'
 os.environ['OUT_DIR'] = f'output_model_dir/{args.target}_{args.model}'
 
+if args.train_file:
+	os.environ['TRAIN_FILE'] = args.train_file
+else:
+	os.environ['TRAIN_FILE'] = 'train.json'
+
+
+if args.pred_file:
+	os.environ['PRED_FILE'] = args.pred_file
+else:
+	os.environ['PRED_FILE'] = 'dev.json'
+
 if args.mode == 'train_eval':
 		os.system(f'\
 				python $TRANS_DIR/run_squad.py \
 			--model_type {model_type[args.model]} \
-			--model_name_or_path {model_name[args.model]} \
+			--model_name_or_path $MODEL_NAME \
 			--do_train \
 			--do_eval \
 			--do_lower_case \
 			--data_dir $DATA_DIR/ \
-			--train_file train.json \
-			--predict_file dev.json \
+			--train_file $TRAIN_FILE \
+			--predict_file $PRED_FILE \
+			--per_gpu_train_batch_size 48 \
 			--per_gpu_eval_batch_size 12 \
 			--learning_rate 3e-5 \
 			--num_train_epochs {args.epochs} \
@@ -99,17 +132,18 @@ if args.mode == 'train_eval':
 			--version_2_with_negative \
 			')
 elif args.mode == 'eval':
-		os.system('\
+		os.system(f'\
 				python $TRANS_DIR/run_squad.py \
-			--model_type {} \
-			--model_name_or_path {} \
+			--model_type {model_type[args.model]} \
+			--model_name_or_path $MODEL_NAME \
 			--do_eval \
 			--do_lower_case \
 			--data_dir $DATA_DIR/ \
-			--predict_file wiki.dev.json \
+			--predict_file $PRED_FILE \
 			--per_gpu_eval_batch_size 12 \
 			--max_seq_length 80 \
 			--doc_stride 40 \
 			--output_dir $OUT_DIR \
-			--version_2_with_negative \
-			'.format(model_type[args.model], model_name[args.model]))		
+			--fp16 \
+            --version_2_with_negative \
+			')
