@@ -22,13 +22,21 @@
 #nohup python train_quase.py --mode train_eval --target squad2 --model elior_bert-lc_mnli --cuda 4 > logs/elior_bert-lc_mnli_squad2.log 2>&1 &
 #nohup python train_quase.py --mode train_eval --target squad2 --model mbert --cuda 0,1,2,3 > logs/mbert_squad2.log 2>&1 &
 
+## Evalaute model on SQuAD 2.0
+#nohup python train_quase.py --mode eval --target squad2 --model elior_bert-lc_mnli_squad2 --null_score_diff_threshold 0.7638531526255684 --cuda 0,1,2,3 > logs/elior_bert-lc_mnli_squad2_eval_wthresh.log 2>&1 &
+
 ## Finetune on MLQA
-nohup python train_quase.py --mode train_eval --target MLQA --train_file test-context-zh-question-en.json --pred_file dev-context-zh-question-en.json --model squad2_mbert --cuda 0,1 > logs/mbert_squad2_MLQAzhen.log 2>&1 &
+#nohup python train_quase.py --mode train_eval --target MLQA --train_file test-context-zh-question-en.json --pred_file dev-context-zh-question-en.json --model squad2_mbert --cuda 0,1 > logs/mbert_squad2_MLQAzhen.log 2>&1 &
+
 
 ## Evalaute model on ACE na-question
 #nohup python train_quase.py --mode eval --target elior_ACE_na --pred_file ace_wh_has_answer.json --model elior_bert-lc_mnli_squad2 --cuda 0 &
 #nohup python train_quase.py --mode eval --target elior_ACE_na --pred_file ace_wh_compet_idk.json --model elior_bert-lc_mnli_squad2 --cuda 0 &
 #nohup python train_quase.py --mode eval --target elior_ACE_na --pred_file ace_wh_non_compet_idk.json --model elior_bert-lc_mnli_squad2 --cuda 0 &
+#nohup python train_quase.py --mode eval --target elior_ACE_na --pred_file ace_wh_has_answer.json --model elior_bert-lc_mnli_squad2 --null_score_diff_threshold 0.7638531526255684 --cuda 0 &
+nohup python train_quase.py --mode eval --target elior_ACE_na --pred_file ace_wh_compet_idk.json --model elior_bert-lc_mnli_squad2 --null_score_diff_threshold 0.7638531526255684 --cuda 0 &
+#nohup python train_quase.py --mode eval --target elior_ACE_na --pred_file ace_wh_non_compet_idk.json --model elior_bert-lc_mnli_squad2 --null_score_diff_threshold 0.7638531526255684 --cuda 0 &
+
 
 
 ## Finetune a Y/N model on BoolQ (without IDK)

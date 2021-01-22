@@ -10,6 +10,20 @@ from pprint import pprint
 import torch
 
 
+bert_type_models = ['bert',
+                    'bertl',
+					'mbert',
+                    'qamr_mbert',
+                    'qamr_mbert-cased',
+                    "squad2_mbert",
+					"MLQA_squad2_mbert",
+                    'elior_bert-lc_mnli',
+					'elior_bert_squad2',
+					'squad2_elior_bert-lc_mnli',
+					'qamr_elior_bert-lc_mnli',
+					'qamr-squad2_elior_bert-lc_mnli']
+
+
 def get_srl_results(instance,
                     predicate_type,
                     srl_dicts,
@@ -80,7 +94,7 @@ def get_srl_results(instance,
 def gold_to_bert_tokens(tokenizer, gold_tokens, EX_QA_model_type):
 	"""Tokenize a piece of text using a Huggingface transformers tokenizer, and get a mapping between gold tokens and bert tokens. """
 	goldid_2_bertid = []
-	if EX_QA_model_type in ['bert', 'bertl', 'elior_bert-lc_mnli','elior_bert_squad2','elior_bert-lc_mnli_squad2', 'elior_bert-lc_mnli_squad2_nolastlayer']:
+	if EX_QA_model_type in bert_type_models:
 		bert_tokens = []
 		bertid_2_goldid = []
 		grouped_inputs = []  # input ids to pass to QA model
@@ -91,9 +105,12 @@ def gold_to_bert_tokens(tokenizer, gold_tokens, EX_QA_model_type):
 
 	for goldid, gold_token in enumerate(gold_tokens):
 		goldid_2_bertid.append([])
-		if EX_QA_model_type in ['bert', 'bertl', 'elior_bert-lc_mnli','elior_bert_squad2','elior_bert-lc_mnli_squad2', 'elior_bert-lc_mnli_squad2_nolastlayer']:
+		if EX_QA_model_type in bert_type_models:
 			_tokens_encoded = tokenizer.encode(gold_token, return_tensors="pt", add_special_tokens=False).squeeze(
 				axis=0)
+		elif EX_QA_model_type == 'qamr_xlm-roberta':
+			_tokens_encoded = tokenizer.encode(gold_token, return_tensors="pt",
+			                                      add_special_tokens=False).squeeze(axis=0)
 		else:
 			_tokens_encoded = tokenizer.encode(gold_token, add_prefix_space=True, return_tensors="pt",
 			                                      add_special_tokens=False).squeeze(axis=0)
@@ -103,7 +120,7 @@ def gold_to_bert_tokens(tokenizer, gold_tokens, EX_QA_model_type):
 			bert_tokens.append(bert_token)
 			bertid_2_goldid.append(goldid)
 			goldid_2_bertid[-1].append(len(bertid_2_goldid) - 1)
-	if EX_QA_model_type in ['bert', 'bertl', 'elior_bert-lc_mnli', 'elior_bert_squad2','elior_bert-lc_mnli_squad2', 'elior_bert-lc_mnli_squad2_nolastlayer']:
+	if EX_QA_model_type in bert_type_models:
 		grouped_inputs.append(torch.LongTensor([tokenizer.sep_token_id]))  # input ids to pass to QA model
 		bert_tokens.append('[SEP]')
 	else:

@@ -52,6 +52,12 @@ parser.add_argument("--epochs",
 				required=False,
 				help="Number of epochs.",
 		)
+parser.add_argument("--null_score_diff_threshold",
+				default=0.0,
+				type=str,
+				required=False,
+				help="If null_score - best_non_null is greater than the threshold predict null.",
+		)
 
 args = parser.parse_args()
 
@@ -140,10 +146,11 @@ elif args.mode == 'eval':
 			--do_lower_case \
 			--data_dir $DATA_DIR/ \
 			--predict_file $PRED_FILE \
-			--per_gpu_eval_batch_size 12 \
+			--per_gpu_eval_batch_size 48 \
 			--max_seq_length 80 \
 			--doc_stride 40 \
 			--output_dir $OUT_DIR \
 			--fp16 \
             --version_2_with_negative \
+            --null_score_diff_threshold {args.null_score_diff_threshold}\
 			')

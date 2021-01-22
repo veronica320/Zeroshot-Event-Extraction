@@ -20,16 +20,11 @@ os.chdir('/shared/lyuqing/probing_for_event/')
 
 # model abbreviation to full name mapping
 model_abbr_dict = {'xlmr_xnli':'joeddav/xlm-roberta-large-xnli',
-				   'bartl':'facebook/bart-large-mnli',
-				   'roberta':'textattack/roberta-base-MNLI',
-				   'robertal':'roberta-large-mnli',
-				   'bert':'textattack/bert-base-uncased-MNLI',
-				   'distbert':'textattack/distilbert-base-uncased-MNLI',
 				   'xlnet':'textattack/xlnet-base-cased-MNLI',
 				  }
 
 
-class EventDetectorTE():
+class MultilingEventDetectorTE():
 	"""The Textual-Entailment-based event extraction pipeline."""
 	def __init__(self,
 				 config,
@@ -88,13 +83,13 @@ class EventDetectorTE():
 		self.sw = load_stopwords()
 		
 		# Load cached SRL output
-		self.verb_srl_dict, self.nom_srl_dict = load_srl()
+		# self.verb_srl_dict, self.nom_srl_dict = load_srl()
 		
 	
 	def load_models(self):
 		print('Loading constituency and dependency parser...')
-		self.dependency_parser = Predictor.from_path("https://s3-us-west-2.amazonaws.com/allennlp/models/biaffine-dependency-parser-ptb-2018.08.23.tar.gz")
-		self.constituency_parser = Predictor.from_path("https://s3-us-west-2.amazonaws.com/allennlp/models/elmo-constituency-parser-2018.03.14.tar.gz")
+		# self.dependency_parser = Predictor.from_path("https://s3-us-west-2.amazonaws.com/allennlp/models/biaffine-dependency-parser-ptb-2018.08.23.tar.gz")
+		# self.constituency_parser = Predictor.from_path("https://s3-us-west-2.amazonaws.com/allennlp/models/elmo-constituency-parser-2018.03.14.tar.gz")
 
 		if self.tune_on_gdl: # load the TE model tuned on the annotation guideline
 			te_model_path = f'output_model_dir/gdl_te_{self.tune_on_gdl}_{self.te_model_name}'
@@ -114,19 +109,22 @@ class EventDetectorTE():
 		:param instance (Instance): a sentence instance
 		"""
 
-		srl_id_results, text_pieces, trg_cands, srl2gold_maps = get_srl_results(instance,
-		                                                                        self.predicate_type,
-		                                                                        (self.verb_srl_dict, self.nom_srl_dict),
-		                                                                        self.sw,
-		                                                                        self.srl_args
-		                                                                        ) # get SRL results for the current instance
+		# srl_id_results, text_pieces, trg_cands, srl2gold_maps = get_srl_results(instance,
+		#                                                                         self.predicate_type,
+		#                                                                         (self.verb_srl_dict, self.nom_srl_dict),
+		#                                                                         self.sw,
+		#                                                                         self.srl_args
+		#
+		#                                                               ) # get SRL results for the current instance
+
+		srl_id_results, text_pieces, trg_cands, srl2gold_maps = None, None, {}, None
 		pred_events = [] # a list of predicted events
 
 		# predict triggers
 		pred_events = self.extract_triggers(instance, pred_events, srl_id_results, text_pieces, trg_cands)
 		
 		# predict arguments
-		pred_events = self.extract_arguments(instance, pred_events, srl_id_results, text_pieces, trg_cands, srl2gold_maps)
+		# pred_events = self.extract_arguments(instance, pred_events, srl_id_results, text_pieces, trg_cands, srl2gold_maps)
 
 		return pred_events
 
@@ -148,15 +146,15 @@ class EventDetectorTE():
 
 					# Get the premise
 					srl_id, text_piece = None, None
-					for id, cand in trg_cands.items():
-						if trigger_text in cand[1] or cand[1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
-							text_piece = text_pieces[id]  # Use the srl text piece as the premise
-							srl_id = id
-					if text_piece == None:  # if the gold trigger isn't in SRL prediates
-						if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
-							text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
-					if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
-						text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+					# for id, cand in trg_cands.items():
+					# 	if trigger_text in cand[1] or cand[1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
+					# 		text_piece = text_pieces[id]  # Use the srl text piece as the premise
+					# 		srl_id = id
+					# if text_piece == None:  # if the gold trigger isn't in SRL prediates
+					# 	if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
+					# 		text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+					# if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
+					# 	text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
 
 					premise = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
 
@@ -176,22 +174,39 @@ class EventDetectorTE():
 
 				# Get the premise
 				srl_id, text_piece = None, None
-				for id, cand in trg_cands.items():
-					if trigger_text in cand[1] or cand[1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
-						text_piece = text_pieces[id]  # Use the srl text piece as the premise
-						srl_id = id
-				if text_piece == None:  # if the gold trigger isn't in SRL prediates
-					if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
-						text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
-				if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise 
-					text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+				# for id, cand in trg_cands.items():
+				# 	if trigger_text in cand[1] or cand[1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
+				# 		text_piece = text_pieces[id]  # Use the srl text piece as the premise
+				# 		srl_id = id
+				# if text_piece == None:  # if the gold trigger isn't in SRL prediates
+				# 	if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
+				# 		text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+				# if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
+				# 	text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
 
-				premise = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
+				comma_ids = [-1]
+				comma_ids += [token_id for token_id, token in enumerate(tokens_gold) if '，' in token]
+				comma_ids.append(len(tokens_gold))
+				trg_start, trg_end = event["trigger"]['start'], event["trigger"]['end']
+				sentence_piece = None
+				for pointer in range(len(comma_ids)):
+					piece_start = comma_ids[pointer]
+					piece_end = comma_ids[pointer+1]
+					if trg_start >= piece_start and trg_end <= piece_end:
+						sentence_piece = ''.join(tokens_gold[piece_start+1:piece_end])
+						break
+
+				if sentence_piece:
+					premise = sentence_piece
+				else:
+					premise = sent
+
+				# premise = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
 
 				top_type, confidence = self.classify_a_trigger(premise, trigger_text)
 
 				pred_events[event_id]["event_type"] = top_type
-				pred_events[event_id]["text_piece"] = text_piece
+				pred_events[event_id]["trg_text_piece"] = text_piece if text_piece else sentence_piece
 				pred_events[event_id]["trigger"]['confidence'] = confidence
 				pred_events[event_id]['srl_id'] = srl_id
 
@@ -222,7 +237,7 @@ class EventDetectorTE():
 
 		sent = instance.sentence
 		tokens_gold = instance.tokens  # ACE tokens
-		verb_srl2gold, nom_srl2gold = srl2gold_maps
+		# verb_srl2gold, nom_srl2gold = srl2gold_maps
 
 		if self.classification_only:
 			for gold_event, pred_event in zip(instance.events, pred_events):
@@ -239,10 +254,12 @@ class EventDetectorTE():
 
 				# Get the premise
 				text_piece = None
-				if srl_id: # if the gold trigger is in the SRL predicates
-					srl_result = srl_id_results[srl_id]
-					srl_tokens = srl_result['words']
-					text_piece = ' '.join([srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if tag != 'O']) # Concatenate all SRL arguments as the premise
+				# if srl_id: # if the gold trigger is in the SRL predicates
+				# 	srl_result = srl_id_results[srl_id]
+				# 	srl_tokens = srl_result['words']
+				# 	text_piece = ' '.join([srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if tag != 'O']) # Concatenate all SRL arguments as the premise
+
+
 				premise = text_piece if text_piece else sent
 
 				# Classify each argument

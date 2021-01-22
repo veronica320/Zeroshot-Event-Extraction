@@ -13,12 +13,12 @@ arg_name_mapping = {"ATTACK": {"Victim":"Target",
 
 
 input_file = "data/ACE_oneie/en/event_only/dev.event.json"
-output_file = "output_dir/QA/dev_gt_ynm:roberta_exm:roberta_t:0.99_a:0.75_all_['verb', 'nom']_head:True_pps:None_an:True_cp:whenNone_apt:ex_gdl:False.event.json"
-fwn = "output_dir/QA/extractiveQA_with_goldtrg.txt"
+output_file = "output_dir/QA/dev_gt_ynm:roberta_exm:bert_idk_t:0.99_a:0.7_all_['verb', 'nom']_head:True_pps:None_an:True_cp:whenNone_apt:ex_wtrg_gdl:False.event.json"
+fwn = "output_dir/QA/dev_gt_ynm:roberta_exm:bert_idk_t:0.99_a:0.7_all_['verb', 'nom']_head:True_pps:None_an:True_cp:whenNone_apt:ex_wtrg_gdl:False.txt"
 gold_dataset = IEDataset(input_file)
 pred_dataset = IEDataset(output_file)
 
-arg_probes_frn = 'source/lexicon/probes/arg_qa_probes_ex.txt'
+arg_probes_frn = 'source/lexicon/probes/arg_qa_probes_ex_wtrg.txt'
 with open(arg_probes_frn, 'r') as fr:
 	arg_probe_lexicon = load_arg_probe_lexicon(fr, 'ex')
 

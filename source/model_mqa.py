@@ -19,34 +19,32 @@ from utils import *
 
 os.chdir('/shared/lyuqing/probing_for_event/')
 
-model_abbr_dict = {"bert":"bert",
-                   "bertl":"bert-l",
-                   "roberta":"roberta",
-                   "robertal":"roberta-l",
-                   "xlmr":"xlm-roberta",
-                   "xlmrl": "xlm-roberta-l",
-                   "mbert":"mbert",
-                   "mbert-c":"mbert-cased",
-                   "elior_bert-lc_mnli":"elior_bert-lc_mnli",
-                   "elior_bert_squad2":"elior_bert_squad2",
-                   "elior_roberta_squad2":"elior_roberta_squad2",
-                   "squad2_elior_bert-lc_mnli":"squad2_elior_bert-lc_mnli",
-                   'qamr_elior_bert-lc_mnli':"qamr_elior_bert-lc_mnli",
-                   'qamr-squad2_elior_bert-lc_mnli':"qamr-squad2_elior_bert-lc_mnli"
-                   }
+
+bert_type_models = ['bert',
+                    'bertl',
+					'mbert',
+                    'qamr_mbert',
+                    'qamr_mbert-cased',
+                    "squad2_mbert",
+					"MLQA_squad2_mbert",
+					'elior_bert-lc_mnli',
+					'elior_bert_squad2',
+					'squad2_elior_bert-lc_mnli',
+					'qamr_elior_bert-lc_mnli',
+					'qamr-squad2_elior_bert-lc_mnli']
 
 
-class EventDetectorQA():
+class MultilingEventDetectorQA():
 	def __init__(self,
 	             config,
 	             ):
 		self.cache_dir = config.bert_cache_dir
 
-		self.YN_QA_model_type = config.YN_QA_model_type # Yes/No QA model
-		self.YN_idk = config.YN_idk # IDK class in Yes/No QA model
+		self.YN_QA_model_name = config.YN_QA_model_name # Yes/No QA model
+		# self.YN_idk = config.YN_idk # IDK class in Yes/No QA model
 
-		self.EX_QA_model_type = config.EX_QA_model_type # Extractive QA model
-		self.EX_idk = config.EX_idk # IDK class in Extractive QA model
+		self.EX_QA_model_name = config.EX_QA_model_name # Extractive QA model
+		# self.EX_idk = config.EX_idk # IDK class in Extractive QA model
 
 		if config.use_gpu and config.gpu_devices != -1:
 			self.gpu_devices = [int(_) for _ in config.gpu_devices.split(",")]
@@ -93,23 +91,18 @@ class EventDetectorQA():
 		self.sw = load_stopwords()
 
 		# Load cached SRL output
-		self.verb_srl_dict, self.nom_srl_dict = load_srl()
+		# self.verb_srl_dict, self.nom_srl_dict = load_srl()
 
 	def load_models(self):
 		print('Loading constituency and dependency parser...')
-		self.dependency_parser = Predictor.from_path(
-			"https://s3-us-west-2.amazonaws.com/allennlp/models/biaffine-dependency-parser-ptb-2018.08.23.tar.gz")
-		self.constituency_parser = Predictor.from_path(
-			"https://s3-us-west-2.amazonaws.com/allennlp/models/elmo-constituency-parser-2018.03.14.tar.gz")
+		# self.dependency_parser = Predictor.from_path(
+		# 	"https://s3-us-west-2.amazonaws.com/allennlp/models/biaffine-dependency-parser-ptb-2018.08.23.tar.gz")
+		# self.constituency_parser = Predictor.from_path(
+		# 	"https://s3-us-west-2.amazonaws.com/allennlp/models/elmo-constituency-parser-2018.03.14.tar.gz")
 
 		model_dir = "output_model_dir"
-		YN_model_name = model_abbr_dict[self.YN_QA_model_type]
-		EX_model_name = model_abbr_dict[self.EX_QA_model_type]
-		yn_qa_model_path = f"{model_dir}/boolq{'_idk' if self.YN_idk else ''}_{YN_model_name}" # Yes/No QA model
-		if EX_model_name in ['elior_bert_squad2', 'elior_roberta_squad2', 'squad2_elior_bert-lc_mnli', 'qamr_elior_bert-lc_mnli', 'qamr-squad2_elior_bert-lc_mnli']:
-			ex_qa_model_path = f"{model_dir}/{EX_model_name}" # Extractive QA model
-		else:
-			ex_qa_model_path = f"{model_dir}/qamr{'-squad2' if self.EX_idk else ''}_{EX_model_name}" # Extractive QA model
+		yn_qa_model_path = f"{model_dir}/{self.YN_QA_model_name}" # Yes/No QA model
+		ex_qa_model_path = f"{model_dir}/{self.EX_QA_model_name}" # Extractive QA model
 
 
 		print(f'Loading QA models...')
@@ -131,12 +124,15 @@ class EventDetectorQA():
 		:param instance (Instance): a sentence instance
 		"""
 
-		srl_id_results, text_pieces, trg_cands, srl2gold_maps = get_srl_results(instance,
-		                                                                        self.predicate_type,
-		                                                                        (self.verb_srl_dict, self.nom_srl_dict),
-		                                                                        self.sw,
-		                                                                        self.srl_args
-		                                                                        )  # get SRL results for the current instance
+		# srl_id_results, text_pieces, trg_cands, srl2gold_maps = get_srl_results(instance,
+		#                                                                         self.predicate_type,
+		#                                                                         (self.verb_srl_dict, self.nom_srl_dict),
+		#                                                                         self.sw,
+		#                                                                         self.srl_args
+		#                                                                         )  # get SRL results for the current instance
+
+		srl_id_results, text_pieces, trg_cands, srl2gold_maps = None, None, {}, None
+
 		pred_events = []  # a list of predicted events
 
 		# predict triggers
@@ -165,15 +161,15 @@ class EventDetectorQA():
 
 				# Get the context
 				srl_id, text_piece = None, None
-				for id, cand in trg_cands.items():
-					if trigger_text in cand[1] or cand[1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
-						text_piece = text_pieces[id]  # Use the srl text piece as the premise
-						srl_id = id
-				if text_piece == None:  # if the gold trigger isn't in SRL prediates
-					if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
-						text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
-				if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
-					text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+				# for id, cand in trg_cands.items():
+				# 	if trigger_text in cand[1] or cand[1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
+				# 		text_piece = text_pieces[id]  # Use the srl text piece as the premise
+				# 		srl_id = id
+				# if text_piece == None:  # if the gold trigger isn't in SRL prediates
+				# 	if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
+				# 		text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+				# if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
+				# 	text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
 
 				context = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
 
@@ -239,7 +235,7 @@ class EventDetectorQA():
 
 		sent = instance.sentence
 		tokens_gold = instance.tokens  # ACE tokens
-		verb_srl2gold, nom_srl2gold = srl2gold_maps
+		# verb_srl2gold, nom_srl2gold = srl2gold_maps
 
 		if self.classification_only:
 			for gold_event, pred_event in zip(instance.events, pred_events):
@@ -339,28 +335,28 @@ class EventDetectorQA():
 						confidence = output["confidence"]
 						if span and confidence >= self.arg_thresh: # top answer is not None; confidence is high enough
 							answer_tokens = output['answer_tokens']
-							arg_text = ' '.join(answer_tokens)
-							if self.identify_head: # get the head
-								pos_tags = [tag for _, tag in pos_tag(answer_tokens)]
-								if answer_tokens: # TODO: check why answer_token = [] and span = (0,0)
-									try:
-										head_idx, head_token = get_head(self.dependency_parser, span, answer_tokens, pos_tags)
-									except IndexError:
-										head_idx, head_token = None, None
-										# print(answer_tokens, span)
-									if head_idx: # TODO: check when head is None
-										span = (head_idx, head_idx+1)
-										arg_text = head_token
-							if srl_id: # map context ids back to ACE gold ids
-								start, end_pre = span[0], span[1]-1
-								start_in_srl, end_in_srl = text_piece_token_ids[start], text_piece_token_ids[end_pre]+1
-								try:
-									gold_start, gold_end = srl2gold[start_in_srl], srl2gold[end_in_srl]
-								except KeyError:
-									print(srl2gold)
-									print(span)
-									gold_start, gold_end = None, None
-								span = (gold_start, gold_end)
+							arg_text = ''.join(answer_tokens)
+							# if self.identify_head: # get the head
+							# 	pos_tags = [tag for _, tag in pos_tag(answer_tokens)]
+							# 	if answer_tokens: # TODO: check why answer_token = [] and span = (0,0)
+							# 		try:
+							# 			head_idx, head_token = get_head(self.dependency_parser, span, answer_tokens, pos_tags)
+							# 		except IndexError:
+							# 			head_idx, head_token = None, None
+							# 			# print(answer_tokens, span)
+							# 		if head_idx: # TODO: check when head is None
+							# 			span = (head_idx, head_idx+1)
+							# 			arg_text = head_token
+							# if srl_id: # map context ids back to ACE gold ids
+							# 	start, end_pre = span[0], span[1]-1
+							# 	start_in_srl, end_in_srl = text_piece_token_ids[start], text_piece_token_ids[end_pre]+1
+							# 	try:
+							# 		gold_start, gold_end = srl2gold[start_in_srl], srl2gold[end_in_srl]
+							# 	except KeyError:
+							# 		print(srl2gold)
+							# 		print(span)
+							# 		gold_start, gold_end = None, None
+							# 	span = (gold_start, gold_end)
 							event['arguments'].append({'text': arg_text,
 							                           'role': cand_ace_arg[:-4],
 							                           'start': span[0],
@@ -467,14 +463,14 @@ class EventDetectorQA():
 		question_tokens = self.ex_tokenizer.convert_ids_to_tokens(question_input_ids)
 		question_len = len(question_input_ids)
 
-		context_tensor, context_bert_tokens, goldid_2_bertid, bertid_2_goldid = gold_to_bert_tokens(self.ex_tokenizer, context_tokens, self.EX_QA_model_type)
+		context_tensor, context_bert_tokens, goldid_2_bertid, bertid_2_goldid = gold_to_bert_tokens(self.ex_tokenizer, context_tokens, self.EX_QA_model_name)
 		context_len = len(context_bert_tokens)
 
 		input_tensor = torch.cat((question_tensor, context_tensor), 1).to('cuda:0')
 		input_ids = input_tensor.tolist()[0]
 		bert_tokens = question_tokens + context_bert_tokens
 
-		if self.EX_QA_model_type in ['bert', 'bertl', 'elior_bert-lc_mnli', 'elior_bert_squad2', 'squad2_elior_bert-lc_mnli', 'qamr_elior_bert-lc_mnli', 'qamr-squad2_elior_bert-lc_mnli']:
+		if self.EX_QA_model_name in bert_type_models:
 			token_type_ids = torch.tensor([0] * question_len + [1] * context_len)
 			token_type_ids = torch.unsqueeze(token_type_ids, 0).to('cuda:0')
 
