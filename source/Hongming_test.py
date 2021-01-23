@@ -180,8 +180,8 @@ with open(output_file, 'w') as fw:
 		          }
 
 		fw.write(json.dumps(output) + '\n')
-		if i > 20:
-			break
+		# if i > 20:
+		# 	break
 
 gold_dataset = IEDataset(config.input_file)
 pred_dataset = IEDataset(output_file)
