@@ -1,6 +1,6 @@
 {
     "use_gpu": true,
-    "gpu_devices": "5",
+    "gpu_devices": "7",
     "bert_cache_dir": "/shared/.cache/transformers",
     "root_dir": "/shared/lyuqing/probing_for_event",
     "input_file": "data/ACE_oneie/en/event_only/dev.event.json",
