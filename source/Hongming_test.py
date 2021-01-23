@@ -57,7 +57,8 @@ def score_graphs(gold_graphs, pred_graphs):
 		pred_triggers = pred_graph.triggers
 		gold_trigger_num += len(gold_triggers)
 		pred_trigger_num += len(pred_triggers)
-		print(pred_triggers)
+		print(gold_graphs)
+		print(pred_graphs)
 		for trg_start, trg_end, event_type in pred_triggers:
 			matched = [item for item in gold_triggers
 					   if item[0] == trg_start and item[1] == trg_end]
