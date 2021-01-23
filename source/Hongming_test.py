@@ -39,11 +39,11 @@ def score_graphs(gold_graphs, pred_graphs):
 	gold_men_num = pred_men_num = men_match_num = 0
 
 	prediction_by_type = dict()
-	for tmp_e_type in hypothesis_dict:
+	for tmp_e_type in range(33):
 		prediction_by_type[tmp_e_type] = 0
 
 	golden_by_type = dict()
-	for tmp_e_type in hypothesis_dict:
+	for tmp_e_type in range(33):
 		golden_by_type[tmp_e_type] = 0
 	print(golden_by_type)
 	class_correct_by_type = dict()
