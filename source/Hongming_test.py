@@ -98,7 +98,7 @@ def score_graphs(gold_graphs, pred_graphs):
 		pred_arg_num, gold_arg_num, arg_class_num)
 
 	print('Trigger performance by type')
-	for tmp_e_type in hypothesis_dict:
+	for tmp_e_type in range(33):
 		tmp_p, tmp_r, tmp_f1 = compute_f1(prediction_by_type[tmp_e_type], golden_by_type[tmp_e_type], class_correct_by_type[tmp_e_type])
 		print(tmp_e_type, 'P:', tmp_p, '| R:', tmp_r, '| F1:', tmp_f1)
 
