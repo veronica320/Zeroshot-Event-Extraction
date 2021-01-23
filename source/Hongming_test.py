@@ -45,7 +45,7 @@ def score_graphs(gold_graphs, pred_graphs):
 	golden_by_type = dict()
 	for tmp_e_type in range(33):
 		golden_by_type[tmp_e_type] = 0
-	print(golden_by_type)
+	# print(golden_by_type)
 	class_correct_by_type = dict()
 	for tmp_e_type in range(33):
 		class_correct_by_type[tmp_e_type] = 0
@@ -57,8 +57,8 @@ def score_graphs(gold_graphs, pred_graphs):
 		pred_triggers = pred_graph.triggers
 		gold_trigger_num += len(gold_triggers)
 		pred_trigger_num += len(pred_triggers)
-		print(gold_graphs)
-		print(pred_graphs)
+		# print(gold_graphs)
+		# print(pred_graphs)
 		for trg_start, trg_end, event_type in pred_triggers:
 			matched = [item for item in gold_triggers
 					   if item[0] == trg_start and item[1] == trg_end]
@@ -97,10 +97,10 @@ def score_graphs(gold_graphs, pred_graphs):
 	role_prec, role_rec, role_f = compute_f1(
 		pred_arg_num, gold_arg_num, arg_class_num)
 
-	print('Trigger performance by type')
-	for tmp_e_type in range(33):
-		tmp_p, tmp_r, tmp_f1 = compute_f1(prediction_by_type[tmp_e_type], golden_by_type[tmp_e_type], class_correct_by_type[tmp_e_type])
-		print(tmp_e_type, 'P:', tmp_p, '| R:', tmp_r, '| F1:', tmp_f1)
+	# print('Trigger performance by type')
+	# for tmp_e_type in range(33):
+	# 	tmp_p, tmp_r, tmp_f1 = compute_f1(prediction_by_type[tmp_e_type], golden_by_type[tmp_e_type], class_correct_by_type[tmp_e_type])
+	# 	print(tmp_e_type, 'P:', tmp_p, '| R:', tmp_r, '| F1:', tmp_f1)
 
 	print('Trigger Identification: P: {:.2f}, R: {:.2f}, F: {:.2f}'.format(
 		trigger_id_prec * 100.0, trigger_id_rec * 100.0, trigger_id_f * 100.0))
@@ -178,8 +178,8 @@ with open(output_file, 'w') as fw:
 		          }
 
 		fw.write(json.dumps(output) + '\n')
-		if i > 20:
-			break
+		# if i > 20:
+		# 	break
 
 gold_dataset = IEDataset(config.input_file)
 pred_dataset = IEDataset(output_file)
