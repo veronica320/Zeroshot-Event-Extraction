@@ -161,8 +161,10 @@ with open(output_file, 'w') as fw:
 
 	for i, instance in enumerate(dataset):
 		print(i, instance.sentence)
-		pred_events = model.predict(instance)
-
+		try:
+			pred_events = model.predict(instance)
+		except IndexError:
+			pred_events = list()
 		# Gold events and model predictions will also be printed.
 		print('Gold events:')
 		pprint(instance.events)
@@ -178,8 +180,8 @@ with open(output_file, 'w') as fw:
 		          }
 
 		fw.write(json.dumps(output) + '\n')
-		# if i > 20:
-		# 	break
+		if i > 20:
+			break
 
 gold_dataset = IEDataset(config.input_file)
 pred_dataset = IEDataset(output_file)
