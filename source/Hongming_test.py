@@ -43,7 +43,7 @@ def score_graphs(gold_graphs, pred_graphs):
 		prediction_by_type[tmp_e_type] = 0
 
 	golden_by_type = dict()
-	for tmp_e_type in golden_by_type:
+	for tmp_e_type in hypothesis_dict:
 		golden_by_type[tmp_e_type] = 0
 	class_correct_by_type = dict()
 	for tmp_e_type in class_correct_by_type:
