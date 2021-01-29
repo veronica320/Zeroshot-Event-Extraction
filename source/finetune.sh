@@ -22,6 +22,12 @@
 #nohup python train_quase.py --mode train_eval --target squad2 --model elior_bert-lc_mnli --cuda 4 > logs/elior_bert-lc_mnli_squad2.log 2>&1 &
 #nohup python train_quase.py --mode train_eval --target squad2 --model mbert --cuda 0,1,2,3 > logs/mbert_squad2.log 2>&1 &
 
+# Finetune a model on SQuAD 2.0 with 1-sent context
+#nohup python train_quase.py --mode train_eval --target squad2_1sent --model roberta --cuda 3 > logs/roberta_squad2_1sent.log 2>&1 &
+#nohup python train_quase.py --mode train_eval --target squad2_1sent --model bert --cuda 4 > logs/bert_squad2_1sent.log 2>&1 &
+#nohup python train_quase.py --mode train_eval --target squad2_1sent --model elior_bert-lc_mnli --cuda 5s > logs/elior_bert-lc_mnli_squad2_1sent.log 2>&1 &
+
+
 ## Evalaute model on SQuAD 2.0
 #nohup python train_quase.py --mode eval --target squad2 --model elior_bert-lc_mnli_squad2 --null_score_diff_threshold 0.7638531526255684 --cuda 0,1,2,3 > logs/elior_bert-lc_mnli_squad2_eval_wthresh.log 2>&1 &
 
@@ -34,9 +40,8 @@
 #nohup python train_quase.py --mode eval --target elior_ACE_na --pred_file ace_wh_compet_idk.json --model elior_bert-lc_mnli_squad2 --cuda 0 &
 #nohup python train_quase.py --mode eval --target elior_ACE_na --pred_file ace_wh_non_compet_idk.json --model elior_bert-lc_mnli_squad2 --cuda 0 &
 #nohup python train_quase.py --mode eval --target elior_ACE_na --pred_file ace_wh_has_answer.json --model elior_bert-lc_mnli_squad2 --null_score_diff_threshold 0.7638531526255684 --cuda 0 &
-nohup python train_quase.py --mode eval --target elior_ACE_na --pred_file ace_wh_compet_idk.json --model elior_bert-lc_mnli_squad2 --null_score_diff_threshold 0.7638531526255684 --cuda 0 &
+#nohup python train_quase.py --mode eval --target elior_ACE_na --pred_file ace_wh_compet_idk.json --model elior_bert-lc_mnli_squad2 --null_score_diff_threshold 0.7638531526255684 --cuda 0 &
 #nohup python train_quase.py --mode eval --target elior_ACE_na --pred_file ace_wh_non_compet_idk.json --model elior_bert-lc_mnli_squad2 --null_score_diff_threshold 0.7638531526255684 --cuda 0 &
-
 
 
 ## Finetune a Y/N model on BoolQ (without IDK)
