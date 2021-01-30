@@ -21,7 +21,9 @@ def generate_new_data(file_name):
         sentence_by_doc[tmp_example['doc_id']].append(tmp_example)
 
     final_result = list()
+    print('Number of docs:', len(sentence_by_doc))
     for tmp_doc in sentence_by_doc:
+        print(tmp_doc)
         print('Number of sentences:', len(sentence_by_doc[tmp_doc]))
         for tmp_example in tqdm(sentence_by_doc[tmp_doc]):
             old_sentence = tmp_example['sentence']
@@ -32,7 +34,7 @@ def generate_new_data(file_name):
             event_types = set(event_types)
             all_sentences = list()
             all_tokens = list()
-            for tmp_example_2 in sentence_by_doc[tmp_doc]:
+            for tmp_example_2 in tqdm(sentence_by_doc[tmp_doc]):
                 same_event_types = False
                 for tmp_event_2 in tmp_example_2['event_mentions']:
                     if tmp_event_2['event_type'] in event_types:
