@@ -23,8 +23,8 @@ def generate_new_data(file_name):
     final_result = list()
     print('Number of docs:', len(sentence_by_doc))
     for tmp_doc in tqdm(sentence_by_doc):
-        print(tmp_doc)
-        print('Number of sentences:', len(sentence_by_doc[tmp_doc]))
+        # print(tmp_doc)
+        # print('Number of sentences:', len(sentence_by_doc[tmp_doc]))
         for tmp_example in sentence_by_doc[tmp_doc]:
             old_sentence = tmp_example['sentence']
             old_tokens = tmp_example['tokens']
@@ -34,7 +34,7 @@ def generate_new_data(file_name):
             local_event_types = set(local_event_types)
             local_sentences = list()
             all_tokens = list()
-            print(local_event_types)
+            # print(local_event_types)
             for tmp_example_2 in sentence_by_doc[tmp_doc]:
                 same_event_types = False
                 for tmp_event_2 in tmp_example_2['event_mentions']:
@@ -58,7 +58,7 @@ def generate_new_data(file_name):
             new_example['tokens'] = all_tokens
             final_result.append(new_example)
     random.shuffle(final_result)
-    with open(folder_name + '/modified.' + file_name, 'r') as f:
+    with open(folder_name + '/modified.' + file_name, 'w') as f:
         for tmp_example in final_result:
             f.write(json.dumps(tmp_example))
             f.write('\n')
