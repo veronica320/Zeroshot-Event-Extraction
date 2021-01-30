@@ -1,6 +1,7 @@
 # import ujson as json
 import json
 import random
+from tqdm import tqdm
 
 
 def generate_new_data(file_name):
@@ -20,7 +21,7 @@ def generate_new_data(file_name):
         sentence_by_doc[tmp_example['doc_id']].append(tmp_example)
 
     final_result = list()
-    for tmp_doc in sentence_by_doc:
+    for tmp_doc in tqdm(sentence_by_doc):
 
         for tmp_example in sentence_by_doc[tmp_doc]:
             old_sentence = tmp_example['sentence']
@@ -57,3 +58,5 @@ def generate_new_data(file_name):
 generate_new_data('train.event.json')
 generate_new_data('dev.event.json')
 generate_new_data('test.event.json')
+
+print('end')
