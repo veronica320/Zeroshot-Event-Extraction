@@ -27,14 +27,14 @@ def generate_new_data(file_name):
         print('Number of sentences:', len(sentence_by_doc[tmp_doc]))
         for tmp_example in tqdm(sentence_by_doc[tmp_doc]):
             old_sentence = tmp_example['sentence']
-            old_tokens = tmp_example['tokens']
+            # old_tokens = tmp_example['tokens']
             event_types = list()
             for tmp_e in tmp_example['event_mentions']:
                 event_types.append(tmp_e['event_type'])
             event_types = set(event_types)
             all_sentences = list()
-            all_tokens = list()
-            for tmp_example_2 in tqdm(sentence_by_doc[tmp_doc]):
+            # all_tokens = list()
+            for tmp_example_2 in sentence_by_doc[tmp_doc]:
                 same_event_types = False
                 for tmp_event_2 in tmp_example_2['event_mentions']:
                     if tmp_event_2['event_type'] in event_types:
@@ -43,13 +43,13 @@ def generate_new_data(file_name):
                 if same_event_types:
                     continue
                 all_sentences.append(tmp_example_2['sentence'])
-                all_tokens += tmp_example_2['tokens']
+                # all_tokens += tmp_example_2['tokens']
             all_sentences.append(old_sentence)
-            all_tokens.append(old_tokens)
+            # all_tokens.append(old_tokens)
             tmp_example['original_sentence'] = old_sentence
-            tmp_example['original_tokens'] = old_tokens
+            # tmp_example['original_tokens'] = old_tokens
             tmp_example['sentence'] = ' '.join(all_sentences)
-            tmp_example['tokens'] = all_tokens
+            # tmp_example['tokens'] = all_tokens
             final_result.append(tmp_example)
     random.shuffle(final_result)
     with open(folder_name + '/modified.' + file_name, 'r') as f:
