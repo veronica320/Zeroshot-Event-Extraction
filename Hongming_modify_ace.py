@@ -11,6 +11,8 @@ with open(folder_name+'/'+'dev.event.json', 'r') as f:
         tmp_data.append(tmp_example)
     # tmp_data = json.load(f)
 
+
 for tmp_example in tmp_data:
-    print(tmp_example)
-    break
+    if len(tmp_example['event_mentions']) > 0:
+        print(tmp_example)
+        break
