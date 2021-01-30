@@ -21,10 +21,8 @@ from utils import generate_vocabs
 from pprint import pprint
 from scorer import score_graphs
 
-YN_QA_model_type = config.YN_QA_model_type # Yes/No QA model
-YN_idk = config.YN_idk # IDK class in Yes/No QA model
-EX_QA_model_type = config.EX_QA_model_type # Extractive QA model
-EX_idk = config.EX_idk # IDK class in Extractive QA model
+YN_QA_model_name = config.YN_QA_model_name # Yes/No QA model
+EX_QA_model_name = config.EX_QA_model_name # Extractive QA model
 
 classification_only = config.classification_only
 gold_trigger = config.gold_trigger
@@ -44,7 +42,7 @@ frn = config.input_file.split('/')[-1].split('.')[0]
 
 
 # Model predictions will be written to output_file.
-output_file = f"output_dir/QA/{frn}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}ynm:{YN_QA_model_type + ('_idk' if YN_idk else '')}_exm:{EX_QA_model_type + ('_idk' if EX_idk else '')}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
+output_file = f"output_dir/QA/{frn}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}ynm:{YN_QA_model_name}_exm:{EX_QA_model_name}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
 
 # Predict
 print(f'Model config: {output_file}')
@@ -76,7 +74,7 @@ with open(output_file, 'w') as fw:
 		          }
 
 		fw.write(json.dumps(output) + '\n')
-
+lyu
 
 ## Evaluate
 

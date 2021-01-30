@@ -91,6 +91,8 @@ if args.target == 'gdl_te_pos_neg':
     os.environ['DATA_DIR'] = 'data/gdl_te/pos_neg'
 elif args.target == 'gdl_te_pos_only':
     os.environ['DATA_DIR'] = 'data/gdl_te/pos_only'
+else:
+    os.environ['DATA_DIR'] = f'data/{args.target}'
 
 if args.mode == 'transfer':
     os.environ['SOURCE_DIR'] = 'output_dir/{}_{}'.format(args.source, args.model)
@@ -115,3 +117,4 @@ if args.mode == 'train_eval':
       --save_steps -1 \
       --overwrite_output_dir \
       --fp16')
+

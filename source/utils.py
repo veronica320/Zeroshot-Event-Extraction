@@ -9,20 +9,22 @@ from allennlp.predictors.predictor import Predictor
 from pprint import pprint
 import torch
 
-
 bert_type_models = ['bert',
                     'bertl',
 					'mbert',
+                    'qamr-squad2_bert-l',
                     'qamr_mbert',
                     'qamr_mbert-cased',
                     "squad2_mbert",
 					"MLQA_squad2_mbert",
-                    'elior_bert-lc_mnli',
+					'elior_bert-lc_mnli',
 					'elior_bert_squad2',
 					'squad2_elior_bert-lc_mnli',
 					'qamr_elior_bert-lc_mnli',
-					'qamr-squad2_elior_bert-lc_mnli']
-
+					'qamr-squad2_elior_bert-lc_mnli',
+                    'squad2_1sent_bert',
+                    'squad2_1sent_roberta',
+                    ]
 
 def get_srl_results(instance,
                     predicate_type,

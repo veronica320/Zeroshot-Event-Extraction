@@ -25,7 +25,7 @@
 # Finetune a model on SQuAD 2.0 with 1-sent context
 #nohup python train_quase.py --mode train_eval --target squad2_1sent --model roberta --cuda 3 > logs/roberta_squad2_1sent.log 2>&1 &
 #nohup python train_quase.py --mode train_eval --target squad2_1sent --model bert --cuda 4 > logs/bert_squad2_1sent.log 2>&1 &
-#nohup python train_quase.py --mode train_eval --target squad2_1sent --model elior_bert-lc_mnli --cuda 5s > logs/elior_bert-lc_mnli_squad2_1sent.log 2>&1 &
+#nohup python train_quase.py --mode train_eval --target squad2_1sent --model elior_bert-lc_mnli --cuda 0 > logs/elior_bert-lc_mnli_squad2_1sent.log 2>&1 &
 
 
 ## Evalaute model on SQuAD 2.0
@@ -69,3 +69,9 @@
 ## Continue finetuning a pretrained TE model (roberta-large-mnli) on the annotation guidleine  
 # nohup python train_te.py --mode train_eval --task WNLI --target gdl_te_pos_neg --model roberta-large-mnli --cuda 1 > logs/gdl_te_pos_neg_robertal.log 2>&1 &
 # nohup python train_te.py --mode train_eval --task WNLI --target gdl_te_pos_only --model roberta-large-mnli --cuda 0 > logs/gdl_te_pos_only_robertal.log 2>&1 &
+
+## Finetune vanilla model on MNLI
+#nohup python train_te.py --mode train_eval --task MNLI --target MNLI_s --model roberta --cuda 0 > logs/mnlis_roberta_b.log 2>&1 &
+#nohup python train_te.py --mode train_eval --task MNLI --target MNLI_s --model roberta-l --cuda 1 > logs/mnlis_roberta.log 2>&1 &
+#nohup python train_te.py --mode train_eval --task MNLI --target MNLI_s --model bert --cuda 2 > logs/mnlis_bert.log 2>&1 &
+#nohup python train_te.py --mode train_eval --task MNLI --target MNLI_s --model bert-l --cuda 3 > logs/mnlis_bertl.log 2>&1 &

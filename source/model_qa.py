@@ -19,22 +19,6 @@ from utils import *
 
 os.chdir('/shared/lyuqing/probing_for_event/')
 
-model_abbr_dict = {"bert":"bert",
-                   "bertl":"bert-l",
-                   "roberta":"roberta",
-                   "robertal":"roberta-l",
-                   "xlmr":"xlm-roberta",
-                   "xlmrl": "xlm-roberta-l",
-                   "mbert":"mbert",
-                   "mbert-c":"mbert-cased",
-                   "elior_bert-lc_mnli":"elior_bert-lc_mnli",
-                   "elior_bert_squad2":"elior_bert_squad2",
-                   "elior_roberta_squad2":"elior_roberta_squad2",
-                   "squad2_elior_bert-lc_mnli":"squad2_elior_bert-lc_mnli",
-                   'qamr_elior_bert-lc_mnli':"qamr_elior_bert-lc_mnli",
-                   'qamr-squad2_elior_bert-lc_mnli':"qamr-squad2_elior_bert-lc_mnli"
-                   }
-
 
 class EventDetectorQA():
 	def __init__(self,
@@ -42,11 +26,9 @@ class EventDetectorQA():
 	             ):
 		self.cache_dir = config.bert_cache_dir
 
-		self.YN_QA_model_type = config.YN_QA_model_type # Yes/No QA model
-		self.YN_idk = config.YN_idk # IDK class in Yes/No QA model
+		self.YN_QA_model_name = config.YN_QA_model_name # Yes/No QA model
 
-		self.EX_QA_model_type = config.EX_QA_model_type # Extractive QA model
-		self.EX_idk = config.EX_idk # IDK class in Extractive QA model
+		self.EX_QA_model_name = config.EX_QA_model_name # Extractive QA model
 
 		if config.use_gpu and config.gpu_devices != -1:
 			self.gpu_devices = [int(_) for _ in config.gpu_devices.split(",")]
@@ -75,12 +57,8 @@ class EventDetectorQA():
 			self.trg_probe_lexicon = load_trg_probe_lexicon(fr)
 
 		# Load argument probes and the SRL-to-ACE argument map
-		if self.arg_probe_type == 'bool':
-			arg_probes_frn = f'{probe_dir}arg_qa_probes_bool.txt'
-		elif self.arg_probe_type == 'ex':
-			arg_probes_frn = f'{probe_dir}arg_qa_probes_ex.txt'
-		elif self.arg_probe_type == 'ex_wtrg': # instantiated trigger in the argument questions
-			arg_probes_frn = f'{probe_dir}arg_qa_probes_ex_wtrg.txt'
+
+		arg_probes_frn = f'{probe_dir}arg_qa_probes_{self.arg_probe_type}.txt'
 		with open(arg_probes_frn, 'r') as fr:
 			self.arg_probe_lexicon = load_arg_probe_lexicon(fr, self.arg_probe_type)
 		with open('source/lexicon/arg_srl2ace.txt') as fr:
@@ -103,13 +81,8 @@ class EventDetectorQA():
 			"https://s3-us-west-2.amazonaws.com/allennlp/models/elmo-constituency-parser-2018.03.14.tar.gz")
 
 		model_dir = "output_model_dir"
-		YN_model_name = model_abbr_dict[self.YN_QA_model_type]
-		EX_model_name = model_abbr_dict[self.EX_QA_model_type]
-		yn_qa_model_path = f"{model_dir}/boolq{'_idk' if self.YN_idk else ''}_{YN_model_name}" # Yes/No QA model
-		if EX_model_name in ['elior_bert_squad2', 'elior_roberta_squad2', 'squad2_elior_bert-lc_mnli', 'qamr_elior_bert-lc_mnli', 'qamr-squad2_elior_bert-lc_mnli']:
-			ex_qa_model_path = f"{model_dir}/{EX_model_name}" # Extractive QA model
-		else:
-			ex_qa_model_path = f"{model_dir}/qamr{'-squad2' if self.EX_idk else ''}_{EX_model_name}" # Extractive QA model
+		yn_qa_model_path = f"{model_dir}/{self.YN_QA_model_name}" # Yes/No QA model
+		ex_qa_model_path = f"{model_dir}/{self.EX_QA_model_name}" # Extractive QA model
 
 
 		print(f'Loading QA models...')
@@ -288,6 +261,7 @@ class EventDetectorQA():
 					context_tokens = text_piece_tokens
 				else:
 					context_tokens = tokens_gold
+				event['arg_textpiece'] = ' '.join(context_tokens)
 
 				if self.arg_probe_type == 'bool': # Y/N quesitons
 					# Construct srl_arg_dict
@@ -467,14 +441,14 @@ class EventDetectorQA():
 		question_tokens = self.ex_tokenizer.convert_ids_to_tokens(question_input_ids)
 		question_len = len(question_input_ids)
 
-		context_tensor, context_bert_tokens, goldid_2_bertid, bertid_2_goldid = gold_to_bert_tokens(self.ex_tokenizer, context_tokens, self.EX_QA_model_type)
+		context_tensor, context_bert_tokens, goldid_2_bertid, bertid_2_goldid = gold_to_bert_tokens(self.ex_tokenizer, context_tokens, self.EX_QA_model_name)
 		context_len = len(context_bert_tokens)
 
 		input_tensor = torch.cat((question_tensor, context_tensor), 1).to('cuda:0')
 		input_ids = input_tensor.tolist()[0]
 		bert_tokens = question_tokens + context_bert_tokens
 
-		if self.EX_QA_model_type in ['bert', 'bertl', 'elior_bert-lc_mnli', 'elior_bert_squad2', 'squad2_elior_bert-lc_mnli', 'qamr_elior_bert-lc_mnli', 'qamr-squad2_elior_bert-lc_mnli']:
+		if self.EX_QA_model_name in bert_type_models:
 			token_type_ids = torch.tensor([0] * question_len + [1] * context_len)
 			token_type_ids = torch.unsqueeze(token_type_ids, 0).to('cuda:0')
 
