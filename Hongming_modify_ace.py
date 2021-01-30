@@ -34,6 +34,7 @@ def generate_new_data(file_name):
             event_types = set(event_types)
             all_sentences = list()
             # all_tokens = list()
+            print(event_types)
             for tmp_example_2 in sentence_by_doc[tmp_doc]:
                 same_event_types = False
                 # for tmp_event_2 in tmp_example_2['event_mentions']:
@@ -43,6 +44,7 @@ def generate_new_data(file_name):
                 # if same_event_types:
                 #     continue
                 all_sentences.append(tmp_example_2['sentence'])
+                print(all_sentences)
                 # all_tokens += tmp_example_2['tokens']
             all_sentences.append(old_sentence)
             # all_tokens.append(old_tokens)
