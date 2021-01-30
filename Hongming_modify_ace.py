@@ -44,7 +44,7 @@ def generate_new_data(file_name):
                 # if same_event_types:
                 #     continue
                 all_sentences.append(tmp_example_2['sentence'])
-                print(all_sentences)
+                # print(all_sentences)
                 # all_tokens += tmp_example_2['tokens']
             all_sentences.append(old_sentence)
             # all_tokens.append(old_tokens)
