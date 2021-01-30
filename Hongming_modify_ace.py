@@ -21,9 +21,9 @@ def generate_new_data(file_name):
         sentence_by_doc[tmp_example['doc_id']].append(tmp_example)
 
     final_result = list()
-    for tmp_doc in tqdm(sentence_by_doc):
+    for tmp_doc in sentence_by_doc:
         print('Number of sentences:', len(sentence_by_doc[tmp_doc]))
-        for tmp_example in sentence_by_doc[tmp_doc]:
+        for tmp_example in tqdm(sentence_by_doc[tmp_doc]):
             old_sentence = tmp_example['sentence']
             old_tokens = tmp_example['tokens']
             event_types = list()
