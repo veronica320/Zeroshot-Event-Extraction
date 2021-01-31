@@ -3,7 +3,7 @@
     "gpu_devices": "7",
     "bert_cache_dir": "/shared/.cache/transformers",
     "root_dir": "/shared/lyuqing/probing_for_event",
-    "input_file": "data/ACE_oneie/en/event_only/modified.dev.event.json",
+    "input_file": "data/ACE_oneie/en/event_only/dev.event.json",
 
     "classification_only": true,
 
