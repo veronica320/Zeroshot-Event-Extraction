@@ -147,7 +147,7 @@ tune_on_gdl = eval(config.tune_on_gdl)
 frn = config.input_file.split('/')[-1].split('.')[0]
 
 # Model predictions will be written to output_file.
-output_file = f"/shared/hzhangal/Projects/Probing_for_Event/output_dir/{frn}_{'cls_' if classification_only else ''}m:{bert_model_type}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_tp:{trg_probe_type}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
+output_file = f"/shared/hzhangal/Projects/Probing_for_Event/best_output/{frn}_{'cls_' if classification_only else ''}m:{bert_model_type}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_tp:{trg_probe_type}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
 
 print(f'Model config: {output_file}')
 model = EventDetectorTE(config)
