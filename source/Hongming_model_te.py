@@ -173,7 +173,7 @@ class EventDetectorTE():
             te_model_path = f'output_model_dir/gdl_te_{self.tune_on_gdl}_{self.te_model_name}'
         else:
             te_model_path = self.te_model_name
-        te_model_path = f'output_model_dir/MNLI_s_roberta'
+        te_model_path = f'output_model_dir/MNLI_s_bert'
         print(f'Loading Textual Entailment model...')
         if self.gpu_devices:
             self.te_model = AutoModelForSequenceClassification.from_pretrained(te_model_path, cache_dir=self.cache_dir
