@@ -3,9 +3,9 @@
     "gpu_devices": "7",
     "bert_cache_dir": "/shared/.cache/transformers",
     "root_dir": "/shared/lyuqing/probing_for_event",
-    "input_file": "data/ACE_oneie/en/event_only/dev.event.json",
+    "input_file": "data/ACE_oneie/en/event_only/modified.dev.event.json",
 
-    "classification_only": false,
+    "classification_only": true,
 
     "bert_model_type": "robertal",
     "srl_args": "[['V'], ['V','ARG0','ARG1'], ['V','ARG0','ARG1','ARG2'], ['V','ARG0'], ['V', 'ARG1'], 'all'][2]",
