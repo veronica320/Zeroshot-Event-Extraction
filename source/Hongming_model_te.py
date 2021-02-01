@@ -386,14 +386,14 @@ class EventDetectorTE():
             elif self.pair_premise_strategy == None:
                 result_dict[event_type] = orig_entail_prob  # maximizing the original entailment prob
 
-            # tmp_hypothesis_list = hypothesis_dict[event_type]
-            # tmp_scores = list()
-            #
-            # for tmp_hypothesis in tmp_hypothesis_list:
-            #
-            #     # print(trigger_text + ' in this sentence is a kind of ' + tmp_hypothesis)
-            #     tmp_scores.append(self.entailment(premise, 'It describes ' + tmp_hypothesis))
-            # result_dict[event_type] = sum(tmp_scores)/len(tmp_scores)  # maximizing the original entailment prob
+            tmp_hypothesis_list = hypothesis_dict[event_type]
+            tmp_scores = list()
+
+            for tmp_hypothesis in tmp_hypothesis_list:
+
+                # print(trigger_text + ' in this sentence is a kind of ' + tmp_hypothesis)
+                tmp_scores.append(self.entailment(premise, 'It describes ' + tmp_hypothesis))
+            result_dict[event_type] = sum(tmp_scores)/len(tmp_scores)  # maximizing the original entailment prob
 
         sorted_res = sorted(result_dict.items(), key=lambda x: x[1], reverse=True)
         top_type, confidence = sorted_res[0][0], sorted_res[0][1]  # Get the top event type and its confidence score
