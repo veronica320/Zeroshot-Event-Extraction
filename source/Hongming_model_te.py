@@ -365,8 +365,8 @@ class EventDetectorTE():
                 hypothesis = re.sub(pattern=trigger_text, string=premise, repl=label).strip()
             elif self.trg_probe_type in ['natural', 'exist']:
                 hypothesis = label
-            print(event_type)
-            print(hypothesis)
+            # print(event_type)
+            # print(hypothesis)
             orig_entail_prob = self.entailment(premise,
                                                hypothesis)  # original probability of "the premise entailing the hypothesis"
             # print(orig_entail_prob)
