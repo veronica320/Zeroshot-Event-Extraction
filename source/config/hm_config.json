@@ -14,7 +14,7 @@
     "predicate_type": "[['verb'], ['nom'], ['verb','nom']][-1]",
     "add_neutral": true,
 
-    "trg_probe_type": "['topical', 'natural', 'exist', 'prem-trg+type'][1]",
+    "trg_probe_type": "['topical', 'natural', 'exist', 'prem-trg+type'][2]",
     "pair_premise_strategy": "[None, 'max_delta', 'max_conf+delta'][0]",
     "const_premise": "['false', 'whenNone', 'alwaystrg'][1]",
     "tune_on_gdl": "[None, 'pos_only', 'pos_neg'][2]",
