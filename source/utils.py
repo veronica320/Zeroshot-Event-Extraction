@@ -24,13 +24,16 @@ bert_type_models = ['bert',
 					'qamr-squad2_elior_bert-lc_mnli',
                     'squad2_1sent_bert',
                     'squad2_1sent_roberta',
+                    'squad2-s_na+ha_bert',
+                    'squad2_ha_bert',
                     ]
 
 def get_srl_results(instance,
                     predicate_type,
                     srl_dicts,
                     sw,
-                    srl_args
+                    srl_args,
+                    srl_model
                     ):
 	"""Get the SRL result for one instance. """
 
@@ -77,9 +80,12 @@ def get_srl_results(instance,
 		# get non-stopword nominals
 		for res in nom_srl_results:
 			if set(res['tags']) != {'O'} and res['nominal'] not in sw:
-				span = res["predicate_index"]
-				for pred_id in span:
-					res['tags'][pred_id] = "B-V"
+				if srl_model == "allen+celine":
+					span = res["predicate_index"]
+					for pred_id in span:
+						res['tags'][pred_id] = "B-V"
+				elif srl_model == "illinois":
+					span = [i for i, tag in enumerate(res['tags']) if tag in ['B-V', 'I-V']]
 				if span:
 					span = (nom_srl2gold[span[0]], nom_srl2gold[span[-1]] + 1)  # map srl ids to gold ids
 					text_piece = ' '.join([nom_srl_tokens[i] for i, tag in enumerate(res['tags']) if
@@ -141,14 +147,14 @@ def get_gold_map(tokens, gold_tokens):
 	:return (list): a list mapping arbitrary token ids to gold token ids, i.e. tokenid_2_goldid[an_arbitrary_id] would give the corresponding gold id.
 	"""
 	tokenid_2_goldid = {}
-	i = j = -1 # token pointer, gold token pointer
+	i, j = -1, -1 # token pointer, gold token pointer
 	prefix_i = prefix_j= ''
 	len_prefix_i = len_prefix_j = 0
 	loop_count = 0
 	while i < len(tokens) and j < len(gold_tokens):
 		loop_count += 1
-		if loop_count >= 150:
-			print(f'Infinite loop:\n{tokens}\n{gold_tokens}\n{prefix_i}\n{prefix_j}')
+		if loop_count >= 1000:
+			print(f'Infinite loop:{loop_count}\n{tokens}\n{gold_tokens}\n{prefix_i}\n{prefix_j}')
 			break
 		if prefix_i == '':
 			i += 1
@@ -286,12 +292,15 @@ def get_nom_srl(nom_srl_dict, instance):
 		srl2gold_id_map = {i:i for i in range(len(tokens_srl))}
 	return srl_output, srl2gold_id_map
 
-def load_srl():
+def load_srl(srl_model):
 	"""Loads cached SRL predictions."""
 	
 	verb_srl_dict, nom_srl_dict = {}, {}
 	for type in ['verb', 'nom']:
-		path = f"data/srl_output/{type}SRL_output_withid_full.json"
+		if srl_model == "allen+celine":
+			path = f"data/srl_output/{type}SRL_output_withid_full.json"
+		elif srl_model == "illinois":
+			path = f"data/srl_output/illinois_srl/{type}SRL_illinois_dev.json"
 		with open(path, 'r') as fr:
 			for line in fr:
 				srl_res = json.loads(line)

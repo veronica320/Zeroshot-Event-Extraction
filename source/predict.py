@@ -1,13 +1,6 @@
 ## Make predictions on a dataset with a pretrained EventDetector model. ##
 import os
-import json
-from argparse import ArgumentParser
-from model_te import EventDetectorTE
 from configuration import Config
-import torch
-from data import IEDataset
-from utils import generate_vocabs
-from pprint import pprint
 
 root_path = ('/shared/lyuqing/probing_for_event')
 os.chdir(root_path)
@@ -15,6 +8,15 @@ os.chdir(root_path)
 # config
 config_path = (f'{root_path}/source/config/te.json')
 config = Config.from_json_file(config_path)
+
+os.environ['CUDA_VISIBLE_DEVICES'] = config.gpu_devices
+import json
+from argparse import ArgumentParser
+from model_te import EventDetectorTE
+import torch
+from data import IEDataset
+from utils import generate_vocabs
+from pprint import pprint
 
 classification_only = config.classification_only
 gold_trigger = config.gold_trigger
@@ -31,11 +33,12 @@ add_neutral = config.add_neutral
 const_premise = eval(config.const_premise)
 arg_probe_type = eval(config.arg_probe_type)
 tune_on_gdl = eval(config.tune_on_gdl)
+srl_model = eval(config.srl_model)
 
 frn = config.input_file.split('/')[-1].split('.')[0]
 
 # Model predictions will be written to output_file.
-output_file = f"output_dir/TE/{frn}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}m:{bert_model_type}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_tp:{trg_probe_type}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
+output_file = f"output_dir/TE/{frn}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}m:{bert_model_type}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_tp:{trg_probe_type}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}_srl:{srl_model}.event.json"
 
 print(f'Model config: {output_file}')
 model = EventDetectorTE(config)

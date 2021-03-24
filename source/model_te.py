@@ -46,6 +46,7 @@ class EventDetectorTE():
 		self.classification_only = config.classification_only
 		self.gold_trigger = config.gold_trigger
 
+		self.srl_model = eval(config.srl_model)
 		self.srl_args = eval(config.srl_args)
 		self.trg_thresh = eval(config.trg_thresh)
 		self.arg_thresh = eval(config.arg_thresh)
@@ -88,7 +89,7 @@ class EventDetectorTE():
 		self.sw = load_stopwords()
 		
 		# Load cached SRL output
-		self.verb_srl_dict, self.nom_srl_dict = load_srl()
+		self.verb_srl_dict, self.nom_srl_dict = load_srl(self.srl_model)
 		
 	
 	def load_models(self):
@@ -118,7 +119,8 @@ class EventDetectorTE():
 		                                                                        self.predicate_type,
 		                                                                        (self.verb_srl_dict, self.nom_srl_dict),
 		                                                                        self.sw,
-		                                                                        self.srl_args
+		                                                                        self.srl_args,
+		                                                                        self.srl_model
 		                                                                        ) # get SRL results for the current instance
 		pred_events = [] # a list of predicted events
 
@@ -126,7 +128,7 @@ class EventDetectorTE():
 		pred_events = self.extract_triggers(instance, pred_events, srl_id_results, text_pieces, trg_cands)
 		
 		# predict arguments
-		pred_events = self.extract_arguments(instance, pred_events, srl_id_results, text_pieces, trg_cands, srl2gold_maps)
+		# pred_events = self.extract_arguments(instance, pred_events, srl_id_results, text_pieces, trg_cands, srl2gold_maps)
 
 		return pred_events
 

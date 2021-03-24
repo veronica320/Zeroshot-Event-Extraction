@@ -15,8 +15,8 @@ arg_name_mapping = {"ATTACK": {"Victim":"Target",
 
 
 input_file = "data/ACE_oneie/en/event_only/dev.event.json"
-output_file = "output_dir/QA/dev_gt_ynm:boolq_roberta_exm:qamr-squad2_bert-l_t:0.99_a:0.65_all_['verb', 'nom']_head:True_pps:None_an:True_cp:whenNone_apt:ex_wtrg_gdl:False.event.json"
-fwn = "output_dir/QA/dev_gt_ynm:boolq_roberta_exm:qamr-squad2_bert-l_t:0.99_a:0.65_all_['verb', 'nom']_head:True_pps:None_an:True_cp:whenNone_apt:ex_wtrg_gdl:False.txt"
+output_file = "output_dir/QA/dev_gt_ynm:boolq_roberta_exm:qamr_roberta-l_t:0.99_a:0.0_all_['verb', 'nom']_head:True_pps:None_an:True_cp:whenNone_apt:ex_wtrg_gdl:False.event.json"
+fwn = "output_dir/QA/dev_gt_ynm:boolq_roberta_exm:qamr_roberta-l_t:0.99_a:0.0_all_['verb', 'nom']_head:True_pps:None_an:True_cp:whenNone_apt:ex_wtrg_gdl:False.txt"
 gold_dataset = IEDataset(input_file)
 pred_dataset = IEDataset(output_file)
 
@@ -157,9 +157,9 @@ with open(fwn, 'w') as fw:
 has_answer_df = pd.DataFrame(has_counter, index=arg_type_list, columns=has_answer_cats)
 has_answer_df.loc['Total'] = has_answer_df.sum(axis=0)
 has_answer_df['Total'] = has_answer_df.sum(axis=1)
-has_answer_df.to_csv('has_answer.csv', index=True, header=True, sep=',')
+has_answer_df.to_csv('has_answer_a:0.0.csv', index=True, header=True, sep=',')
 
 no_answer_df = pd.DataFrame(no_counter, index=arg_type_list, columns=no_answer_cats)
 no_answer_df.loc['Total'] = no_answer_df.sum(axis=0)
 no_answer_df['Total'] = no_answer_df.sum(axis=1)
-no_answer_df.to_csv('no_answer.csv', index=True, header=True, sep=',')
+no_answer_df.to_csv('no_answer_a:0.0.csv', index=True, header=True, sep=',')

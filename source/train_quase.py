@@ -58,6 +58,24 @@ parser.add_argument("--null_score_diff_threshold",
 				required=False,
 				help="If null_score - best_non_null is greater than the threshold predict null.",
 		)
+parser.add_argument("--mxlen",
+				default='384',
+				type=str,
+				required=False,
+				help="Max length of context.",
+		)
+parser.add_argument("--train_bsize",
+                    default='2',
+                    type=str,
+                    required=False,
+                    help="Training batch size per gpu."
+                    )
+parser.add_argument("--eval_bsize",
+                    default='2',
+                    type=str,
+                    required=False,
+                    help="Evaluation batch size per gpu."
+                    )
 
 args = parser.parse_args()
 
@@ -125,12 +143,12 @@ if args.mode == 'train_eval':
 			--data_dir $DATA_DIR/ \
 			--train_file $TRAIN_FILE \
 			--predict_file $PRED_FILE \
-			--per_gpu_train_batch_size 48 \
-			--per_gpu_eval_batch_size 12 \
+			--per_gpu_train_batch_size {args.train_bsize} \
+			--per_gpu_eval_batch_size {args.eval_bsize} \
 			--learning_rate 3e-5 \
 			--num_train_epochs {args.epochs} \
-			--max_seq_length 80 \
-			--doc_stride 40 \
+			--max_seq_length {args.mxlen} \
+			--doc_stride 128 \
 			--save_steps 50000 \
 			--output_dir $OUT_DIR \
 			--overwrite_output \
@@ -146,8 +164,8 @@ elif args.mode == 'eval':
 			--do_lower_case \
 			--data_dir $DATA_DIR/ \
 			--predict_file $PRED_FILE \
-			--per_gpu_eval_batch_size 48 \
-			--max_seq_length 80 \
+			--per_gpu_eval_batch_size {args.eval_bsize} \
+			--max_seq_length {args.mxlen} \
 			--doc_stride 40 \
 			--output_dir $OUT_DIR \
 			--fp16 \

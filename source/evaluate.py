@@ -31,10 +31,11 @@ add_neutral = config.add_neutral
 const_premise = eval(config.const_premise)
 arg_probe_type = eval(config.arg_probe_type)
 tune_on_gdl = eval(config.tune_on_gdl)
+srl_model = eval(config.srl_model)
 
 frn = config.input_file.split('/')[-1].split('.')[0]
 
-output_file = f"output_dir/TE/{frn}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}m:{bert_model_type}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_tp:{trg_probe_type}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
+output_file = f"output_dir/TE/{frn}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}m:{bert_model_type}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_tp:{trg_probe_type}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}_srl:{srl_model}.event.json"
 gold_dataset = IEDataset(config.input_file)
 pred_dataset = IEDataset(output_file)
 

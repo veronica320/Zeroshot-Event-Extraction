@@ -1,6 +1,6 @@
 {
     "use_gpu": true,
-    "gpu_devices": "7",
+    "gpu_devices": "0",
     "bert_cache_dir": "/shared/.cache/transformers",
     "root_dir": "/shared/lyuqing/probing_for_event",
     "input_file": "data/ACE_oneie/en/event_only/dev.event.json",
@@ -10,7 +10,7 @@
 
     "YN_QA_model_name": "boolq_roberta",
 
-    "EX_QA_model_name": "squad2_1sent_bert",
+    "EX_QA_model_name": "qamr_roberta-l",
 
     "srl_args": "[['V'], ['V','ARG0','ARG1'], ['V','ARG0','ARG1','ARG2'], ['V','ARG0'], ['V', 'ARG1'], 'all'][-1]",
     "trg_thresh": "[0.80, 0.85, 0.900, 0.95, 0.97, 0.98, 0.99, 0.995][-2]",

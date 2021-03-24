@@ -38,7 +38,7 @@ Time_Arg:When is the transportation
 
 TRANSFER-OWNERSHIP
 Buyer_Arg:Who buys something
-Seller_Arg:Who sells anything
+Seller_Arg:Who sells something
 Artifact_Arg:What is bought
 Price_Arg:How much does something cost
 Beneficiary_Arg:Who is something bought for
