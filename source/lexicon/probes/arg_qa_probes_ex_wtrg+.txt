@@ -1,0 +1,223 @@
+BE-BORN
+Person_Arg:Who is born in {trigger}
+Place_Arg:Where is the {trigger}
+Time_Arg:When is the {trigger}
+
+MARRY
+Person_Arg:Who is married in {trigger}
+Place_Arg:Where is the {trigger}
+Time_Arg:When is the {trigger}
+
+DIVORCE
+Person_Arg:Who is divorced in {trigger}
+Place_Arg:Where is the {trigger}
+Time_Arg:When is the {trigger}
+
+INJURE
+Agent_Arg:Who injures someone in {trigger}
+Victim_Arg:Who is injured in {trigger}
+Instrument_Arg:What instrument is someone injured with in {trigger}
+Place_Arg:Where is the {trigger}
+Time_Arg:When is the {trigger}
+
+DIE
+Agent_Arg:Who kills someone in {trigger}
+Victim_Arg:Who is killed in {trigger}
+Instrument_Arg:What instrument is someone killed with in {trigger}
+Place_Arg:Where is the {trigger}
+Time_Arg:When is the {trigger}
+
+TRANSPORT
+Agent_Arg:Who is responsible for the {trigger}
+Artifact_Arg:What is transported in {trigger}
+Vehicle_Arg:What is the vehicle used in the {trigger}
+Price_Arg:What is the cost of the {trigger}
+Origin_Arg:Where is the origin of the {trigger}
+Destination_Arg:Where is the destination of the {trigger}
+Time_Arg:When is the {trigger}
+
+TRANSFER-OWNERSHIP
+Buyer_Arg:Who buys something in {trigger}
+Seller_Arg:Who sells something in {trigger}
+Artifact_Arg:What is bought in {trigger}
+Price_Arg:How much does something cost in {trigger}
+Beneficiary_Arg:Who is something bought for in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+TRANSFER-MONEY
+Giver_Arg:Who gives the money in {trigger}
+Recipient_Arg:Who receives the money in {trigger}
+Beneficiary_Arg:Who is the beneficiary of the {trigger}
+Money_Arg:How much is given in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+START-ORG
+Agent_Arg:Who starts an organization in {trigger}
+Org_Arg:What organization is started in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+MERGE-ORG
+Org_Arg:What organization is merged in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+DECLARE-BANKRUPTCY
+Org_Arg:What organization is bankrupt in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+END-ORG
+Org_Arg:What organization is ended in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+ATTACK
+Attacker_Arg:Who attacks someone in {trigger}
+Target_Arg:Who is attacked in {trigger}
+Instrument_Arg:What instrument is someone attacked with in {trigger}
+Place_Arg:Where is the {trigger}
+Time_Arg:When is the {trigger}
+
+DEMONSTRATE
+Entity_Arg:Who goes on a demonstration in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+MEET
+Entity_Arg:Who meets with someone in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+PHONE-WRITE
+Entity_Arg:Who has a written or phone communication with someone in {trigger}
+Time_Arg:When is the {trigger}
+
+START-POSITION
+Person_Arg:Who starts a job in {trigger}
+Entity_Arg:Who hires someone in {trigger}
+Position_Arg:What is the new position in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+END-POSITION
+Person_Arg:Who ends a job in {trigger}
+Entity_Arg:What organization does someone leave from in {trigger}
+Position_Arg:What position does someone leave in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+NOMINATE
+Agent_Arg:Who nominates someone in {trigger}
+Person_Arg:Who is nominated in {trigger}
+Position_Arg:What is someone nominated as in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+ELECT
+Entity_Arg:Who elects someone in {trigger}
+Person_Arg:Who is elected in {trigger}
+Position_Arg:What is someone elected as in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+ARREST-JAIL
+Agent_Arg:Who arrests someone in {trigger}
+Person_Arg:Who is arrested in {trigger}
+Crime_Arg:What crime is someone arrested for in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+RELEASE-PAROLE
+Agent_Arg:Who releases someone in {trigger}
+Person_Arg:Who is released in {trigger}
+Crime_Arg:What crime is someone previously being held for in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+TRIAL-HEARING
+Prosecutor_Arg:Who is the prosecutor in {trigger}
+Defendant_Arg:Who is on trial in {trigger}
+Crime_Arg:What crime is someone being tried for in {trigger}
+Adjudicator_Arg:Who is the adjudicator in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+CHARGE-INDICT
+Prosecutor_Arg:Who is the prosecutor in {trigger}
+Defendant_Arg:Who is charged in {trigger}
+Crime_Arg:What crime is someone charged for in {trigger}
+Adjudicator_Arg:Who is the adjudicator in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+
+SUE
+Plaintiff_Arg:Who sues someone in {trigger}
+Defendant_Arg:Who is sued in {trigger}
+Crime_Arg:What crime is someone sued for in {trigger}
+Adjudicator_Arg:Who is the adjudicator in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+CONVICT
+Defendant_Arg:Who is convicted in {trigger}
+Crime_Arg:What crime is someone convicted for in {trigger}
+Adjudicator_Arg:Who is the adjudicator in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+SENTENCE
+Defendant_Arg:Who is sentenced in {trigger}
+Crime_Arg:What crime is someone convicted for in {trigger}
+Sentence_Arg:What is the sentence in {trigger}
+Adjudicator_Arg:Who is the adjudicator in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+FINE
+Adjudicator_Arg:Who fines someone in {trigger}
+Entity_Arg:Who is fined in {trigger}
+Crime_Arg:What crime is someone fined for in {trigger}
+Money_Arg:How much is the fine in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+EXECUTE
+Agent_Arg:Who executes someone in {trigger}
+Person_Arg:Who is executed in {trigger}
+Crime_Arg:What crime is someone executed for in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+EXTRADITE
+Agent_Arg:Who extradites someone in {trigger}
+Person_Arg:Who is extradited in {trigger}
+Crime_Arg:What crime is someone extradited for in {trigger}
+Origin_Arg:Where is the origin of the extradition in {trigger}
+Destination_Arg:Where is the destination of the extradition in {trigger}
+Time_Arg:When is the {trigger}
+
+ACQUIT
+Adjudicator_Arg:Who acquits someone in {trigger}
+Defendant_Arg:Who is acquitted in {trigger}
+Crime_Arg:What crime is someone previously charged for in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+PARDON
+Adjudicator_Arg:Who pardons someone in {trigger}
+Defendant_Arg:Who is pardoned in {trigger}
+Crime_Arg:What crime is someone pardoned for in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}
+
+APPEAL
+Defendant_Arg:Who makes an appeal in {trigger}
+Prosecutor_Arg:Who is the prosecutor in {trigger}
+Crime_Arg:What is the crime in {trigger}
+Adjudicator_Arg:Who is the adjudicator in {trigger}
+Time_Arg:When is the {trigger}
+Place_Arg:Where is the {trigger}

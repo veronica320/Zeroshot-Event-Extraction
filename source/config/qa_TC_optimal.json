@@ -21,6 +21,7 @@
     "identify_head": true,
     "tune_on_gdl": "[True, False][1]",
     "const_premise": "['false', 'whenNone', 'alwaystrg'][1]",
-    "pair_premise_strategy": "[None, 'max_delta', 'max_conf+delta'][2]"
+    "pair_premise_strategy": "[None, 'max_delta', 'max_conf+delta'][2]",
+
 
 }

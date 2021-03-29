@@ -20,15 +20,31 @@ from utils import *
 os.chdir('/shared/lyuqing/probing_for_event/')
 
 
-class EventDetectorQA():
+bert_type_models = ['bert',
+                    'bertl',
+					'mbert',
+                    'qamr_mbert',
+                    'qamr_mbert-cased',
+                    "squad2_mbert",
+					"MLQA_squad2_mbert",
+					'elior_bert-lc_mnli',
+					'elior_bert_squad2',
+					'squad2_elior_bert-lc_mnli',
+					'qamr_elior_bert-lc_mnli',
+					'qamr-squad2_elior_bert-lc_mnli']
+
+
+class MultilingEventDetectorQA():
 	def __init__(self,
 	             config,
 	             ):
 		self.cache_dir = config.bert_cache_dir
 
 		self.YN_QA_model_name = config.YN_QA_model_name # Yes/No QA model
+		# self.YN_idk = config.YN_idk # IDK class in Yes/No QA model
 
 		self.EX_QA_model_name = config.EX_QA_model_name # Extractive QA model
+		# self.EX_idk = config.EX_idk # IDK class in Extractive QA model
 
 		if config.use_gpu and config.gpu_devices != -1:
 			self.gpu_devices = [int(_) for _ in config.gpu_devices.split(",")]
@@ -57,8 +73,12 @@ class EventDetectorQA():
 			self.trg_probe_lexicon = load_trg_probe_lexicon(fr)
 
 		# Load argument probes and the SRL-to-ACE argument map
-
-		arg_probes_frn = f'{probe_dir}arg_qa_probes_{self.arg_probe_type}.txt'
+		if self.arg_probe_type == 'bool':
+			arg_probes_frn = f'{probe_dir}arg_qa_probes_bool.txt'
+		elif self.arg_probe_type == 'ex':
+			arg_probes_frn = f'{probe_dir}arg_qa_probes_ex.txt'
+		elif self.arg_probe_type == 'ex_wtrg': # instantiated trigger in the argument questions
+			arg_probes_frn = f'{probe_dir}arg_qa_probes_ex_wtrg.txt'
 		with open(arg_probes_frn, 'r') as fr:
 			self.arg_probe_lexicon = load_arg_probe_lexicon(fr, self.arg_probe_type)
 		with open('source/lexicon/arg_srl2ace.txt') as fr:
@@ -71,14 +91,14 @@ class EventDetectorQA():
 		self.sw = load_stopwords()
 
 		# Load cached SRL output
-		self.verb_srl_dict, self.nom_srl_dict = load_srl()
+		# self.verb_srl_dict, self.nom_srl_dict = load_srl()
 
 	def load_models(self):
 		print('Loading constituency and dependency parser...')
-		self.dependency_parser = Predictor.from_path(
-			"https://s3-us-west-2.amazonaws.com/allennlp/models/biaffine-dependency-parser-ptb-2018.08.23.tar.gz")
-		self.constituency_parser = Predictor.from_path(
-			"https://s3-us-west-2.amazonaws.com/allennlp/models/elmo-constituency-parser-2018.03.14.tar.gz")
+		# self.dependency_parser = Predictor.from_path(
+		# 	"https://s3-us-west-2.amazonaws.com/allennlp/models/biaffine-dependency-parser-ptb-2018.08.23.tar.gz")
+		# self.constituency_parser = Predictor.from_path(
+		# 	"https://s3-us-west-2.amazonaws.com/allennlp/models/elmo-constituency-parser-2018.03.14.tar.gz")
 
 		model_dir = "output_model_dir"
 		yn_qa_model_path = f"{model_dir}/{self.YN_QA_model_name}" # Yes/No QA model
@@ -104,12 +124,15 @@ class EventDetectorQA():
 		:param instance (Instance): a sentence instance
 		"""
 
-		srl_id_results, text_pieces, trg_cands, srl2gold_maps = get_srl_results(instance,
-		                                                                        self.predicate_type,
-		                                                                        (self.verb_srl_dict, self.nom_srl_dict),
-		                                                                        self.sw,
-		                                                                        self.srl_args
-		                                                                        )  # get SRL results for the current instance
+		# srl_id_results, text_pieces, trg_cands, srl2gold_maps = get_srl_results(instance,
+		#                                                                         self.predicate_type,
+		#                                                                         (self.verb_srl_dict, self.nom_srl_dict),
+		#                                                                         self.sw,
+		#                                                                         self.srl_args
+		#                                                                         )  # get SRL results for the current instance
+
+		srl_id_results, text_pieces, trg_cands, srl2gold_maps = None, None, {}, None
+
 		pred_events = []  # a list of predicted events
 
 		# predict triggers
@@ -138,15 +161,15 @@ class EventDetectorQA():
 
 				# Get the context
 				srl_id, text_piece = None, None
-				for id, cand in trg_cands.items():
-					if trigger_text in cand[1] or cand[1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
-						text_piece = text_pieces[id]  # Use the srl text piece as the premise
-						srl_id = id
-				if text_piece == None:  # if the gold trigger isn't in SRL prediates
-					if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
-						text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
-				if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
-					text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+				# for id, cand in trg_cands.items():
+				# 	if trigger_text in cand[1] or cand[1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
+				# 		text_piece = text_pieces[id]  # Use the srl text piece as the premise
+				# 		srl_id = id
+				# if text_piece == None:  # if the gold trigger isn't in SRL prediates
+				# 	if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
+				# 		text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+				# if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
+				# 	text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
 
 				context = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
 
@@ -212,7 +235,7 @@ class EventDetectorQA():
 
 		sent = instance.sentence
 		tokens_gold = instance.tokens  # ACE tokens
-		verb_srl2gold, nom_srl2gold = srl2gold_maps
+		# verb_srl2gold, nom_srl2gold = srl2gold_maps
 
 		if self.classification_only:
 			for gold_event, pred_event in zip(instance.events, pred_events):
@@ -261,7 +284,6 @@ class EventDetectorQA():
 					context_tokens = text_piece_tokens
 				else:
 					context_tokens = tokens_gold
-				event['arg_textpiece'] = ' '.join(context_tokens)
 
 				if self.arg_probe_type == 'bool': # Y/N quesitons
 					# Construct srl_arg_dict
@@ -313,28 +335,28 @@ class EventDetectorQA():
 						confidence = output["confidence"]
 						if span and confidence >= self.arg_thresh: # top answer is not None; confidence is high enough
 							answer_tokens = output['answer_tokens']
-							arg_text = ' '.join(answer_tokens)
-							if self.identify_head: # get the head
-								pos_tags = [tag for _, tag in pos_tag(answer_tokens)]
-								if answer_tokens: # TODO: check why answer_token = [] and span = (0,0)
-									try:
-										head_idx, head_token = get_head(self.dependency_parser, span, answer_tokens, pos_tags)
-									except IndexError:
-										head_idx, head_token = None, None
-										# print(answer_tokens, span)
-									if head_idx: # TODO: check when head is None
-										span = (head_idx, head_idx+1)
-										arg_text = head_token
-							if srl_id: # map context ids back to ACE gold ids
-								start, end_pre = span[0], span[1]-1
-								start_in_srl, end_in_srl = text_piece_token_ids[start], text_piece_token_ids[end_pre]+1
-								try:
-									gold_start, gold_end = srl2gold[start_in_srl], srl2gold[end_in_srl]
-								except KeyError:
-									print(srl2gold)
-									print(span)
-									gold_start, gold_end = None, None
-								span = (gold_start, gold_end)
+							arg_text = ''.join(answer_tokens)
+							# if self.identify_head: # get the head
+							# 	pos_tags = [tag for _, tag in pos_tag(answer_tokens)]
+							# 	if answer_tokens: # TODO: check why answer_token = [] and span = (0,0)
+							# 		try:
+							# 			head_idx, head_token = get_head(self.dependency_parser, span, answer_tokens, pos_tags)
+							# 		except IndexError:
+							# 			head_idx, head_token = None, None
+							# 			# print(answer_tokens, span)
+							# 		if head_idx: # TODO: check when head is None
+							# 			span = (head_idx, head_idx+1)
+							# 			arg_text = head_token
+							# if srl_id: # map context ids back to ACE gold ids
+							# 	start, end_pre = span[0], span[1]-1
+							# 	start_in_srl, end_in_srl = text_piece_token_ids[start], text_piece_token_ids[end_pre]+1
+							# 	try:
+							# 		gold_start, gold_end = srl2gold[start_in_srl], srl2gold[end_in_srl]
+							# 	except KeyError:
+							# 		print(srl2gold)
+							# 		print(span)
+							# 		gold_start, gold_end = None, None
+							# 	span = (gold_start, gold_end)
 							event['arguments'].append({'text': arg_text,
 							                           'role': cand_ace_arg[:-4],
 							                           'start': span[0],

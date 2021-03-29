@@ -110,22 +110,22 @@ Time_Arg:When the employment relationship ends
 Place_Arg:Where the employment relationship ends
 
 NOMINATE
-Agent_Arg:The person nominated
-Person_Arg:The nominating agent
+Agent_Arg:The nominating agent
+Person_Arg:The person nominated
 Position_Arg:The job title for the position being nominated to
 Time_Arg:When the nomination takes place
 Place_Arg:Where the nomination takes place
 
 ELECT
-Agent_Arg:The person elected
-Person_Arg:The voting agent
+Entity_Arg:The voting agent
+Person_Arg:The person elected
 Position_Arg:The job title for the position being nominated to
 Time_Arg:When the election takes place
 Place_Arg:Where the election takes place
 
 ARREST-JAIL
-Agent_Arg:The person who is jailed or arrested
-Person_Arg:The jailer or the arresting agent
+Agent_Arg:The jailer or the arresting agent
+Person_Arg:The person who is jailed or arrested
 Crime_Arg:The crime for which the person is being jailed or arrested
 Time_Arg:When the person is arrested or sent to jail
 Place_Arg:Where the person is arrested or where they are in jail

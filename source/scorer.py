@@ -3,7 +3,10 @@
 
 def safe_div(num, denom):
 	if denom > 0:
-		return num / denom
+		if num / denom <= 1:
+			return num / denom
+		else:
+			return 1
 	else:
 		return 0
 

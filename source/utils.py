@@ -7,13 +7,33 @@ from nltk import word_tokenize, sent_tokenize
 from copy import deepcopy
 from allennlp.predictors.predictor import Predictor
 from pprint import pprint
+import torch
 
+bert_type_models = ['bert',
+                    'bertl',
+					'mbert',
+                    'qamr-squad2_bert-l',
+                    'qamr_mbert',
+                    'qamr_mbert-cased',
+                    "squad2_mbert",
+					"MLQA_squad2_mbert",
+					'elior_bert-lc_mnli',
+					'elior_bert_squad2',
+					'squad2_elior_bert-lc_mnli',
+					'qamr_elior_bert-lc_mnli',
+					'qamr-squad2_elior_bert-lc_mnli',
+                    'squad2_1sent_bert',
+                    'squad2_1sent_roberta',
+                    'squad2-s_na+ha_bert',
+                    'squad2_ha_bert',
+                    ]
 
 def get_srl_results(instance,
                     predicate_type,
                     srl_dicts,
                     sw,
-                    srl_args
+                    srl_args,
+                    srl_model
                     ):
 	"""Get the SRL result for one instance. """
 
@@ -60,9 +80,12 @@ def get_srl_results(instance,
 		# get non-stopword nominals
 		for res in nom_srl_results:
 			if set(res['tags']) != {'O'} and res['nominal'] not in sw:
-				span = res["predicate_index"]
-				for pred_id in span:
-					res['tags'][pred_id] = "B-V"
+				if srl_model == "allen+celine":
+					span = res["predicate_index"]
+					for pred_id in span:
+						res['tags'][pred_id] = "B-V"
+				elif srl_model == "illinois":
+					span = [i for i, tag in enumerate(res['tags']) if tag in ['B-V', 'I-V']]
 				if span:
 					span = (nom_srl2gold[span[0]], nom_srl2gold[span[-1]] + 1)  # map srl ids to gold ids
 					text_piece = ' '.join([nom_srl_tokens[i] for i, tag in enumerate(res['tags']) if
@@ -76,6 +99,46 @@ def get_srl_results(instance,
 
 	return srl_id_results, text_pieces, trg_cands, srl2gold_maps
 
+def gold_to_bert_tokens(tokenizer, gold_tokens, EX_QA_model_type):
+	"""Tokenize a piece of text using a Huggingface transformers tokenizer, and get a mapping between gold tokens and bert tokens. """
+	goldid_2_bertid = []
+	if EX_QA_model_type in bert_type_models:
+		bert_tokens = []
+		bertid_2_goldid = []
+		grouped_inputs = []  # input ids to pass to QA model
+	else:
+		bert_tokens = ['<s>']
+		bertid_2_goldid = [-1]
+		grouped_inputs = [torch.LongTensor([tokenizer.bos_token_id])]  # input ids to pass to QA model
+
+	for goldid, gold_token in enumerate(gold_tokens):
+		goldid_2_bertid.append([])
+		if EX_QA_model_type in bert_type_models:
+			_tokens_encoded = tokenizer.encode(gold_token, return_tensors="pt", add_special_tokens=False).squeeze(
+				axis=0)
+		elif EX_QA_model_type == 'qamr_xlm-roberta':
+			_tokens_encoded = tokenizer.encode(gold_token, return_tensors="pt",
+			                                      add_special_tokens=False).squeeze(axis=0)
+		else:
+			_tokens_encoded = tokenizer.encode(gold_token, add_prefix_space=True, return_tensors="pt",
+			                                      add_special_tokens=False).squeeze(axis=0)
+		_tokens = tokenizer.convert_ids_to_tokens(_tokens_encoded.tolist())
+		grouped_inputs.append(_tokens_encoded)
+		for bert_token in _tokens:
+			bert_tokens.append(bert_token)
+			bertid_2_goldid.append(goldid)
+			goldid_2_bertid[-1].append(len(bertid_2_goldid) - 1)
+	if EX_QA_model_type in bert_type_models:
+		grouped_inputs.append(torch.LongTensor([tokenizer.sep_token_id]))  # input ids to pass to QA model
+		bert_tokens.append('[SEP]')
+	else:
+		grouped_inputs.append(torch.LongTensor([tokenizer.eos_token_id]))
+		bert_tokens.append('</s>')
+	bertid_2_goldid.append(-1)
+	flattened_inputs = torch.cat(grouped_inputs)
+	flattened_inputs = torch.unsqueeze(flattened_inputs, 0)
+	return flattened_inputs, bert_tokens, goldid_2_bertid, bertid_2_goldid
+
 def get_gold_map(tokens, gold_tokens):
 	"""There is often an inconsistency between arbitrary token ids (e.g. the SRL token ids) and the gold ACE token ids. This method maps arbitrary ids to gold ids.
 	
@@ -84,14 +147,14 @@ def get_gold_map(tokens, gold_tokens):
 	:return (list): a list mapping arbitrary token ids to gold token ids, i.e. tokenid_2_goldid[an_arbitrary_id] would give the corresponding gold id.
 	"""
 	tokenid_2_goldid = {}
-	i = j = -1 # token pointer, gold token pointer
+	i, j = -1, -1 # token pointer, gold token pointer
 	prefix_i = prefix_j= ''
 	len_prefix_i = len_prefix_j = 0
 	loop_count = 0
 	while i < len(tokens) and j < len(gold_tokens):
 		loop_count += 1
-		if loop_count >= 150:
-			print(f'Infinite loop:\n{tokens}\n{gold_tokens}\n{prefix_i}\n{prefix_j}')
+		if loop_count >= 1000:
+			print(f'Infinite loop:{loop_count}\n{tokens}\n{gold_tokens}\n{prefix_i}\n{prefix_j}')
 			break
 		if prefix_i == '':
 			i += 1
@@ -229,12 +292,15 @@ def get_nom_srl(nom_srl_dict, instance):
 		srl2gold_id_map = {i:i for i in range(len(tokens_srl))}
 	return srl_output, srl2gold_id_map
 
-def load_srl():
+def load_srl(srl_model):
 	"""Loads cached SRL predictions."""
 	
 	verb_srl_dict, nom_srl_dict = {}, {}
 	for type in ['verb', 'nom']:
-		path = f"data/srl_output/{type}SRL_output_withid_full.json"
+		if srl_model == "allen+celine":
+			path = f"data/srl_output/{type}SRL_output_withid_full.json"
+		elif srl_model == "illinois":
+			path = f"data/srl_output/illinois_srl/{type}SRL_illinois_dev.json"
 		with open(path, 'r') as fr:
 			for line in fr:
 				srl_res = json.loads(line)
