@@ -69,7 +69,7 @@ with open(output_file, 'w') as fw:
 		          }
 
 		fw.write(json.dumps(output) + '\n')
-
+		fw.flush()
 
 
 

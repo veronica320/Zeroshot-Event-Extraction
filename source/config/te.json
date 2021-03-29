@@ -4,9 +4,9 @@
     "bert_cache_dir": "/shared/.cache/transformers",
     "root_dir": "/shared/lyuqing/probing_for_event",
     "input_file": "data/ACE_oneie/en/event_only/dev.event.json",
-    "srl_model": "['allen+celine', 'illinois'][0]",
+    "srl_model": "['celine_old', 'celine_new', 'illinois', 'celine_new_all'][2]",
 
-    "classification_only": false,
+    "classification_only": true,
     "gold_trigger": false,
 
     "bert_model_type": "robertal",

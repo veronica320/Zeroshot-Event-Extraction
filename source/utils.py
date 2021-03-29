@@ -54,10 +54,11 @@ def get_srl_results(instance,
 	# SRL
 	if 'verb' in predicate_type:  # load verbSRL output
 		verb_srl_output, verb_srl2gold = get_verb_srl(verb_srl_dict, instance)  # the entire srl output; mapping from SRL token ids to gold token ids
-		verb_srl_tokens, verb_srl_results = verb_srl_output['words'], verb_srl_output[
-			'verbs']  # tokens according to SRL tokenization; srl results
+		verb_srl_tokens, verb_srl_results = verb_srl_output['words'], verb_srl_output['verbs']  # tokens according to SRL tokenization; srl results
 		srl2gold_maps.append(verb_srl2gold)
 		# get non-stopword verbs
+		if not verb_srl_results:
+			verb_srl_results = []
 		for res in verb_srl_results:
 			if set(res['tags']) != {'B-V', 'O'} and res['verb'] not in sw:
 				span = [i for i, tag in enumerate(res['tags']) if tag in ['B-V', 'I-V']]
@@ -78,13 +79,16 @@ def get_srl_results(instance,
 			'nominals']  # tokens according to SRL tokenization; srl results
 		srl2gold_maps.append(nom_srl2gold)
 		# get non-stopword nominals
+		if not nom_srl_results:
+			nom_srl_results = []
 		for res in nom_srl_results:
 			if set(res['tags']) != {'O'} and res['nominal'] not in sw:
-				if srl_model == "allen+celine":
+				span = None
+				if srl_model == "celine_old":
 					span = res["predicate_index"]
 					for pred_id in span:
 						res['tags'][pred_id] = "B-V"
-				elif srl_model == "illinois":
+				else:
 					span = [i for i, tag in enumerate(res['tags']) if tag in ['B-V', 'I-V']]
 				if span:
 					span = (nom_srl2gold[span[0]], nom_srl2gold[span[-1]] + 1)  # map srl ids to gold ids
@@ -156,6 +160,7 @@ def get_gold_map(tokens, gold_tokens):
 		if loop_count >= 1000:
 			print(f'Infinite loop:{loop_count}\n{tokens}\n{gold_tokens}\n{prefix_i}\n{prefix_j}')
 			break
+			# return None
 		if prefix_i == '':
 			i += 1
 			prefix_i += tokens[i]
@@ -271,6 +276,7 @@ def get_verb_srl(verb_srl_dict, instance):
 	sent_id = instance.sent_id
 	tokens_gold = instance.tokens
 	srl_output = verb_srl_dict[sent_id]
+	srl_output["words"] = [word for word in srl_output["words"] if word != "\\"]
 	tokens_srl = srl_output['words']
 	if tokens_srl != tokens_gold:
 		srl2gold_id_map = get_gold_map(tokens_srl, tokens_gold)
@@ -285,6 +291,7 @@ def get_nom_srl(nom_srl_dict, instance):
 	tokens_gold = instance.tokens
 
 	srl_output = nom_srl_dict[sent_id]
+	srl_output["words"] = [word for word in srl_output["words"] if word != "\\"]
 	tokens_srl = srl_output['words']
 	if tokens_srl != tokens_gold:
 		srl2gold_id_map = get_gold_map(tokens_srl, tokens_gold)
@@ -297,10 +304,11 @@ def load_srl(srl_model):
 	
 	verb_srl_dict, nom_srl_dict = {}, {}
 	for type in ['verb', 'nom']:
-		if srl_model == "allen+celine":
-			path = f"data/srl_output/{type}SRL_output_withid_full.json"
-		elif srl_model == "illinois":
-			path = f"data/srl_output/illinois_srl/{type}SRL_illinois_dev.json"
+		path = None
+		if srl_model == "celine_old":
+			path = f"data/srl_output/{srl_model}/{type}SRL_output_withid_full.json"
+		else:
+			path = f"data/srl_output/{srl_model}/{type}SRL_{srl_model}_dev.json"
 		with open(path, 'r') as fr:
 			for line in fr:
 				srl_res = json.loads(line)
