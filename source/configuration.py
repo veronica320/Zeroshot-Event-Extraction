@@ -32,6 +32,7 @@ class Config(object):
 
     @classmethod
     def from_json_file(cls, path):
+        # print(os.getcwd())
         with open(path, 'r', encoding='utf-8') as r:
             return cls.from_dict(json.load(r))
 
