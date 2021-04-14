@@ -38,6 +38,7 @@ class EventDetectorQA():
 		self.classification_only = config.classification_only
 		self.gold_trigger = config.gold_trigger
 
+		self.srl_model = eval(config.srl_model)
 		self.srl_args = eval(config.srl_args)
 		self.trg_thresh = eval(config.trg_thresh)
 		self.arg_thresh = eval(config.arg_thresh)
@@ -71,7 +72,7 @@ class EventDetectorQA():
 		self.sw = load_stopwords()
 
 		# Load cached SRL output
-		self.verb_srl_dict, self.nom_srl_dict = load_srl()
+		self.verb_srl_dict, self.nom_srl_dict = load_srl(self.srl_model)
 
 	def load_models(self):
 		print('Loading constituency and dependency parser...')
@@ -108,7 +109,8 @@ class EventDetectorQA():
 		                                                                        self.predicate_type,
 		                                                                        (self.verb_srl_dict, self.nom_srl_dict),
 		                                                                        self.sw,
-		                                                                        self.srl_args
+		                                                                        self.srl_args,
+		                                                                        self.srl_model
 		                                                                        )  # get SRL results for the current instance
 		pred_events = []  # a list of predicted events
 
@@ -430,12 +432,14 @@ class EventDetectorQA():
 	def answer_ex(self, question, context_tokens):
 		"""Answers an extractive question."""
 
-		if context_tokens and len(context_tokens) > 1:  # Capitalize the first letter of the context
+		# Capitalize the first letter
+		if context_tokens and len(context_tokens) > 1:
 			context_tokens[0] = context_tokens[0][0].upper() + context_tokens[0][1:]
 		question = question[0].upper() + question[1:]
 		if question[-1] != '?':
 			question = question + '?'
 
+		# Encode the question and context separately
 		question_tensor = self.ex_tokenizer.encode(question, return_tensors="pt")
 		question_input_ids = question_tensor.tolist()[0]
 		question_tokens = self.ex_tokenizer.convert_ids_to_tokens(question_input_ids)
@@ -448,6 +452,7 @@ class EventDetectorQA():
 		input_ids = input_tensor.tolist()[0]
 		bert_tokens = question_tokens + context_bert_tokens
 
+		# Deal with BERT-based models and other models separately
 		if self.EX_QA_model_name in bert_type_models:
 			token_type_ids = torch.tensor([0] * question_len + [1] * context_len)
 			token_type_ids = torch.unsqueeze(token_type_ids, 0).to('cuda:0')
@@ -470,58 +475,89 @@ class EventDetectorQA():
 			# 	        'confidence': None,
 			# 	        }
 		else:
-			try:
-				outputs = self.ex_qa_model(input_tensor)
-			except RuntimeError:  # TODO: Expected tensor for argument #1 'indices' to have scalar type Long; but got torch.cuda.FloatTensor instead (while checking arguments for embedding)
-				print(question, question_tokens)
-				print(question_tokens)
-				print(input_tensor)
-				return {'span': None,
-				        'answer': None,
-				        'answer_tokens': None,
-				        'confidence': None,
-				        }
+			# try:
 
-		answer_start_scores = outputs[0]
-		answer_end_scores = outputs[1]
-		start_probs = torch.softmax(answer_start_scores, dim=1).tolist()[0]
-		end_probs = torch.softmax(answer_end_scores, dim=1).tolist()[0]
-		answer_start = torch.argmax(
-			answer_start_scores).tolist()  # Get the most likely beginning of answer with the argmax of the score
-		answer_end = torch.argmax(
-			answer_end_scores).tolist()  # Get the most likely end of answer with the argmax of the score
-		confidence = np.mean([start_probs[answer_start], end_probs[answer_end]])
+			outputs = self.ex_qa_model(input_tensor)
 
-		bert_span = (answer_start - question_len, answer_end - question_len)
+			# except RuntimeError:  # TODO: Expected tensor for argument #1 'indices' to have scalar type Long; but got torch.cuda.FloatTensor instead (while checking arguments for embedding)
+			# 	print(question, question_tokens)
+			# 	print(question_tokens)
+			# 	print(input_tensor)
+			# 	return {'span': None,
+			# 	        'answer': None,
+			# 	        'answer_tokens': None,
+			# 	        'confidence': None,
+			# 	        }
 
-		if bert_span[0] > bert_span[1] \
-			or bert_span[0] < 0 \
-			or bert_span[1] < 0:  # no answer
-			gold_span = None
-			answer = None
-			answer_tokens = None
-		else:
-			try:
-				gold_span = (bertid_2_goldid[bert_span[0]], bertid_2_goldid[bert_span[1]] + 1)
-			except: # TODO: check why
-				print(bertid_2_goldid)
-				print(context_bert_tokens)
-				print(context_tokens)
-				print(answer_start, answer_end)
-				print(bert_span)
-				return {'span': None,
-				        'answer': None,
-				        'answer_tokens': None,
-				        'confidence': None,
-				        }
-			answer_tokens = context_tokens[gold_span[0]:gold_span[1]]
-			answer = ' '.join(answer_tokens)
-		if answer == '': # TODO merge with span logic
-			gold_span = None
-			answer = None
-			answer_tokens = None
-		return {'span': gold_span,
-		        'answer': answer,
-		        'answer_tokens': answer_tokens,
-		        'confidence': confidence,
-		        }
+		# Get the top k answers with post-processing function
+		start_logits = outputs[0].cpu().detach().numpy()[0]
+		end_logits = outputs[1].cpu().detach().numpy()[0]
+		print(start_logits,end_logits)
+		best_prediction, predictions = postprocess_qa_predictions(input_ids=input_ids,
+		                                                          predictions=(start_logits, end_logits),
+		                                                          version_2_with_negative=True,
+		                                                          n_best_size=10,
+		                                                          max_answer_length=20,
+		                                                          null_score_diff_threshold=0.0,
+		                                                          )
+
+
+		## Match the predicted spans to texts
+		final_predictions = []
+		for pred in predictions + [best_prediction]:
+			final_pred = match_bert_span_to_text(pred,
+			                               bertid_2_goldid,
+			                               question_len,
+			                               context_tokens)
+			if final_pred is not None:  # valid prediction
+				final_predictions.append(final_pred)
+
+
+		return best_prediction
+
+
+
+		# # Get the best answer only
+		# answer_start_scores = outputs[0]
+		# answer_end_scores = outputs[1]
+		# start_probs = torch.softmax(answer_start_scores, dim=1).tolist()[0]
+		# end_probs = torch.softmax(answer_end_scores, dim=1).tolist()[0]
+		# answer_start = torch.argmax(
+		# 	answer_start_scores).tolist()  # Get the most likely beginning of answer with the argmax of the score
+		# answer_end = torch.argmax(
+		# 	answer_end_scores).tolist()  # Get the most likely end of answer with the argmax of the score
+		# confidence = np.mean([start_probs[answer_start], end_probs[answer_end]])
+		#
+		# bert_span = (answer_start - question_len, answer_end - question_len)
+		#
+		# if bert_span[0] > bert_span[1] \
+		# 	or bert_span[0] < 0 \
+		# 	or bert_span[1] < 0:  # no answer
+		# 	gold_span = None
+		# 	answer = None
+		# 	answer_tokens = None
+		# else:
+		# 	try:
+		# 		gold_span = (bertid_2_goldid[bert_span[0]], bertid_2_goldid[bert_span[1]] + 1)
+		# 	except: # TODO: check why
+		# 		print(bertid_2_goldid)
+		# 		print(context_bert_tokens)
+		# 		print(context_tokens)
+		# 		print(answer_start, answer_end)
+		# 		print(bert_span)
+		# 		return {'span': None,
+		# 		        'answer': None,
+		# 		        'answer_tokens': None,
+		# 		        'confidence': None,
+		# 		        }
+		# 	answer_tokens = context_tokens[gold_span[0]:gold_span[1]]
+		# 	answer = ' '.join(answer_tokens)
+		# if answer == '': # TODO merge with span logic
+		# 	gold_span = None
+		# 	answer = None
+		# 	answer_tokens = None
+		# return {'span': gold_span,
+		#         'answer': answer,
+		#         'answer_tokens': answer_tokens,
+		#         'confidence': confidence,
+		#         }
