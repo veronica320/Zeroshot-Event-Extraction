@@ -49,13 +49,19 @@ def match_bert_span_to_text(pred,
 			context_tokens (:obj:`list`):
 				The list of gold context tokens.
 		"""
-	print("\n")
-	print(pred)
+	# print("\n")
+	# print(pred)
 	answer_start, answer_end = pred["span"]
 
 	# null prediction
 	if (answer_start, answer_end) == (0, 0):
-		return pred
+		return {'span': None,
+		        'answer': None,
+		        'answer_tokens': None,
+		        'confidence': pred["confidence"],
+		        "start_logit": pred["start_logit"],
+		        "end_logit": pred["end_logit"],
+		        }
 
 	# prediction is not in context
 	if (answer_start < question_len or answer_end < question_len):
@@ -65,15 +71,24 @@ def match_bert_span_to_text(pred,
 
 	gold_span = (bertid_2_goldid[bert_span[0]], bertid_2_goldid[bert_span[1]] + 1)  # span in gold tokens
 
+	# span contains invalid tokens
+	if (gold_span[0] < 0 or gold_span[1] < 0):
+		return None
+
 	answer_tokens = context_tokens[gold_span[0]:gold_span[1]]
 
 	answer = ' '.join(answer_tokens)
+	# print(bert_span)
+	# print(gold_span)
+	# print(answer_tokens)
 
-	pred["span"] = gold_span
-	pred["answer"] = answer
-	pred["answer_tokens"] = answer_tokens
-	return pred
-
+	return {'span': gold_span,
+	        'answer': answer,
+	        'answer_tokens': answer_tokens,
+	        'confidence': pred["confidence"],
+	        "start_logit": pred["start_logit"],
+	        "end_logit": pred["end_logit"],
+	        }
 
 def postprocess_qa_predictions(input_ids,
                                predictions, # Tuple[np.ndarray, np.ndarray]
@@ -113,12 +128,12 @@ def postprocess_qa_predictions(input_ids,
 			Whether this process is the main process or not (used to determine if logging/saves should be done).
 	"""
 
-	# The dictionaries we have to fill.
-	best_prediction = None
 	prelim_predictions = []
 
 	assert len(predictions) == 2, "`predictions` should be a tuple with two elements (start_logits, end_logits)."
 	start_logits, end_logits = predictions
+	start_logits = [float(_) for _ in start_logits]
+	end_logits = [float(_) for _ in end_logits]
 
 	# Update minimum null prediction.
 	null_score = start_logits[0] + end_logits[0]
@@ -136,10 +151,7 @@ def postprocess_qa_predictions(input_ids,
 	for start_index, end_index in product(start_indices, end_indices):
 		# Don't consider out-of-scope answers, either because the indices are out of bounds or correspond
 		# to part of the input_ids that are not in the context.
-		if (
-						start_index >= len(input_ids)
-				or end_index >= len(input_ids)
-		):
+		if (start_index >= len(input_ids) or end_index >= len(input_ids)):
 			continue
 
 		# Don't add null prediction here.
@@ -193,28 +205,7 @@ def postprocess_qa_predictions(input_ids,
 	for prob, pred in zip(probs, all_predictions):
 		pred["confidence"] = prob
 
-	# Pick the best prediction. If the null answer is not possible, this is easy.
-	if not version_2_with_negative:
-		best_prediction = all_predictions[0]
-	else:
-		# Otherwise we first need to find the best non-empty prediction.
-		i = 0
-		while all_predictions[i]["answer"] == "": # empty prediction
-			i += 1
-		best_non_null_pred = all_predictions[i]
-
-		# Then we compare to the null prediction using the threshold.
-		score_diff = null_score - best_non_null_pred["start_logit"] - best_non_null_pred["end_logit"]
-		if score_diff > null_score_diff_threshold:
-			best_prediction = null_prediction
-		else:
-			best_prediction = best_non_null_pred
-
-	# # Increment end_idx, b/c we'd like to use tokens[start_idx:end_idx] to get the answer.
-	# for pred in all_predictions:
-	# 	pred["span"] = (pred["span"][0], pred["span"][1] + 1)
-
-	return best_prediction, all_predictions
+	return all_predictions, null_prediction
 
 def get_srl_results(instance,
                     predicate_type,

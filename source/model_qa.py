@@ -489,29 +489,73 @@ class EventDetectorQA():
 			# 	        'confidence': None,
 			# 	        }
 
+		version_2_with_negative = True # TODO: set as param
+		null_score_diff_threshold = 0.0
+
 		# Get the top k answers with post-processing function
 		start_logits = outputs[0].cpu().detach().numpy()[0]
 		end_logits = outputs[1].cpu().detach().numpy()[0]
-		print(start_logits,end_logits)
-		best_prediction, predictions = postprocess_qa_predictions(input_ids=input_ids,
+		predictions, null_prediction = postprocess_qa_predictions(input_ids=input_ids,
 		                                                          predictions=(start_logits, end_logits),
-		                                                          version_2_with_negative=True,
+		                                                          version_2_with_negative=version_2_with_negative,
 		                                                          n_best_size=10,
 		                                                          max_answer_length=20,
-		                                                          null_score_diff_threshold=0.0,
+		                                                          null_score_diff_threshold=null_score_diff_threshold,
 		                                                          )
+		# if question != "What instrument is someone killed with?":
+		# 	return {'span': None,
+		# 	        'answer': None,
+		# 	        'answer_tokens': None,
+		# 	        'confidence': 0.0}
 
+		# reformat
+		null_prediction = {'span': None,
+					        'answer': None,
+					        'answer_tokens': None,
+					        'confidence': null_prediction["confidence"],
+					        "start_logit": null_prediction["start_logit"],
+					        "end_logit": null_prediction["end_logit"],
+					        }
+		# print(null_prediction)
+		#
+		# print(question)
+		# print(bertid_2_goldid)
+		# print(bert_tokens)
+		# print(context_tokens)
 
 		## Match the predicted spans to texts
 		final_predictions = []
-		for pred in predictions + [best_prediction]:
-			final_pred = match_bert_span_to_text(pred,
-			                               bertid_2_goldid,
-			                               question_len,
-			                               context_tokens)
+		for pred in predictions:
+			final_pred = match_bert_span_to_text(pred, bertid_2_goldid, question_len, context_tokens)
 			if final_pred is not None:  # valid prediction
 				final_predictions.append(final_pred)
 
+		# print(final_predictions)
+
+
+		# Pick the best prediction. If the null answer is not possible, this is easy.
+		best_prediction = None
+		best_non_null_pred = None
+		if not version_2_with_negative:
+			best_prediction = final_predictions[0]
+		else:
+			# Otherwise we first need to find the best non-empty prediction.
+			for i, pred in enumerate(final_predictions):
+				if final_predictions[i]["answer"] is None:
+					continue
+				else:
+					best_non_null_pred = final_predictions[i]
+					break
+
+			if best_non_null_pred is None: # we don't have any non-null prediction
+				best_prediction = null_prediction
+			else:
+				# Then we compare to the null prediction using the threshold.
+				score_diff = null_prediction["start_logit"] + null_prediction["end_logit"] - best_non_null_pred["start_logit"] - best_non_null_pred["end_logit"]
+				if score_diff > null_score_diff_threshold:
+					best_prediction = null_prediction
+				else:
+					best_prediction = best_non_null_pred
 
 		return best_prediction
 
