@@ -10,7 +10,7 @@ from graph import Graph
 
 instance_fields = [
     'doc_id', 'sent_id', 'tokens', 'sentence', 'events',
-    'graph', 'trigger_num',
+    'graph', 'trigger_num'
 ]
 # instance_ldc_eval_fields = [
 #     'sent_id', 'tokens', 'token_ids', 'pieces', 'piece_idxs',

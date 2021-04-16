@@ -41,7 +41,19 @@ class EventDetectorQA():
 		self.srl_model = eval(config.srl_model)
 		self.srl_args = eval(config.srl_args)
 		self.trg_thresh = eval(config.trg_thresh)
+
+
 		self.arg_thresh = eval(config.arg_thresh)
+
+		# allow no-answer
+		self.allow_na = config.allow_na
+
+		# if allow_na, the mininum diff between na and non-na in order to output na
+		self.null_score_diff_threshold = config.null_score_diff_threshold
+
+		# predict top k answers
+		self.top_k_args = config.top_k_args
+
 		self.predicate_type = eval(config.predicate_type)
 		self.add_neutral = config.add_neutral
 		self.identify_head = config.identify_head
@@ -132,7 +144,9 @@ class EventDetectorQA():
 			for event in instance.events:
 				gold_trg_res = {"event_type": event['event_type'],
 				                "trigger": event["trigger"].copy(),
-				                "arguments": []}
+				                "arguments": [],
+				                "top_k_arguments": {},
+				                }
 				pred_events.append(gold_trg_res)
 
 			for event_id, event in enumerate(pred_events):  # Get the context from SRL (for argument extraction)
@@ -160,7 +174,9 @@ class EventDetectorQA():
 			for event in instance.events:
 				gold_trg_res = {"event_type": None,
 				                "trigger": event["trigger"].copy(),
-				                "arguments": []}
+				                "arguments": [],
+				                "top_k_arguments": {},
+				                }
 				pred_events.append(gold_trg_res)
 
 			for event_id, event in enumerate(pred_events):  # Classify each gold trigger
@@ -203,7 +219,8 @@ class EventDetectorQA():
 										 'confidence': confidence,
 										 },
 							 'arguments': [],
-							 'srl_id': srl_id,
+							 "top_k_arguments": {},
+					         'srl_id': srl_id,
 							 }
 					pred_events.append(event)
 
@@ -307,14 +324,17 @@ class EventDetectorQA():
 						question = self.arg_probe_lexicon[event_type][cand_ace_arg]
 						if self.arg_probe_type == 'ex_wtrg':
 							question = question.replace('{trigger}', trigger_text)
-						try:
-							output = self.answer_ex(question, context_tokens)
-						except RuntimeError:
-							continue
-						span = output['span']
-						confidence = output["confidence"]
+						# try:
+						best_prediction, top_k_predictions = self.answer_ex(question, context_tokens)
+						# except RuntimeError:
+						# 	continue
+						if self.top_k_args > 1:
+							event['top_k_arguments'][cand_ace_arg[:-4]] = top_k_predictions
+
+						span = best_prediction['span']
+						confidence = best_prediction["confidence"]
 						if span and confidence >= self.arg_thresh: # top answer is not None; confidence is high enough
-							answer_tokens = output['answer_tokens']
+							answer_tokens = best_prediction['answer_tokens']
 							arg_text = ' '.join(answer_tokens)
 							if self.identify_head: # get the head
 								pos_tags = [tag for _, tag in pos_tag(answer_tokens)]
@@ -489,24 +509,17 @@ class EventDetectorQA():
 			# 	        'confidence': None,
 			# 	        }
 
-		version_2_with_negative = True # TODO: set as param
-		null_score_diff_threshold = 0.0
-
 		# Get the top k answers with post-processing function
 		start_logits = outputs[0].cpu().detach().numpy()[0]
 		end_logits = outputs[1].cpu().detach().numpy()[0]
 		predictions, null_prediction = postprocess_qa_predictions(input_ids=input_ids,
 		                                                          predictions=(start_logits, end_logits),
-		                                                          version_2_with_negative=version_2_with_negative,
-		                                                          n_best_size=10,
+		                                                          question_len = question_len,
+		                                                          version_2_with_negative=self.allow_na,
+		                                                          n_best_size=self.top_k_args,
 		                                                          max_answer_length=20,
-		                                                          null_score_diff_threshold=null_score_diff_threshold,
+		                                                          null_score_diff_threshold=self.null_score_diff_threshold,
 		                                                          )
-		# if question != "What instrument is someone killed with?":
-		# 	return {'span': None,
-		# 	        'answer': None,
-		# 	        'answer_tokens': None,
-		# 	        'confidence': 0.0}
 
 		# reformat
 		null_prediction = {'span': None,
@@ -532,11 +545,10 @@ class EventDetectorQA():
 
 		# print(final_predictions)
 
-
 		# Pick the best prediction. If the null answer is not possible, this is easy.
 		best_prediction = None
 		best_non_null_pred = None
-		if not version_2_with_negative:
+		if not self.allow_na:
 			best_prediction = final_predictions[0]
 		else:
 			# Otherwise we first need to find the best non-empty prediction.
@@ -552,12 +564,12 @@ class EventDetectorQA():
 			else:
 				# Then we compare to the null prediction using the threshold.
 				score_diff = null_prediction["start_logit"] + null_prediction["end_logit"] - best_non_null_pred["start_logit"] - best_non_null_pred["end_logit"]
-				if score_diff > null_score_diff_threshold:
+				if score_diff > self.null_score_diff_threshold:
 					best_prediction = null_prediction
 				else:
 					best_prediction = best_non_null_pred
 
-		return best_prediction
+		return best_prediction, final_predictions
 
 
 

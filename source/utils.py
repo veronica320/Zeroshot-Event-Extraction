@@ -22,6 +22,7 @@ bert_type_models = ['bert',
 					"MLQA_squad2_mbert",
 					'elior_bert-lc_mnli',
 					'elior_bert_squad2',
+                    "elior_bert-lc_mnli_squad2",
 					'squad2_elior_bert-lc_mnli',
 					'qamr_elior_bert-lc_mnli',
 					'qamr-squad2_elior_bert-lc_mnli',
@@ -91,7 +92,8 @@ def match_bert_span_to_text(pred,
 	        }
 
 def postprocess_qa_predictions(input_ids,
-                               predictions, # Tuple[np.ndarray, np.ndarray]
+                               predictions, # Tuple[np.ndarray, np.ndarray],
+							   question_len,
                                version_2_with_negative: bool = False,
                                n_best_size: int = 10,
                                max_answer_length: int = 30,
@@ -151,7 +153,8 @@ def postprocess_qa_predictions(input_ids,
 	for start_index, end_index in product(start_indices, end_indices):
 		# Don't consider out-of-scope answers, either because the indices are out of bounds or correspond
 		# to part of the input_ids that are not in the context.
-		if (start_index >= len(input_ids) or end_index >= len(input_ids)):
+
+		if start_index >= len(input_ids)-1 or end_index >= len(input_ids)-1 :
 			continue
 
 		# Don't add null prediction here.
@@ -160,6 +163,14 @@ def postprocess_qa_predictions(input_ids,
 
 		# Don't consider answers with a length that is either < 0 or > max_answer_length.
 		if end_index < start_index or end_index - start_index + 1 > max_answer_length:
+			continue
+
+		# Answer includes tokens before the context
+		if end_index <= question_len or start_index <= question_len:
+			continue
+
+		# Answer includes the last special token
+		if start_index == len(input_ids) or end_index == len(input_ids):
 			continue
 
 		prelim_predictions.append(
@@ -192,7 +203,7 @@ def postprocess_qa_predictions(input_ids,
 
 	# In the very rare edge case we have not a single non-null prediction, we create a fake prediction to avoid
 	# failure.
-	if len(all_predictions) == 0 or (len(all_predictions) == 1 and all_predictions[0]["text"] == ""):
+	if len(all_predictions) == 0 or (len(all_predictions) == 1 and all_predictions[0]["answer"] == ""):
 		all_predictions.insert(0, {"answer": "empty", "span": (0, 0), "start_logit": 0.0, "end_logit": 0.0, "confidence": 0.0})
 
 	# Compute the softmax of all scores (we do it with numpy to stay independent from torch/tf in this file, using
@@ -297,14 +308,11 @@ def gold_to_bert_tokens(tokenizer, gold_tokens, EX_QA_model_type):
 	for goldid, gold_token in enumerate(gold_tokens):
 		goldid_2_bertid.append([])
 		if EX_QA_model_type in bert_type_models:
-			_tokens_encoded = tokenizer.encode(gold_token, return_tensors="pt", add_special_tokens=False).squeeze(
-				axis=0)
+			_tokens_encoded = tokenizer.encode(gold_token, return_tensors="pt", add_special_tokens=False).squeeze(axis=0)
 		elif EX_QA_model_type == 'qamr_xlm-roberta':
-			_tokens_encoded = tokenizer.encode(gold_token, return_tensors="pt",
-			                                      add_special_tokens=False).squeeze(axis=0)
+			_tokens_encoded = tokenizer.encode(gold_token, return_tensors="pt", add_special_tokens=False).squeeze(axis=0)
 		else:
-			_tokens_encoded = tokenizer.encode(gold_token, add_prefix_space=True, return_tensors="pt",
-			                                      add_special_tokens=False).squeeze(axis=0)
+			_tokens_encoded = tokenizer.encode(gold_token, add_prefix_space=True, return_tensors="pt", add_special_tokens=False).squeeze(axis=0)
 		_tokens = tokenizer.convert_ids_to_tokens(_tokens_encoded.tolist())
 		grouped_inputs.append(_tokens_encoded)
 		for bert_token in _tokens:
