@@ -48,11 +48,11 @@ model_name = ["qamr_roberta-l",
               "qamr-squad2_roberta-l",
               "elior_roberta_squad2",
               "squad2_elior_bert-lc_mnli"
-              ][0]
+              ][3]
 output_file = f"output_dir/QA/dev_gt_ynm:boolq_roberta_exm:{model_name}_t:0.99_a:0.0_all_['verb', 'nom']_head:True_pps:None_an:True_cp:whenNone_apt:ex_wtrg_gdl:False_srl:celine_new_all.event.json"
 output_path = f"analysis/{model_name}"
 # fwn = f"{output_path}/is_competitive_analysis.json"
-comp_frn = f"{output_path}/is_competitive_analysis.json"
+comp_frn = f"analysis/qamr_roberta-l/is_competitive_analysis.json"
 
 gold_dataset = IEDataset(input_file)
 pred_dataset = IEDataset(output_file)
