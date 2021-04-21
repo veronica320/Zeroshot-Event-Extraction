@@ -51,7 +51,7 @@ arg_name_mapping = {"ATTACK": {"Victim":"Target",
                     }
 
 
-input_file = "data/ACE_oneie/en/event_only/dev.event.json"
+input_file = "data/ACE_oneie/en/event_only_wtime/dev.event.json"
 model_name = ["qamr_roberta-l",
               "qamr-squad2_roberta-l",
               "elior_roberta_squad2",
@@ -128,7 +128,11 @@ for inst_id, insts in enumerate(zip(gold_dataset, pred_dataset, comp_fr_insts)):
 		gold_trigger = gold_event["trigger"]
 		pred_trigger = pred_event["trigger"]
 		event_type = gold_event["event_type"]
-		assert gold_trigger == pred_trigger
+		try:
+			assert gold_trigger == pred_trigger
+		except:
+			print(gold_event, pred_event)
+
 
 
 		gold_args = gold_event["arguments"]
@@ -366,43 +370,43 @@ plt.ylim(0,900)
 plt.suptitle(f'Model: {model_name}')
 
 plt.tight_layout()
-plt.savefig(f'{output_path}/plot.png', bbox_inches='tight')
+plt.savefig(f'{output_path}/NA_HA.png', bbox_inches='tight')
 
 
 
 
-#
-# plt.figure()
-#
-# plt.subplot(2, 2, 1)
-# total_row = cp_rank_df.loc['Total'].drop(index="Total")
-# total_row.plot(kind='bar')
-# plt.xlabel("Competitive: Ranking of NA")
-# plt.ylabel("Count")
-# plt.ylim(0,100)
-#
-#
-# plt.subplot(2, 2, 2)
-# total_row = ncp_rank_df.loc['Total'].drop(index="Total")
-# total_row.plot(kind='bar')
-# plt.xlabel("Non-Competitive: Ranking of NA")
-# plt.ylim(0,100)
-#
-#
-# plt.subplot(2, 2, 3)
-# total_row = cp_conf_df.loc['Total'].drop(index="Total")
-# total_row.plot(kind='bar')
-# plt.xlabel("Competitive: Confidence of NA")
-# plt.ylabel("Count")
-# plt.ylim(0,100)
-#
-# plt.subplot(2, 2, 4)
-# total_row = ncp_conf_df.loc['Total'].drop(index="Total")
-# total_row.plot(kind='bar')
-# plt.xlabel("Non-Competitive: Confidence of NA")
-# plt.ylim(0,100)
-#
-# plt.suptitle(f'Model: {model_name}')
-#
-# plt.tight_layout()
-# plt.savefig(f'{output_path}/competitive_plot.png', bbox_inches='tight')
+
+plt.figure()
+
+plt.subplot(2, 2, 1)
+total_row = cp_rank_df.loc['Total'].drop(index="Total")
+total_row.plot(kind='bar')
+plt.xlabel("Competitive: Ranking of NA")
+plt.ylabel("Count")
+plt.ylim(0,100)
+
+
+plt.subplot(2, 2, 2)
+total_row = ncp_rank_df.loc['Total'].drop(index="Total")
+total_row.plot(kind='bar')
+plt.xlabel("Non-Competitive: Ranking of NA")
+plt.ylim(0,100)
+
+
+plt.subplot(2, 2, 3)
+total_row = cp_conf_df.loc['Total'].drop(index="Total")
+total_row.plot(kind='bar')
+plt.xlabel("Competitive: Confidence of NA")
+plt.ylabel("Count")
+plt.ylim(0,100)
+
+plt.subplot(2, 2, 4)
+total_row = ncp_conf_df.loc['Total'].drop(index="Total")
+total_row.plot(kind='bar')
+plt.xlabel("Non-Competitive: Confidence of NA")
+plt.ylim(0,100)
+
+plt.suptitle(f'Model: {model_name}')
+
+plt.tight_layout()
+plt.savefig(f'{output_path}/comp_noncomp.png', bbox_inches='tight')

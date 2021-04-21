@@ -38,12 +38,18 @@ const_premise = eval(config.const_premise)
 pair_premise_strategy = eval(config.pair_premise_strategy)
 arg_probe_type = eval(config.arg_probe_type)
 srl_model = eval(config.srl_model)
+null_score_diff_threshold = config.null_score_diff_threshold
 
 frn = config.input_file.split('/')[-1].split('.')[0]
 
 
 # Model predictions will be written to output_file.
-output_file = f"output_dir/QA/{frn}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}ynm:{YN_QA_model_name}_exm:{EX_QA_model_name}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}_srl:{srl_model}.event.json"
+output_file = f"output_dir/QA/{frn}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}" \
+              f"ynm:{YN_QA_model_name}_exm:{EX_QA_model_name}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_" \
+              f"{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_" \
+              f"cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}_srl:{srl_model}" \
+              f"null_thresh:{null_score_diff_threshold}" \
+              f".event.json"
 # output_file = f"output_dir/QA/best_trigger_titc_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}ynm:{YN_QA_model_name}_exm:{EX_QA_model_name}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
 
 # Predict
