@@ -101,7 +101,9 @@ comp_fr.close()
 
 # annotations for compettive/non-competitive no-answer questions
 is_competitive_anno = []
-na_ans_conf_count = 0
+
+# count of NA at 0th rank when gold answer at 1st rank
+count_na_at_0_when_gold_ans_at_1 = 0
 
 gold_graphs, pred_graphs = [], []
 for inst_id, insts in enumerate(zip(gold_dataset, pred_dataset, comp_fr_insts)):
@@ -183,6 +185,9 @@ for inst_id, insts in enumerate(zip(gold_dataset, pred_dataset, comp_fr_insts)):
 							break
 
 					gold_ans_rank_idx = ranks.index(gold_ans_ranking)
+					if gold_ans_rank_idx == 1:
+						if pred_topk_args_same_type[0]["answer"] == None:
+							count_na_at_0_when_gold_ans_at_1 += 1
 					ha_rank_counter[gold_type_idx][gold_ans_rank_idx] += 1
 					add_to_conf_dict(gold_ans_conf, ha_conf_counter[gold_type_idx])
 
@@ -272,7 +277,7 @@ for inst_id, insts in enumerate(zip(gold_dataset, pred_dataset, comp_fr_insts)):
 		# 	no_counter[type_idx][no_answer_cats.index('correct')] += 1
 		#
 		# fw.write('\n')
-print(na_ans_conf_count)
+print(count_na_at_0_when_gold_ans_at_1)
 
 # json.dump(is_competitive_anno, fw, indent=2)
 # fw.close()

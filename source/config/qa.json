@@ -3,7 +3,7 @@
     "gpu_devices": "0",
     "bert_cache_dir": "/shared/.cache/transformers",
     "root_dir": "/shared/lyuqing/probing_for_event",
-    "input_file": "data/ACE_oneie/en/event_only_wtime/dev.event.json",
+    "input_file": "data/ACE_oneie/en/event_only/dev.event.json",
     "srl_model": "['celine_old', 'celine_new', 'illinois', 'celine_new_all'][3]",
 
     "classification_only": false,
@@ -13,7 +13,7 @@
 
     "EX_QA_model_name": "qamr_roberta-l",
     "allow_na": true,
-    "null_score_diff_threshold": 0.0,
+    "null_score_diff_threshold": -5.0,
     "top_k_args": 10,
 
     "srl_args": "[['V'], ['V','ARG0','ARG1'], ['V','ARG0','ARG1','ARG2'], ['V','ARG0'], ['V', 'ARG1'], 'all'][-1]",
