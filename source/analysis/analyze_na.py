@@ -51,13 +51,13 @@ arg_name_mapping = {"ATTACK": {"Victim":"Target",
                     }
 
 
-input_file = "data/ACE_oneie/en/event_only_wtime/dev.event.json"
+input_file = "data/ACE_oneie/en/event_only/dev.event.json"
 model_name = ["qamr_roberta-l",
               "qamr-squad2_roberta-l",
               "elior_roberta_squad2",
               "squad2_elior_bert-lc_mnli"
               ][0]
-arg_probe_type = ['bool', 'ex', 'ex_wtrg','ex_wtrg+','ex_wtrg_type'][4]
+arg_probe_type = ['bool', 'ex', 'ex_wtrg','ex_wtrg+','ex_wtrg_type'][2]
 
 output_file = f"output_dir/QA/dev_gt_ynm:boolq_roberta_exm:{model_name}_t:0.99_a:0.0_all_['verb', 'nom']_" \
               f"head:True_pps:None_an:True_cp:whenNone_apt:{arg_probe_type}_gdl:False_srl:celine_new_all.event.json"
