@@ -1,0 +1,126 @@
+ace_wh_has_answer.json
+ace_wh_compet_idk.json 
+ace_wh_non_compet_idk.json
+
+WARNING - You've set a doc stride which may be superior to the document length in some examples. This could result in errors when building features from the examples. Please reduce the doc stride or increase the maximum length to ensure the features are correctly built.
+01/13/2021 21:49:41 - WARNING - __main__ -   Process rank: -1, device: cuda, n_gpu: 1, distributed training: False, 16-bits training: True
+01/13/2021 21:49:53 - INFO - __main__ -   Training/evaluation parameters Namespace(adam_epsilon=1e-08, cache_dir='', config_name='', data_dir='data/elior_ACE_na/', device=device(type='cuda'), do_eval=True, do_lower_case=True, do_train=False, doc_stride=40, eval_all_checkpoints=False, evaluate_during_training=False, fp16=True, fp16_opt_level='O1', gradient_accumulation_steps=1, lang_id=0, learning_rate=5e-05, local_rank=-1, logging_steps=500, max_answer_length=30, max_grad_norm=1.0, max_query_length=64, max_seq_length=80, max_steps=-1, model_name_or_path='output_model_dir/elior_bert-lc_mnli_squad2', model_type='bert', n_best_size=20, n_gpu=1, no_cuda=False, null_score_diff_threshold=0.0, num_train_epochs=3.0, output_dir='output_model_dir/elior_ACE_na_elior_bert-lc_mnli_squad2', overwrite_cache=False, overwrite_output_dir=False, per_gpu_eval_batch_size=12, per_gpu_train_batch_size=8, predict_file='ace_wh_has_answer.json', save_steps=500, seed=42, server_ip='', server_port='', threads=1, tokenizer_name='', train_file=None, verbose_logging=False, version_2_with_negative=True, warmup_steps=0, weight_decay=0.0)
+01/13/2021 21:49:53 - INFO - __main__ -   Loading checkpoint output_model_dir/elior_bert-lc_mnli_squad2 for evaluation
+01/13/2021 21:49:53 - INFO - __main__ -   Evaluate the following checkpoints: ['output_model_dir/elior_bert-lc_mnli_squad2']
+01/13/2021 21:50:02 - INFO - __main__ -   Creating features from dataset file at data/elior_ACE_na/
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00, 127.38it/s]
+
+convert squad examples to features:   0%|          | 0/238 [00:00<?, ?it/s]
+convert squad examples to features:  27%|██▋       | 65/238 [00:00<00:00, 478.52it/s]
+convert squad examples to features:  68%|██████▊   | 161/238 [00:00<00:00, 539.77it/s]
+convert squad examples to features:  82%|████████▏ | 195/238 [00:00<00:00, 375.40it/s]
+convert squad examples to features: 100%|██████████| 238/238 [00:00<00:00, 572.00it/s]/shared/lyuqing/probing_for_event/env/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:1324: FutureWarning: The `max_len` attribute has been deprecated and will be removed in a future version, use `model_max_length` instead.
+  FutureWarning,
+
+
+add example index and unique id:   0%|          | 0/238 [00:00<?, ?it/s]
+add example index and unique id: 100%|██████████| 238/238 [00:00<00:00, 641957.78it/s]
+01/13/2021 21:50:03 - INFO - __main__ -   Saving features into cached file data/elior_ACE_na/cached_dev_elior_bert-lc_mnli_squad2_80
+01/13/2021 21:50:03 - INFO - __main__ -   ***** Running evaluation  *****
+01/13/2021 21:50:03 - INFO - __main__ -     Num examples = 238
+01/13/2021 21:50:03 - INFO - __main__ -     Batch size = 12
+
+Evaluating:   0%|          | 0/20 [00:00<?, ?it/s]
+Evaluating:   5%|▌         | 1/20 [00:00<00:07,  2.62it/s]
+Evaluating:  15%|█▌        | 3/20 [00:00<00:04,  3.44it/s]
+Evaluating:  25%|██▌       | 5/20 [00:00<00:03,  4.45it/s]
+Evaluating:  35%|███▌      | 7/20 [00:00<00:02,  5.65it/s]
+Evaluating:  45%|████▌     | 9/20 [00:00<00:01,  6.96it/s]
+Evaluating:  55%|█████▌    | 11/20 [00:01<00:01,  8.31it/s]
+Evaluating:  65%|██████▌   | 13/20 [00:01<00:00,  9.62it/s]
+Evaluating:  75%|███████▌  | 15/20 [00:01<00:00, 10.81it/s]
+Evaluating:  85%|████████▌ | 17/20 [00:01<00:00, 11.85it/s]
+Evaluating:  95%|█████████▌| 19/20 [00:01<00:00, 12.64it/s]
+Evaluating: 100%|██████████| 20/20 [00:01<00:00, 12.03it/s]
+01/13/2021 21:50:05 - INFO - __main__ -     Evaluation done in total 1.663491 secs (0.006989 sec per example)
+01/13/2021 21:50:05 - INFO - __main__ -   Results: {'exact': 44.53781512605042, 'f1': 51.126784046952125, 'total': 238, 'HasAns_exact': 44.53781512605042, 'HasAns_f1': 51.126784046952125, 'HasAns_total': 238, 'best_exact': 44.53781512605042, 'best_exact_thresh': 0.0, 'best_f1': 51.126784046952125, 'best_f1_thresh': 0.0}
+
+
+WARNING - You've set a doc stride which may be superior to the document length in some examples. This could result in errors when building features from the examples. Please reduce the doc stride or increase the maximum length to ensure the features are correctly built.
+01/13/2021 23:54:54 - WARNING - __main__ -   Process rank: -1, device: cuda, n_gpu: 1, distributed training: False, 16-bits training: True
+01/13/2021 23:55:04 - INFO - __main__ -   Training/evaluation parameters Namespace(adam_epsilon=1e-08, cache_dir='', config_name='', data_dir='data/elior_ACE_na/', device=device(type='cuda'), do_eval=True, do_lower_case=True, do_train=False, doc_stride=40, eval_all_checkpoints=False, evaluate_during_training=False, fp16=True, fp16_opt_level='O1', gradient_accumulation_steps=1, lang_id=0, learning_rate=5e-05, local_rank=-1, logging_steps=500, max_answer_length=30, max_grad_norm=1.0, max_query_length=64, max_seq_length=80, max_steps=-1, model_name_or_path='output_model_dir/elior_bert-lc_mnli_squad2', model_type='bert', n_best_size=20, n_gpu=1, no_cuda=False, null_score_diff_threshold=0.0, num_train_epochs=3.0, output_dir='output_model_dir/elior_ACE_na_elior_bert-lc_mnli_squad2', overwrite_cache=False, overwrite_output_dir=False, per_gpu_eval_batch_size=12, per_gpu_train_batch_size=8, predict_file='ace_wh_compet_idk.json', save_steps=500, seed=42, server_ip='', server_port='', threads=1, tokenizer_name='', train_file=None, verbose_logging=False, version_2_with_negative=True, warmup_steps=0, weight_decay=0.0)
+01/13/2021 23:55:04 - INFO - __main__ -   Loading checkpoint output_model_dir/elior_bert-lc_mnli_squad2 for evaluation
+01/13/2021 23:55:04 - INFO - __main__ -   Evaluate the following checkpoints: ['output_model_dir/elior_bert-lc_mnli_squad2']
+01/13/2021 23:55:13 - INFO - __main__ -   Creating features from dataset file at data/elior_ACE_na/
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00, 122.36it/s]
+
+convert squad examples to features:   0%|          | 0/250 [00:00<?, ?it/s]
+convert squad examples to features:  26%|██▌       | 65/250 [00:00<00:00, 494.24it/s]
+convert squad examples to features:  64%|██████▍   | 161/250 [00:00<00:00, 557.76it/s]
+convert squad examples to features:  78%|███████▊  | 196/250 [00:00<00:00, 422.43it/s]
+convert squad examples to features: 100%|██████████| 250/250 [00:00<00:00, 653.48it/s]/shared/lyuqing/probing_for_event/env/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:1324: FutureWarning: The `max_len` attribute has been deprecated and will be removed in a future version, use `model_max_length` instead.
+  FutureWarning,
+
+
+add example index and unique id:   0%|          | 0/250 [00:00<?, ?it/s]
+add example index and unique id: 100%|██████████| 250/250 [00:00<00:00, 717711.16it/s]
+01/13/2021 23:55:14 - INFO - __main__ -   Saving features into cached file data/elior_ACE_na/cached_dev_elior_bert-lc_mnli_squad2_80
+01/13/2021 23:55:14 - INFO - __main__ -   ***** Running evaluation  *****
+01/13/2021 23:55:14 - INFO - __main__ -     Num examples = 250
+01/13/2021 23:55:14 - INFO - __main__ -     Batch size = 12
+
+Evaluating:   0%|          | 0/21 [00:00<?, ?it/s]
+Evaluating:   5%|▍         | 1/21 [00:00<00:05,  3.86it/s]
+Evaluating:  14%|█▍        | 3/21 [00:00<00:03,  4.88it/s]
+Evaluating:  24%|██▍       | 5/21 [00:00<00:02,  6.03it/s]
+Evaluating:  33%|███▎      | 7/21 [00:00<00:01,  7.37it/s]
+Evaluating:  43%|████▎     | 9/21 [00:00<00:01,  8.72it/s]
+Evaluating:  52%|█████▏    | 11/21 [00:00<00:01,  9.99it/s]
+Evaluating:  62%|██████▏   | 13/21 [00:01<00:00, 11.14it/s]
+Evaluating:  71%|███████▏  | 15/21 [00:01<00:00, 12.11it/s]
+Evaluating:  81%|████████  | 17/21 [00:01<00:00, 12.87it/s]
+Evaluating:  90%|█████████ | 19/21 [00:01<00:00, 13.49it/s]
+Evaluating: 100%|██████████| 21/21 [00:01<00:00, 14.13it/s]
+Evaluating: 100%|██████████| 21/21 [00:01<00:00, 13.02it/s]
+01/13/2021 23:55:15 - INFO - __main__ -     Evaluation done in total 1.612817 secs (0.006451 sec per example)
+01/13/2021 23:55:16 - INFO - __main__ -   Results: {'exact': 85.2, 'f1': 85.2, 'total': 250, 'NoAns_exact': 85.2, 'NoAns_f1': 85.2, 'NoAns_total': 250, 'best_exact': 100.0, 'best_exact_thresh': 0.0, 'best_f1': 100.0, 'best_f1_thresh': 0.0}
+WARNING - You've set a doc stride which may be superior to the document length in some examples. This could result in errors when building features from the examples. Please reduce the doc stride or increase the maximum length to ensure the features are correctly built.
+01/13/2021 23:56:23 - WARNING - __main__ -   Process rank: -1, device: cuda, n_gpu: 1, distributed training: False, 16-bits training: True
+01/13/2021 23:56:33 - INFO - __main__ -   Training/evaluation parameters Namespace(adam_epsilon=1e-08, cache_dir='', config_name='', data_dir='data/elior_ACE_na/', device=device(type='cuda'), do_eval=True, do_lower_case=True, do_train=False, doc_stride=40, eval_all_checkpoints=False, evaluate_during_training=False, fp16=True, fp16_opt_level='O1', gradient_accumulation_steps=1, lang_id=0, learning_rate=5e-05, local_rank=-1, logging_steps=500, max_answer_length=30, max_grad_norm=1.0, max_query_length=64, max_seq_length=80, max_steps=-1, model_name_or_path='output_model_dir/elior_bert-lc_mnli_squad2', model_type='bert', n_best_size=20, n_gpu=1, no_cuda=False, null_score_diff_threshold=0.0, num_train_epochs=3.0, output_dir='output_model_dir/elior_ACE_na_elior_bert-lc_mnli_squad2', overwrite_cache=False, overwrite_output_dir=False, per_gpu_eval_batch_size=12, per_gpu_train_batch_size=8, predict_file='ace_wh_non_compet_idk.json', save_steps=500, seed=42, server_ip='', server_port='', threads=1, tokenizer_name='', train_file=None, verbose_logging=False, version_2_with_negative=True, warmup_steps=0, weight_decay=0.0)
+01/13/2021 23:56:33 - INFO - __main__ -   Loading checkpoint output_model_dir/elior_bert-lc_mnli_squad2 for evaluation
+01/13/2021 23:56:33 - INFO - __main__ -   Evaluate the following checkpoints: ['output_model_dir/elior_bert-lc_mnli_squad2']
+01/13/2021 23:56:42 - INFO - __main__ -   Creating features from dataset file at data/elior_ACE_na/
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00, 148.96it/s]
+
+convert squad examples to features:   0%|          | 0/246 [00:00<?, ?it/s]
+convert squad examples to features:  26%|██▋       | 65/246 [00:00<00:00, 576.70it/s]
+convert squad examples to features:  65%|██████▌   | 161/246 [00:00<00:00, 646.61it/s]
+convert squad examples to features:  82%|████████▏ | 201/246 [00:00<00:00, 529.71it/s]
+convert squad examples to features: 100%|██████████| 246/246 [00:00<00:00, 752.47it/s]/shared/lyuqing/probing_for_event/env/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:1324: FutureWarning: The `max_len` attribute has been deprecated and will be removed in a future version, use `model_max_length` instead.
+  FutureWarning,
+
+
+add example index and unique id:   0%|          | 0/246 [00:00<?, ?it/s]
+add example index and unique id: 100%|██████████| 246/246 [00:00<00:00, 772304.48it/s]
+01/13/2021 23:56:42 - INFO - __main__ -   Saving features into cached file data/elior_ACE_na/cached_dev_elior_bert-lc_mnli_squad2_80
+01/13/2021 23:56:42 - INFO - __main__ -   ***** Running evaluation  *****
+01/13/2021 23:56:42 - INFO - __main__ -     Num examples = 246
+01/13/2021 23:56:42 - INFO - __main__ -     Batch size = 12
+
+Evaluating:   0%|          | 0/21 [00:00<?, ?it/s]
+Evaluating:   5%|▍         | 1/21 [00:00<00:05,  3.83it/s]
+Evaluating:  14%|█▍        | 3/21 [00:00<00:03,  4.85it/s]
+Evaluating:  24%|██▍       | 5/21 [00:00<00:02,  6.00it/s]
+Evaluating:  33%|███▎      | 7/21 [00:00<00:01,  7.33it/s]
+Evaluating:  43%|████▎     | 9/21 [00:00<00:01,  8.68it/s]
+Evaluating:  52%|█████▏    | 11/21 [00:00<00:01,  9.96it/s]
+Evaluating:  62%|██████▏   | 13/21 [00:01<00:00, 11.10it/s]
+Evaluating:  71%|███████▏  | 15/21 [00:01<00:00, 12.07it/s]
+Evaluating:  81%|████████  | 17/21 [00:01<00:00, 12.83it/s]
+Evaluating:  90%|█████████ | 19/21 [00:01<00:00, 13.44it/s]
+Evaluating: 100%|██████████| 21/21 [00:01<00:00, 14.90it/s]
+Evaluating: 100%|██████████| 21/21 [00:01<00:00, 13.20it/s]
+01/13/2021 23:56:44 - INFO - __main__ -     Evaluation done in total 1.591290 secs (0.006469 sec per example)
+01/13/2021 23:56:45 - INFO - __main__ -   Results: {'exact': 97.96747967479675, 'f1': 97.96747967479675, 'total': 246, 'NoAns_exact': 97.96747967479675, 'NoAns_f1': 97.96747967479675, 'NoAns_total': 246, 'best_exact': 100.0, 'best_exact_thresh': 0.0, 'best_f1': 100.0, 'best_f1_thresh': 0.0}
+WARNING - You've set a doc stride which may be superior to the document length in some examples. This could result in errors when building features from the examples. Please reduce the doc stride or increase the maximum length to ensure the features are correctly built.

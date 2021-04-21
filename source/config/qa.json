@@ -11,7 +11,7 @@
 
     "YN_QA_model_name": "boolq_roberta",
 
-    "EX_QA_model_name": "squad2_elior_bert-lc_mnli",
+    "EX_QA_model_name": "qamr_roberta-l",
     "allow_na": true,
     "null_score_diff_threshold": 0.0,
     "top_k_args": 10,
@@ -26,6 +26,6 @@
     "const_premise": "['false', 'whenNone', 'alwaystrg'][1]",
     "pair_premise_strategy": "[None, 'max_delta', 'max_conf+delta'][0]",
 
-    "arg_probe_type":"['bool', 'ex', 'ex_wtrg','ex_wtrg+'][2]"
+    "arg_probe_type":"['bool', 'ex', 'ex_wtrg','ex_wtrg+','ex_wtrg_type'][4]"
 
 }

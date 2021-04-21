@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 
 
-
 def is_identical(gold_arg_text, pred_arg_text):
 	# Determine if the gold arg and the pred arg is similar enough to be considiered identical.
 
@@ -27,11 +26,20 @@ def is_identical(gold_arg_text, pred_arg_text):
 
 def add_to_conf_dict(conf, conf_dict):
 	if conf < 0.0:
-		return
+		return -1
 	for i in range(len(conf_dict)):
 		interval = conf_intervals[i]
-		if interval[0] <= conf and interval[1] > conf:
-			conf_dict[i] += 1
+		if interval[0] <= conf:
+			if interval[1] == 1.0:
+				if interval[1] >= conf:
+					conf_dict[i] += 1
+					return 0
+			else:
+				if interval[1] > conf:
+					conf_dict[i] += 1
+					return 0
+	return -1
+
 
 
 root_path = ('/shared/lyuqing/probing_for_event')
@@ -48,9 +56,12 @@ model_name = ["qamr_roberta-l",
               "qamr-squad2_roberta-l",
               "elior_roberta_squad2",
               "squad2_elior_bert-lc_mnli"
-              ][3]
-output_file = f"output_dir/QA/dev_gt_ynm:boolq_roberta_exm:{model_name}_t:0.99_a:0.0_all_['verb', 'nom']_head:True_pps:None_an:True_cp:whenNone_apt:ex_wtrg_gdl:False_srl:celine_new_all.event.json"
-output_path = f"analysis/{model_name}"
+              ][0]
+arg_probe_type = ['bool', 'ex', 'ex_wtrg','ex_wtrg+','ex_wtrg_type'][4]
+
+output_file = f"output_dir/QA/dev_gt_ynm:boolq_roberta_exm:{model_name}_t:0.99_a:0.0_all_['verb', 'nom']_" \
+              f"head:True_pps:None_an:True_cp:whenNone_apt:{arg_probe_type}_gdl:False_srl:celine_new_all.event.json"
+output_path = f"analysis/{model_name}_{arg_probe_type}"
 # fwn = f"{output_path}/is_competitive_analysis.json"
 comp_frn = f"analysis/qamr_roberta-l/is_competitive_analysis.json"
 
@@ -90,6 +101,7 @@ comp_fr.close()
 
 # annotations for compettive/non-competitive no-answer questions
 is_competitive_anno = []
+na_ans_conf_count = 0
 
 gold_graphs, pred_graphs = [], []
 for inst_id, insts in enumerate(zip(gold_dataset, pred_dataset, comp_fr_insts)):
@@ -113,32 +125,14 @@ for inst_id, insts in enumerate(zip(gold_dataset, pred_dataset, comp_fr_insts)):
 		# print(comp_event.keys())
 		na_questions = comp_event["NA quesitons"]
 
-		# print(f"Sentence: {sent}\n")
-		# print(f"Context: {context}\n")
-
-		# fw.write(f"Sentence: {sent}\n")
-		# fw.write(f"Context: {context}\n")
-#
 		gold_trigger = gold_event["trigger"]
 		pred_trigger = pred_event["trigger"]
 		event_type = gold_event["event_type"]
 		assert gold_trigger == pred_trigger
 
-		# new_event = {"context": context,
-		#              "trigger": gold_trigger["text"],
-		#              "NA quesitons": [],
-		#              }
 
-# 		fw.write(f"Event type: {event_type}\n")
-# 		fw.write(f"Trigger: {gold_trigger['text']}\n")
-# 		fw.write("Arguments:\n")
-#
 		gold_args = gold_event["arguments"]
-		# pred_args = pred_event["arguments"]
 		pred_topk_args = pred_event["top_k_arguments"]
-
-		# pprint(gold_args)
-		# pprint(pred_topk_args)
 
 		remaining_pred_topk_args = deepcopy(pred_topk_args)
 
@@ -165,15 +159,6 @@ for inst_id, insts in enumerate(zip(gold_dataset, pred_dataset, comp_fr_insts)):
 				pred_topk_args_same_type = pred_topk_args_same_type[0]
 			remaining_pred_topk_args.pop(gold_type)
 
-# 			question = arg_probe_lexicon[event_type][gold_arg_name]
-#
-# 			fw.write(f"\tArgument type: {gold_type}\n")
-# 			fw.write(f"\tQuestion: {question}\n")
-# 			fw.write(f"\t\tGold:\n")
-# 			for gold_arg in gold_arg_texts:
-# 				fw.write(f"\t\t\t{gold_arg}\n")
-# 			fw.write(f"\t\tPredicted:\n")
-#
 			gold_type_idx = arg_type_list.index(gold_type)
 
 			# Loop through every gold argument
@@ -202,8 +187,10 @@ for inst_id, insts in enumerate(zip(gold_dataset, pred_dataset, comp_fr_insts)):
 
 
 		# no answer questions
+		# TODO: shouldn't match by arg types instead of questions
 		cp_questions = [_["question"] for _ in na_questions if _["competitive"] == True]
 		ncp_questions = [_["question"] for _ in na_questions if _["competitive"] != None and _["competitive"] == False]
+
 
 		for arg_type, pred_args in remaining_pred_topk_args.items():
 			arg_name = arg_type + '_Arg'
@@ -244,6 +231,7 @@ for inst_id, insts in enumerate(zip(gold_dataset, pred_dataset, comp_fr_insts)):
 					#                                     }
 
 				if pred_arg_text == None:
+
 					na_ans_ranking = rank
 					na_ans_conf = pred_arg_conf
 					# new_na_question["NA in predicted"] = {"rank": na_ans_ranking,
@@ -255,7 +243,7 @@ for inst_id, insts in enumerate(zip(gold_dataset, pred_dataset, comp_fr_insts)):
 #
 			pred_type_idx = arg_type_list.index(arg_type)
 			na_rank_counter[pred_type_idx][ranks.index(na_ans_ranking)] += 1
-			add_to_conf_dict(na_ans_conf, na_conf_counter[pred_type_idx])
+			ret = add_to_conf_dict(na_ans_conf, na_conf_counter[pred_type_idx])
 
 			if question in cp_questions:
 				cp_rank_counter[pred_type_idx][ranks.index(na_ans_ranking)] += 1
@@ -280,6 +268,7 @@ for inst_id, insts in enumerate(zip(gold_dataset, pred_dataset, comp_fr_insts)):
 		# 	no_counter[type_idx][no_answer_cats.index('correct')] += 1
 		#
 		# fw.write('\n')
+print(na_ans_conf_count)
 
 # json.dump(is_competitive_anno, fw, indent=2)
 # fw.close()
@@ -292,27 +281,27 @@ for inst_id, insts in enumerate(zip(gold_dataset, pred_dataset, comp_fr_insts)):
 if not os.path.isdir(output_path):
 	os.mkdir(output_path)
 
-# ha_rank_df = pd.DataFrame(ha_rank_counter, index=arg_type_list, columns=ranks)
-# ha_rank_df.loc['Total'] = ha_rank_df.sum(axis=0)
-# ha_rank_df['Total'] = ha_rank_df.sum(axis=1)
-# ha_rank_df.to_csv(f'{output_path}/ha_rank.csv', index=True, header=True, sep=',')
-#
-# na_rank_df = pd.DataFrame(na_rank_counter, index=arg_type_list, columns=ranks)
-# na_rank_df.loc['Total'] = na_rank_df.sum(axis=0)
-# na_rank_df['Total'] = na_rank_df.sum(axis=1)
-# na_rank_df.to_csv(f'{output_path}/na_rank.csv', index=True, header=True, sep=',')
-#
-# ha_conf_df = pd.DataFrame(ha_conf_counter, index=arg_type_list, columns=conf_intervals)
-# ha_conf_df.loc['Total'] = ha_conf_df.sum(axis=0)
-# ha_conf_df['Total'] = ha_conf_df.sum(axis=1)
-# ha_conf_df.to_csv(f'{output_path}/ha_conf.csv', index=True, header=True, sep=',')
-#
-# na_conf_df = pd.DataFrame(na_conf_counter, index=arg_type_list, columns=conf_intervals)
-# na_conf_df.loc['Total'] = na_conf_df.sum(axis=0)
-# na_conf_df['Total'] = na_conf_df.sum(axis=1)
-# na_conf_df.to_csv(f'{output_path}/na_conf.csv', index=True, header=True, sep=',')
+ha_rank_df = pd.DataFrame(ha_rank_counter, index=arg_type_list, columns=ranks)
+ha_rank_df.loc['Total'] = ha_rank_df.sum(axis=0)
+ha_rank_df['Total'] = ha_rank_df.sum(axis=1)
+ha_rank_df.to_csv(f'{output_path}/ha_rank.csv', index=True, header=True, sep=',')
 
+na_rank_df = pd.DataFrame(na_rank_counter, index=arg_type_list, columns=ranks)
+na_rank_df.loc['Total'] = na_rank_df.sum(axis=0)
+na_rank_df['Total'] = na_rank_df.sum(axis=1)
+na_rank_df.to_csv(f'{output_path}/na_rank.csv', index=True, header=True, sep=',')
 
+ha_conf_df = pd.DataFrame(ha_conf_counter, index=arg_type_list, columns=conf_intervals)
+ha_conf_df.loc['Total'] = ha_conf_df.sum(axis=0)
+ha_conf_df['Total'] = ha_conf_df.sum(axis=1)
+ha_conf_df.to_csv(f'{output_path}/ha_conf.csv', index=True, header=True, sep=',')
+
+na_conf_df = pd.DataFrame(na_conf_counter, index=arg_type_list, columns=conf_intervals)
+na_conf_df.loc['Total'] = na_conf_df.sum(axis=0)
+na_conf_df['Total'] = na_conf_df.sum(axis=1)
+na_conf_df.to_csv(f'{output_path}/na_conf.csv', index=True, header=True, sep=',')
+
+# print(na_conf_df)
 
 
 
@@ -342,114 +331,78 @@ ncp_conf_df.to_csv(f'{output_path}/ncp_conf.csv', index=True, header=True, sep='
 # print(ha_conf_df)
 # print(na_conf_df)
 #
-# plt.figure()
-# plt.tight_layout()
-# total_row = ha_rank_df.loc['Total'].drop(index="Total")
-# total_row.plot(kind='bar')
-# plt.xlabel("Ranking of the gold answer")
-# plt.ylabel("Count")
-# plt.ylim(0,550)
-# plt.savefig(f'{output_path}/ha_rank_df.png', bbox_inches='tight')
-#
-#
-# plt.figure()
-# plt.tight_layout()
-# total_row = na_rank_df.loc['Total'].drop(index="Total")
-# total_row.plot(kind='bar')
-# plt.xlabel("Ranking of NA")
-# plt.ylabel("Count")
-# plt.ylim(0,1000)
-# plt.savefig(f'{output_path}/na_rank_df.png', bbox_inches='tight')
-#
-# plt.figure()
-# plt.tight_layout()
-# total_row = ha_conf_df.loc['Total'].drop(index="Total")
-# total_row.plot(kind='bar')
-# plt.xlabel("Confidence of the gold answer")
-# plt.ylabel("Count")
-# plt.ylim(0,900)
-# plt.savefig(f'{output_path}/ha_conf_df.png', bbox_inches='tight')
-#
-#
-# plt.figure()
-# plt.tight_layout()
-# total_row = na_conf_df.loc['Total'].drop(index="Total")
-# total_row.plot(kind='bar')
-# plt.xlabel("Confidence of NA")
-# plt.ylabel("Count")
-# plt.ylim(0,900)
-# plt.savefig(f'{output_path}/na_conf_df.png', bbox_inches='tight')
-
-# plt.figure()
-#
-# plt.subplot(2, 2, 1)
-# total_row = ha_rank_df.loc['Total'].drop(index="Total")
-# total_row.plot(kind='bar')
-# plt.xlabel("Ranking of gold answer")
-# plt.ylabel("Count")
-# plt.ylim(0,1000)
-#
-#
-# plt.subplot(2, 2, 2)
-# total_row = na_rank_df.loc['Total'].drop(index="Total")
-# total_row.plot(kind='bar')
-# plt.xlabel("Ranking of NA")
-# plt.ylim(0,1000)
-#
-#
-# plt.subplot(2, 2, 3)
-# total_row = ha_conf_df.loc['Total'].drop(index="Total")
-# total_row.plot(kind='bar')
-# plt.xlabel("Confidence of gold answer")
-# plt.ylabel("Count")
-# plt.ylim(0,900)
-#
-# plt.subplot(2, 2, 4)
-# total_row = na_conf_df.loc['Total'].drop(index="Total")
-# total_row.plot(kind='bar')
-# plt.xlabel("Confidence of NA")
-# plt.ylim(0,900)
-#
-# plt.suptitle(f'Model: {model_name}')
-#
-# plt.tight_layout()
-# plt.savefig(f'{output_path}/plot.png', bbox_inches='tight')
-
-
-
 
 
 plt.figure()
 
 plt.subplot(2, 2, 1)
-total_row = cp_rank_df.loc['Total'].drop(index="Total")
+total_row = ha_rank_df.loc['Total'].drop(index="Total")
 total_row.plot(kind='bar')
-plt.xlabel("Competitive: Ranking of NA")
+plt.xlabel("Ranking of gold answer")
 plt.ylabel("Count")
-plt.ylim(0,100)
+plt.ylim(0,1000)
 
 
 plt.subplot(2, 2, 2)
-total_row = ncp_rank_df.loc['Total'].drop(index="Total")
+total_row = na_rank_df.loc['Total'].drop(index="Total")
 total_row.plot(kind='bar')
-plt.xlabel("Non-Competitive: Ranking of NA")
-plt.ylim(0,100)
+plt.xlabel("Ranking of NA")
+plt.ylim(0,1000)
 
 
 plt.subplot(2, 2, 3)
-total_row = cp_conf_df.loc['Total'].drop(index="Total")
+total_row = ha_conf_df.loc['Total'].drop(index="Total")
 total_row.plot(kind='bar')
-plt.xlabel("Competitive: Confidence of NA")
+plt.xlabel("Confidence of gold answer")
 plt.ylabel("Count")
-plt.ylim(0,100)
+plt.ylim(0,900)
 
 plt.subplot(2, 2, 4)
-total_row = ncp_conf_df.loc['Total'].drop(index="Total")
+total_row = na_conf_df.loc['Total'].drop(index="Total")
 total_row.plot(kind='bar')
-plt.xlabel("Non-Competitive: Confidence of NA")
-plt.ylim(0,100)
+plt.xlabel("Confidence of NA")
+plt.ylim(0,900)
 
 plt.suptitle(f'Model: {model_name}')
 
 plt.tight_layout()
-plt.savefig(f'{output_path}/competitive_plot.png', bbox_inches='tight')
+plt.savefig(f'{output_path}/plot.png', bbox_inches='tight')
+
+
+
+
+#
+# plt.figure()
+#
+# plt.subplot(2, 2, 1)
+# total_row = cp_rank_df.loc['Total'].drop(index="Total")
+# total_row.plot(kind='bar')
+# plt.xlabel("Competitive: Ranking of NA")
+# plt.ylabel("Count")
+# plt.ylim(0,100)
+#
+#
+# plt.subplot(2, 2, 2)
+# total_row = ncp_rank_df.loc['Total'].drop(index="Total")
+# total_row.plot(kind='bar')
+# plt.xlabel("Non-Competitive: Ranking of NA")
+# plt.ylim(0,100)
+#
+#
+# plt.subplot(2, 2, 3)
+# total_row = cp_conf_df.loc['Total'].drop(index="Total")
+# total_row.plot(kind='bar')
+# plt.xlabel("Competitive: Confidence of NA")
+# plt.ylabel("Count")
+# plt.ylim(0,100)
+#
+# plt.subplot(2, 2, 4)
+# total_row = ncp_conf_df.loc['Total'].drop(index="Total")
+# total_row.plot(kind='bar')
+# plt.xlabel("Non-Competitive: Confidence of NA")
+# plt.ylim(0,100)
+#
+# plt.suptitle(f'Model: {model_name}')
+#
+# plt.tight_layout()
+# plt.savefig(f'{output_path}/competitive_plot.png', bbox_inches='tight')
