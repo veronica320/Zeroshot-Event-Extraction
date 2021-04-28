@@ -13,7 +13,7 @@
 
     "EX_QA_model_name": "qamr_roberta-l",
     "allow_na": true,
-    "null_score_diff_threshold": -5.0,
+    "null_score_diff_threshold": 5.0,
     "top_k_args": 10,
 
     "srl_args": "[['V'], ['V','ARG0','ARG1'], ['V','ARG0','ARG1','ARG2'], ['V','ARG0'], ['V', 'ARG1'], 'all'][-1]",

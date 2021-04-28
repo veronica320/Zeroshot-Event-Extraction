@@ -27,7 +27,7 @@
 #nohup python train_quase.py --mode train_eval --cuda 0 --target qamr_1qa_ctrl --model bert --mxlen 80 --train_bsize 12 --eval_bsize 8  > logs/bert_qamr_1qa_per_sent.log 2>&1 &
 #nohup python train_quase.py --mode train_eval --cuda 1 --target qamr_1qa_ctrl --model bert-l --mxlen 80 --train_bsize 12 --eval_bsize 8  > logs/bert-l_qamr_1qa_per_sent.log 2>&1 &
 #nohup python train_quase.py --mode train_eval --cuda 2 --target qamr_1qa_ctrl --model roberta --mxlen 80 --train_bsize 12 --eval_bsize 8  > logs/roberta_qamr_1qa_per_sent.log 2>&1 &
-nohup python train_quase.py --mode train_eval --cuda 3 --target qamr_1qa_per_sent --model roberta-l --mxlen 80 --train_bsize 12 --eval_bsize 8  > logs/roberta-l_qamr_1qa_per_sent.log 2>&1 &
+#nohup python train_quase.py --mode train_eval --cuda 3 --target qamr_1qa_per_sent --model roberta-l --mxlen 80 --train_bsize 12 --eval_bsize 8  > logs/roberta-l_qamr_1qa_per_sent.log 2>&1 &
 ### Finetune on QAMR 1QA ctrl set
 #nohup python train_quase.py --mode train_eval --cuda 4 --target qamr_1qa_ctrl --model bert --mxlen 80 --train_bsize 12 --eval_bsize 8  > logs/bert_qamr_1qa_ctrl.log 2>&1 &
 #nohup python train_quase.py --mode train_eval --cuda 5 --target qamr_1qa_ctrl --model bert-l --mxlen 80 --train_bsize 12 --eval_bsize 8  > logs/bert-l_qamr_1qa_ctrl.log 2>&1 &
@@ -106,3 +106,22 @@ nohup python train_quase.py --mode train_eval --cuda 3 --target qamr_1qa_per_sen
 #nohup python train_te.py --mode train_eval --task MNLI --target MNLI_s --model roberta-l --cuda 1 > logs/mnlis_roberta.log 2>&1 &
 #nohup python train_te.py --mode train_eval --task MNLI --target MNLI_s --model bert --cuda 2 > logs/mnlis_bert.log 2>&1 &
 #nohup python train_te.py --mode train_eval --task MNLI --target MNLI_s --model bert-l --cuda 3 > logs/mnlis_bertl.log 2>&1 &
+
+
+#### Binary classifier for has-answer vs. no-answer questions ####
+# Train the binary classifier on squad2.0
+#nohup python train_te.py --mode train_eval --task WNLI --target squad2_cls --model bert --cuda 0 > logs/ha_na_cls_bert.log 2>&1 &
+#nohup python train_te.py --mode train_eval --task WNLI --target squad2_cls --model bert-l --cuda 1 > logs/ha_na_cls_bert-l.log 2>&1 &
+#nohup python train_te.py --mode train_eval --task WNLI --target squad2_cls --model roberta --cuda 2 > logs/ha_na_cls_roberta.log 2>&1 &
+#nohup python train_te.py --mode train_eval --task WNLI --target squad2_cls --model roberta-l --cuda 5 > logs/ha_na_cls_roberta-l.log 2>&1 &
+
+# Evaluate binary classifier on ACE
+#nohup python train_te.py --mode eval --task WNLI --target ACE_ha_na_cls/ex_wtrg --model squad2_cls_bert --cuda 2 > logs/ha_na_cls_bert_aceeval.log 2>&1 &
+#nohup python train_te.py --mode eval --task WNLI --target ACE_ha_na_cls/ex_wtrg --model squad2_cls_bert-l --cuda 2 > logs/ha_na_cls_bert-l_aceeval.log 2>&1 &
+#nohup python train_te.py --mode eval --task WNLI --target ACE_ha_na_cls/ex_wtrg --model squad2_cls_roberta --cuda 4 > logs/ha_na_cls_roberta_aceeval.log 2>&1 &
+#nohup python train_te.py --mode eval --task WNLI --target ACE_ha_na_cls/ex_wtrg --model squad2_cls_roberta-l --cuda 6 > logs/ha_na_cls_roberta-l_aceeval.log 2>&1 &
+
+#nohup python train_te.py --mode eval --task WNLI --target ACE_ha_na_cls/ex --model squad2_cls_bert --cuda 7 > logs/ha_na_cls_bert_aceeval.log 2>&1 &
+#nohup python train_te.py --mode eval --task WNLI --target ACE_ha_na_cls/ex --model squad2_cls_bert-l --cuda 2 > logs/ha_na_cls_bert-l_aceeval.log 2>&1 &
+#nohup python train_te.py --mode eval --task WNLI --target ACE_ha_na_cls/ex --model squad2_cls_roberta --cuda 4 > logs/ha_na_cls_roberta_aceeval.log 2>&1 &
+#nohup python train_te.py --mode eval --task WNLI --target ACE_ha_na_cls/ex --model squad2_cls_roberta-l --cuda 6 > logs/ha_na_cls_roberta-l_aceeval.log 2>&1 &
