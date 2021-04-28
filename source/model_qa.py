@@ -489,31 +489,9 @@ class EventDetectorQA():
 			input_dict = {'input_ids': input_tensor,
 			              'token_type_ids': token_type_ids,
 			              'attention_mask': attention_mask}
-			# try:
 			outputs = self.ex_qa_model(**input_dict)
-			# except RuntimeError:  # TODO: Expected tensor for argument #1 'indices' to have scalar type Long; but got torch.cuda.FloatTensor instead (while checking arguments for embedding)
-			# 	print(question, question_tokens)
-			# 	print(question_tokens)
-			# 	print(input_tensor)
-			# 	return {'span': None,
-			# 	        'answer': None,
-			# 	        'answer_tokens': None,
-			# 	        'confidence': None,
-			# 	        }
 		else:
-			# try:
-
 			outputs = self.ex_qa_model(input_tensor)
-
-			# except RuntimeError:  # TODO: Expected tensor for argument #1 'indices' to have scalar type Long; but got torch.cuda.FloatTensor instead (while checking arguments for embedding)
-			# 	print(question, question_tokens)
-			# 	print(question_tokens)
-			# 	print(input_tensor)
-			# 	return {'span': None,
-			# 	        'answer': None,
-			# 	        'answer_tokens': None,
-			# 	        'confidence': None,
-			# 	        }
 
 		# Get the top k answers with post-processing function
 		start_logits = outputs[0].cpu().detach().numpy()[0]
@@ -535,12 +513,6 @@ class EventDetectorQA():
 					        "start_logit": null_prediction["start_logit"],
 					        "end_logit": null_prediction["end_logit"],
 					        }
-		# print(null_prediction)
-		#
-		# print(question)
-		# print(bertid_2_goldid)
-		# print(bert_tokens)
-		# print(context_tokens)
 
 		## Match the predicted spans to texts
 		final_predictions = []
@@ -549,7 +521,6 @@ class EventDetectorQA():
 			if final_pred is not None:  # valid prediction
 				final_predictions.append(final_pred)
 
-		# print(final_predictions)
 
 		# Pick the best prediction. If the null answer is not possible, this is easy.
 		best_prediction = None
