@@ -16,6 +16,7 @@ from pprint import pprint
 import ipdb
 import sys
 from utils import *
+from copy import deepcopy
 
 os.chdir('/shared/lyuqing/probing_for_event/')
 
@@ -53,6 +54,9 @@ class EventDetectorQA():
 
 		# predict top k answers
 		self.top_k_args = config.top_k_args
+
+		# global constraint on arguments
+		self.global_constraint = eval(config.global_constraint)
 
 		self.predicate_type = eval(config.predicate_type)
 		self.add_neutral = config.add_neutral
@@ -131,6 +135,8 @@ class EventDetectorQA():
 
 		# # predict arguments
 		pred_events = self.extract_arguments(instance, pred_events, srl_id_results, text_pieces, trg_cands, srl2gold_maps)
+
+		pred_events = self.add_global_constraints(pred_events)
 
 		return pred_events
 
@@ -571,49 +577,39 @@ class EventDetectorQA():
 
 		return best_prediction, final_predictions
 
+	def add_global_constraints(self, pred_events):
+		new_pred_events = deepcopy(pred_events)
+
+		for event_id, event in enumerate(pred_events):
+
+			pred_arguments = event["arguments"]
+
+			# For every predicted entity, only the argument role with the highest confidence can survive
+			if self.global_constraint == "max_conf":
+
+				# Dict of all predicted entities. Key is the span (start, end), value is a list of arg role and confidence.
+				all_pred_entities_dict = {}
+				new_pred_arguments = []
+
+				for pred_arg in pred_arguments:
+					span = (pred_arg["start"], pred_arg["end"])
+					if span not in all_pred_entities_dict:
+						all_pred_entities_dict[span] = []
+					all_pred_entities_dict[span].append([pred_arg["role"], pred_arg["confidence"], pred_arg["text"]])
 
 
-		# # Get the best answer only
-		# answer_start_scores = outputs[0]
-		# answer_end_scores = outputs[1]
-		# start_probs = torch.softmax(answer_start_scores, dim=1).tolist()[0]
-		# end_probs = torch.softmax(answer_end_scores, dim=1).tolist()[0]
-		# answer_start = torch.argmax(
-		# 	answer_start_scores).tolist()  # Get the most likely beginning of answer with the argmax of the score
-		# answer_end = torch.argmax(
-		# 	answer_end_scores).tolist()  # Get the most likely end of answer with the argmax of the score
-		# confidence = np.mean([start_probs[answer_start], end_probs[answer_end]])
-		#
-		# bert_span = (answer_start - question_len, answer_end - question_len)
-		#
-		# if bert_span[0] > bert_span[1] \
-		# 	or bert_span[0] < 0 \
-		# 	or bert_span[1] < 0:  # no answer
-		# 	gold_span = None
-		# 	answer = None
-		# 	answer_tokens = None
-		# else:
-		# 	try:
-		# 		gold_span = (bertid_2_goldid[bert_span[0]], bertid_2_goldid[bert_span[1]] + 1)
-		# 	except: # TODO: check why
-		# 		print(bertid_2_goldid)
-		# 		print(context_bert_tokens)
-		# 		print(context_tokens)
-		# 		print(answer_start, answer_end)
-		# 		print(bert_span)
-		# 		return {'span': None,
-		# 		        'answer': None,
-		# 		        'answer_tokens': None,
-		# 		        'confidence': None,
-		# 		        }
-		# 	answer_tokens = context_tokens[gold_span[0]:gold_span[1]]
-		# 	answer = ' '.join(answer_tokens)
-		# if answer == '': # TODO merge with span logic
-		# 	gold_span = None
-		# 	answer = None
-		# 	answer_tokens = None
-		# return {'span': gold_span,
-		#         'answer': answer,
-		#         'answer_tokens': answer_tokens,
-		#         'confidence': confidence,
-		#         }
+				for span, args in all_pred_entities_dict.items():
+					sorted_args = sorted(args, key=lambda x:x[1], reverse=True)
+					top_arg = sorted_args[0]
+					new_pred_arguments.append({'text': top_arg[2],
+					                           'role': top_arg[0],
+					                           'start': span[0],
+					                           'end': span[1],
+					                           'confidence': top_arg[1],
+					                           })
+
+				new_pred_events[event_id]["arguments"] = new_pred_arguments
+
+		return new_pred_events
+
+

@@ -13,8 +13,9 @@
 
     "EX_QA_model_name": "qamr_roberta-l",
     "allow_na": true,
-    "null_score_diff_threshold": 5.0,
+    "null_score_diff_threshold": 0.0,
     "top_k_args": 10,
+    "global_constraint":"['max_conf'][0]",
 
     "srl_args": "[['V'], ['V','ARG0','ARG1'], ['V','ARG0','ARG1','ARG2'], ['V','ARG0'], ['V', 'ARG1'], 'all'][-1]",
     "trg_thresh": "[0.80, 0.85, 0.900, 0.95, 0.97, 0.98, 0.99, 0.995][-2]",
