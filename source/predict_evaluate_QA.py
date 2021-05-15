@@ -90,12 +90,6 @@ gold_dataset = IEDataset(config.input_file)
 pred_dataset = IEDataset(output_file)
 
 
-## Evaluate on all triggers in ACE
-vocabs = generate_vocabs([gold_dataset, pred_dataset])
-
-gold_dataset.numberize(vocabs)
-pred_dataset.numberize(vocabs)
-
 gold_graphs, pred_graphs = [], []
 
 i = 0
