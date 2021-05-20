@@ -41,11 +41,17 @@ srl_model = eval(config.srl_model)
 null_score_diff_threshold = config.null_score_diff_threshold
 global_constraint = eval(config.global_constraint)
 
-frn = config.input_file.split('/')[-1].split('.')[0]
+input_file = eval(config.input_file)
 
+frn = input_file.split('/')[-1].split('.')[0]
+
+if "ACE" in input_file:
+	output_dir = "output_dir/ACE/QA"
+elif "ERE" in input_file:
+	output_dir = "output_dir/ERE/QA"
 
 # Model predictions will be written to output_file.
-output_file = f"output_dir/QA/{frn}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}" \
+output_file = f"{output_dir}/{frn}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}" \
               f"ynm:{YN_QA_model_name}_exm:{EX_QA_model_name}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_" \
               f"{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_" \
               f"cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}_srl:{srl_model}" \
@@ -58,14 +64,18 @@ print(f'Model config: {output_file}')
 model = EventDetectorQA(config)
 model.load_models()
 
-dataset = IEDataset(config.input_file)
+dataset = IEDataset(input_file)
 vocabs = generate_vocabs([dataset])
 dataset.numberize(vocabs)
 
-with open(output_file, 'w') as fw:
+with open(output_file, 'a') as fw:
 
 	for i, instance in enumerate(dataset):
 		print(i, instance.sentence)
+		if i < 2060:
+			continue
+		# if i > 100:
+		# 	break
 		pred_events = model.predict(instance)
 
 		# Gold events and model predictions will also be printed.
@@ -86,9 +96,13 @@ with open(output_file, 'w') as fw:
 
 ## Evaluate
 
-gold_dataset = IEDataset(config.input_file)
+gold_dataset = IEDataset(input_file)
 pred_dataset = IEDataset(output_file)
 
+vocabs = generate_vocabs([gold_dataset, pred_dataset])
+
+gold_dataset.numberize(vocabs)
+pred_dataset.numberize(vocabs)
 
 gold_graphs, pred_graphs = [], []
 

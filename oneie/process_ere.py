@@ -125,6 +125,7 @@ role_type_mapping = {
 	'artifact': 'Artifact',
 	'instrument': 'Instrument',
 	'time': 'Time',
+	'crime': 'Crime',
 }
 
 
@@ -1245,44 +1246,6 @@ def ere_to_event_only(input_file: str,
 			entity_span = {e['entity_id']: {'start': e['start'], 'end': e['end']}
 						   for e in inst['entities']}
 			
-			# # entities
-			# entity_mentions = []
-			# entity_text = {}
-			# for entity in inst['entities']:
-			#	 entity_mentions.append({
-			#		 'id': entity['entity_id'],
-			#		 'start': entity['start'],
-			#		 'end': entity['end'],
-			#		 'entity_type': entity['entity_type'],
-			#		 'mention_type': entity['mention_type'],
-			#		 'text': entity['text']
-			#	 })
-			#	 entity_text[entity['entity_id']] = entity['text']
-			# # relations
-			# relation_mentions = []
-			# for relation in inst['relations']:
-			#	 relation_type = relation_type_mapping[relation['relation_type']]
-			#	 relation_subtype = relation_subtype_mapping[
-			#		 relation['relation_subtype']]
-			#	 relation_mentions.append({
-			#		 'id': relation['relation_id'],
-			#		 'relation_type': relation_type,
-			#		 'relation_subtype': '{}:{}'.format(relation_type,
-			#											relation_subtype),
-			#		 'arguments': [
-			#			 {
-			#				 'entity_id': relation['arg1']['entity_id'],
-			#				 'role': 'Arg-1',
-			#				 'text': entity_text[relation['arg1']['entity_id']]
-			#			 },
-			#			 {
-			#				 'entity_id': relation['arg2']['entity_id'],
-			#				 'role': 'Arg-2',
-			#				 'text': entity_text[relation['arg2']['entity_id']]
-			#			 },
-			#		 ]
-			#	 })
-			
 			# events
 			event_mentions = []
 			for event in inst['events']:
@@ -1312,9 +1275,10 @@ def ere_to_event_only(input_file: str,
 			w.write(json.dumps({
 				'doc_id': inst['doc_id'],
 				'sent_id': inst['sent_id'],
+				'sentence': sentence,
 				'tokens': tokens,
-				'pieces': pieces,
-				'token_lens': token_lens,
+				# 'pieces': pieces,
+				# 'token_lens': token_lens,
 				# 'entity_mentions': entity_mentions,
 				# 'relation_mentions': relation_mentions,
 				'event_mentions': event_mentions

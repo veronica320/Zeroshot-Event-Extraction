@@ -67,15 +67,22 @@ class EventDetectorQA():
 
 		self.arg_probe_type = eval(config.arg_probe_type)
 
+		input_file = eval(config.input_file)
+		if "ACE" in input_file:
+			dataset = "ACE"
+		elif "ERE" in input_file:
+			dataset = "ERE"
+		else:
+			raise ValueError("Unknown dataset")
+
 		# Load trigger probes
-		probe_dir = 'source/lexicon/probes/'
-		trg_probes_frn = f'{probe_dir}trg_qa_probes_fine.txt' # TODO: other types of probes
+		probe_dir = f'source/lexicon/probes/{dataset}'
+		trg_probes_frn = f'{probe_dir}/trg_qa_probes_fine.txt' # TODO: other types of probes
 		with open(trg_probes_frn, 'r') as fr:
 			self.trg_probe_lexicon = load_trg_probe_lexicon(fr)
 
 		# Load argument probes and the SRL-to-ACE argument map
-
-		arg_probes_frn = f'{probe_dir}arg_qa_probes_{self.arg_probe_type}.txt'
+		arg_probes_frn = f'{probe_dir}/arg_qa_probes_{self.arg_probe_type}.txt'
 		with open(arg_probes_frn, 'r') as fr:
 			self.arg_probe_lexicon = load_arg_probe_lexicon(fr, self.arg_probe_type)
 		with open('source/lexicon/arg_srl2ace.txt') as fr:
@@ -88,7 +95,8 @@ class EventDetectorQA():
 		self.sw = load_stopwords()
 
 		# Load cached SRL output
-		self.verb_srl_dict, self.nom_srl_dict = load_srl(self.srl_model)
+
+		self.verb_srl_dict, self.nom_srl_dict = load_srl(self.srl_model, input_file)
 
 	def load_models(self):
 		print('Loading constituency and dependency parser...')
@@ -136,7 +144,8 @@ class EventDetectorQA():
 		# # predict arguments
 		pred_events = self.extract_arguments(instance, pred_events, srl_id_results, text_pieces, trg_cands, srl2gold_maps)
 
-		pred_events = self.add_global_constraints(pred_events)
+		if self.global_constraint:
+			pred_events = self.add_global_constraints(pred_events)
 
 		return pred_events
 
