@@ -67,13 +67,16 @@ class EventDetectorQA():
 
 		self.arg_probe_type = eval(config.arg_probe_type)
 
-		input_file = eval(config.input_file)
-		if "ACE" in input_file:
+		input_path = eval(config.input_path)
+		split = eval(config.split)
+		if "ACE" in input_path:
 			dataset = "ACE"
-		elif "ERE" in input_file:
+		elif "ERE" in input_path:
 			dataset = "ERE"
 		else:
 			raise ValueError("Unknown dataset")
+
+		input_file = f"{input_path}/{split}.event.json"
 
 		# Load trigger probes
 		probe_dir = f'source/lexicon/probes/{dataset}'

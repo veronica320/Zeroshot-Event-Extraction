@@ -497,7 +497,7 @@ def load_srl(srl_model, input_file):
 		dataset = "ERE"
 	else:
 		raise ValueError("Unknown dataset")
-
+	print(input_file)
 	split = input_file.split('/')[-1].split('.')[0]
 
 	for type in ['verb', 'nom']:
@@ -505,7 +505,7 @@ def load_srl(srl_model, input_file):
 		if srl_model == "celine_old":
 			path = f"data/srl_output/{srl_model}/{dataset}/{type}SRL_output_withid_full.json"
 		else:
-			path = f"data/srl_output/{srl_model}/{dataset}/{type}SRL_{srl_model}_{split}.json"
+			path = f"data/srl_output/{srl_model}/{dataset}/{split}/{type}SRL_{srl_model}_{split}.json"
 		with open(path, 'r') as fr:
 			for line in fr:
 				srl_res = json.loads(line)

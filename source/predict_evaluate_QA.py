@@ -43,15 +43,15 @@ global_constraint = eval(config.global_constraint)
 
 input_file = eval(config.input_file)
 
-frn = input_file.split('/')[-1].split('.')[0]
+split = input_file.split('/')[-1].split('.')[0]
 
 if "ACE" in input_file:
-	output_dir = "output_dir/ACE/QA"
+	output_dir = f"output_dir/ACE/QA/{split}"
 elif "ERE" in input_file:
-	output_dir = "output_dir/ERE/QA"
+	output_dir = f"output_dir/ERE/QA/{split}"
 
 # Model predictions will be written to output_file.
-output_file = f"{output_dir}/{frn}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}" \
+output_file = f"{output_dir}/{split}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}" \
               f"ynm:{YN_QA_model_name}_exm:{EX_QA_model_name}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_" \
               f"{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_" \
               f"cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}_srl:{srl_model}" \
@@ -72,8 +72,6 @@ with open(output_file, 'a') as fw:
 
 	for i, instance in enumerate(dataset):
 		print(i, instance.sentence)
-		if i < 2060:
-			continue
 		# if i > 100:
 		# 	break
 		pred_events = model.predict(instance)

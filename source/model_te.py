@@ -61,22 +61,33 @@ class EventDetectorTE():
 		self.arg_probe_type = eval(config.arg_probe_type)
 		self.identify_head = config.identify_head
 
+		input_path = eval(config.input_path)
+		split = eval(config.split)
+		if "ACE" in input_path:
+			dataset = "ACE"
+		elif "ERE" in input_path:
+			dataset = "ERE"
+		else:
+			raise ValueError("Unknown dataset")
+
+		input_file = f"{input_path}/{split}.event.json"
+
 		# Load trigger probes
-		probe_dir = 'source/lexicon/probes/'
+		probe_dir = f'source/lexicon/probes/{dataset}'
 		if self.trg_probe_type in ['topical','prem-trg+type']:
-			trg_probes_frn = f'{probe_dir}trg_te_probes_topical.txt'
+			trg_probes_frn = f'{probe_dir}/trg_te_probes_topical.txt'
 		elif self.trg_probe_type == 'natural':
-			trg_probes_frn = f'{probe_dir}trg_te_probes_natural.txt'
+			trg_probes_frn = f'{probe_dir}/trg_te_probes_natural.txt'
 		elif self.trg_probe_type == 'exist':
-			trg_probes_frn = f'{probe_dir}trg_te_probes_exist.txt'
+			trg_probes_frn = f'{probe_dir}/trg_te_probes_exist.txt'
 		with open(trg_probes_frn, 'r') as fr:
 			self.trg_probe_lexicon = load_trg_probe_lexicon(fr)
 		
 		# Load argument probes and the SRL-to-ACE argument map
 		if self.arg_probe_type.startswith('auto'):
-			arg_probes_frn = f'{probe_dir}arg_te_probes_auto.txt'
+			arg_probes_frn = f'{probe_dir}/arg_te_probes_auto.txt'
 		elif self.arg_probe_type == 'manual':
-			arg_probes_frn = f'{probe_dir}arg_te_probes_manual.txt'
+			arg_probes_frn = f'{probe_dir}/arg_te_probes_manual.txt'
 		with open(arg_probes_frn, 'r') as fr:
 			self.arg_probe_lexicon = load_arg_probe_lexicon(fr, self.arg_probe_type)
 		with open('source/lexicon/arg_srl2ace.txt') as fr:
@@ -89,7 +100,7 @@ class EventDetectorTE():
 		self.sw = load_stopwords()
 		
 		# Load cached SRL output
-		self.verb_srl_dict, self.nom_srl_dict = load_srl(self.srl_model)
+		self.verb_srl_dict, self.nom_srl_dict = load_srl(self.srl_model, input_file)
 		
 	
 	def load_models(self):

@@ -101,8 +101,16 @@ if __name__ == "__main__":
 	os.chdir(root_dir)
 
 	# custom configs
-	input_dir = ["data/ACE_oneie/en/event_only", "data/ERE/ERE_oneIE/LDC2015E29"][1]
-	input_split = ["dev", "E29"][1]
+	input_dir = ["data/ACE_oneie/en/event_only", "data/ERE/ERE_oneIE/LDC2015E29"][0]
+	input_split = ["test", "dev", "E29"][0]
+
+	if "ACE" in input_dir:
+		dataset = "ACE"
+	elif "ERE" in input_dir:
+		dataset = "ERE"
+	else:
+		raise ValueError("Unknown dataset")
+
 	srl_model_name = ["celine_old", "celine_new", "celine_new_all", "illinois"][2]
 
 	input_fn = f"{input_dir}/{input_split}.event.json"
@@ -110,7 +118,7 @@ if __name__ == "__main__":
 	verb_output = []
 	nom_output = []
 
-	output_dir = f"data/srl_output/{srl_model_name}"
+	output_dir = f"data/srl_output/{srl_model_name}/{dataset}/{input_split}"
 	if not os.path.isdir(output_dir):
 		os.makedirs(output_dir)
 
@@ -119,17 +127,15 @@ if __name__ == "__main__":
 
 	with open(input_fn, 'r') as input_f:
 		for i,line in enumerate(input_f):
-			if i < 2060:
-				continue
 
 			if i % 50 == 0:
 				print(f"{i} sentences finished.")
 
-			# if i % 10 == 0:
-			# 	write_to_file(verb_output, verb_fwn, mode='a')
-			# 	write_to_file(nom_output, nom_fwn, mode='a')
-			# 	verb_output = []
-			# 	nom_output = []
+			if i % 10 == 0:
+				write_to_file(verb_output, verb_fwn, mode='a')
+				write_to_file(nom_output, nom_fwn, mode='a')
+				verb_output = []
+				nom_output = []
 
 			line = json.loads(line)
 			sentence = line["sentence"]
