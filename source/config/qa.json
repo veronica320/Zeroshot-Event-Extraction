@@ -3,8 +3,9 @@
     "gpu_devices": "0",
     "bert_cache_dir": "/shared/.cache/transformers",
     "root_dir": "/shared/lyuqing/probing_for_event",
-    "input_file": "['data/ACE_oneie/en/event_only/dev.event.json', 'data/ERE/ERE_oneIE/LDC2015E29/E29.event.json'][1]",
-    "srl_model": "[None, 'celine_old', 'celine_new', 'illinois', 'celine_new_all'][-1]",
+    "input_path": "['data/ACE_oneie/en/event_only/', 'data/ERE/ERE_oneIE/LDC2015E29/'][0]",
+    "split": "['dev', 'test', 'E29'][0]",
+    "srl_model": "[None, 'celine_old', 'celine_new', 'illinois', 'celine_new_all'][2]",
 
     "classification_only": false,
     "gold_trigger": true,

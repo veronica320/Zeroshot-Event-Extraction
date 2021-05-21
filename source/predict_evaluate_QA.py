@@ -41,14 +41,15 @@ srl_model = eval(config.srl_model)
 null_score_diff_threshold = config.null_score_diff_threshold
 global_constraint = eval(config.global_constraint)
 
-input_file = eval(config.input_file)
+input_path = eval(config.input_path)
+split = eval(config.split)
 
-split = input_file.split('/')[-1].split('.')[0]
+input_file = f"{input_path}/{split}.event.json"
 
 if "ACE" in input_file:
-	output_dir = f"output_dir/ACE/QA/{split}"
+	output_dir = f"output_dir/ACE/{split}/QA"
 elif "ERE" in input_file:
-	output_dir = f"output_dir/ERE/QA/{split}"
+	output_dir = f"output_dir/ERE/{split}"
 
 # Model predictions will be written to output_file.
 output_file = f"{output_dir}/{split}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}" \

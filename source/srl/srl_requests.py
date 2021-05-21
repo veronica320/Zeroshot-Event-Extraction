@@ -111,7 +111,7 @@ if __name__ == "__main__":
 	else:
 		raise ValueError("Unknown dataset")
 
-	srl_model_name = ["celine_old", "celine_new", "celine_new_all", "illinois"][2]
+	srl_model_name = ["celine_old", "celine_new", "celine_new_all", "illinois"][1]
 
 	input_fn = f"{input_dir}/{input_split}.event.json"
 
