@@ -56,39 +56,39 @@ output_file = f"{output_dir}/{split}_{'gt_' if gold_trigger else ''}{'cls_' if c
               f"cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}_srl:{srl_model}" \
               f".event.json"
 
-#
-# # Predict
-# print(f'Model config: {output_file}')
-# model = EventDetectorTE(config)
-# model.load_models()
-#
-# dataset = IEDataset(input_file)
-# vocabs = generate_vocabs([dataset])
-# dataset.numberize(vocabs)
-#
-# with open(output_file, 'a') as fw:
-#
-# 	for i, instance in enumerate(dataset):
-# 		print(i, instance.sentence)
-# 		# if i > 100:
-# 		# 	break
-# 		pred_events = model.predict(instance)
-#
-# 		# Gold events and model predictions will also be printed.
-# 		print('Gold events:')
-# 		pprint(instance.events)
-# 		print('Pred events:')
-# 		pprint(pred_events)
-# 		print('\n')
-#
-# 		output = {'doc_id': instance.doc_id,
-# 		          'sent_id': instance.sent_id,
-# 		          'tokens': instance.tokens,
-# 		          'sentence': instance.sentence,
-# 		          'event_mentions': pred_events
-# 		          }
-#
-# 		fw.write(json.dumps(output) + '\n')
+
+# Predict
+print(f'Model config: {output_file}')
+model = EventDetectorTE(config)
+model.load_models()
+
+dataset = IEDataset(input_file)
+vocabs = generate_vocabs([dataset])
+dataset.numberize(vocabs)
+
+with open(output_file, 'a') as fw:
+
+	for i, instance in enumerate(dataset):
+		print(i, instance.sentence)
+		# if i > 100:
+		# 	break
+		pred_events = model.predict(instance)
+
+		# Gold events and model predictions will also be printed.
+		print('Gold events:')
+		pprint(instance.events)
+		print('Pred events:')
+		pprint(pred_events)
+		print('\n')
+
+		output = {'doc_id': instance.doc_id,
+		          'sent_id': instance.sent_id,
+		          'tokens': instance.tokens,
+		          'sentence': instance.sentence,
+		          'event_mentions': pred_events
+		          }
+
+		fw.write(json.dumps(output) + '\n')
 
 ## Evaluate
 

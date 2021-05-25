@@ -1,0 +1,110 @@
+BE-BORN
+someone's birth
+
+MARRY
+someone's marriage
+
+DIVORCE
+someone's divorce
+
+INJURE
+someone's injury
+
+DIE
+someone's death
+
+TRANSPORT-PERSON
+someone moving from one place to another
+
+TRANSPORT-ARTIFACT
+something moving from one place to another
+
+TRANSFER-OWNERSHIP
+a transfer of ownership of some item
+
+TRANSFER-MONEY
+a transfer of money
+
+TRANSACTION
+a transaction, but not sure if it's money or some item
+
+START-ORG
+starting an organization
+
+MERGE-ORG
+merging an organization
+
+DECLARE-BANKRUPTCY
+a bankruptcy
+
+END-ORG
+the end of an organization
+
+ATTACK
+an attack or a war
+
+DEMONSTRATE
+a demonstration
+
+MEET
+a in-person meeting between two parties
+
+CORRESPONDENCE
+a non-in-person correspondence between two parties
+
+BROADCAST
+a broadcast
+
+CONTACT
+a contact, but can't tell if it's in-person
+
+START-POSITION
+someone being hired
+
+END-POSITION
+someone no longer working on a position
+
+NOMINATE
+a nomination
+
+ELECT
+an election
+
+ARREST-JAIL
+an arrest
+
+RELEASE-PAROLE
+a release or parole
+
+TRIAL-HEARING
+a trial or hearing
+
+CHARGE-INDICT
+a charge or indictment
+
+SUE
+a suit
+
+CONVICT
+a conviction
+
+SENTENCE
+a sentencing
+
+FINE
+a fine
+
+EXECUTE
+an execution of a criminal
+
+EXTRADITE
+an extradition
+
+ACQUIT
+an acquittal
+
+PARDON
+someone being pardoned
+
+APPEAL
+making an appeal

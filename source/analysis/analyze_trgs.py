@@ -12,34 +12,6 @@ import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 
 
-def is_identical(gold_arg_text, pred_arg_text):
-	# Determine if the gold arg and the pred arg is similar enough to be considiered identical.
-
-	n_toks_gold = len(gold_arg_text.split())
-	n_toks_pred = len(pred_arg_text.split())
-
-	if (gold_arg_text in pred_arg_text or pred_arg_text in gold_arg_text) \
-		and abs(n_toks_pred - n_toks_gold) <= 2:
-		return True
-	else:
-		return False
-
-def add_to_conf_dict(conf, conf_dict):
-	if conf < 0.0:
-		return -1
-	for i in range(len(conf_dict)):
-		interval = conf_intervals[i]
-		if interval[0] <= conf:
-			if interval[1] == 1.0:
-				if interval[1] >= conf:
-					conf_dict[i] += 1
-					return 0
-			else:
-				if interval[1] > conf:
-					conf_dict[i] += 1
-					return 0
-	return -1
-
 
 root_path = ('/shared/lyuqing/probing_for_event')
 os.chdir(root_path)
