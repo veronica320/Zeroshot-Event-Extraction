@@ -1,0 +1,98 @@
+BE-BORN
+is someone born
+
+MARRY
+is someone married
+
+DIVORCE
+is someone divorced
+
+INJURE
+is someone hurt
+
+DIE
+has someone died
+
+TRANSPORT
+is someone or something transported from one place to another
+
+TRANSFER-OWNERSHIP
+is something bought
+
+TRANSFER-MONEY
+is money transferred
+
+START-ORG
+is an organization started
+
+MERGE-ORG
+is an organization merged
+
+DECLARE-BANKRUPTCY
+is an organization bankrupted
+
+END-ORG
+is an organization ended
+
+ATTACK
+is there an attack
+
+DEMONSTRATE
+is there a demonstration
+
+MEET
+is there a meeting
+
+PHONE-WRITE
+is there a phone or writing communication
+
+START-POSITION
+has someone started office
+
+END-POSITION
+has someone ended office
+
+NOMINATE
+is someone nominated
+
+ELECT
+is someone elected
+
+ARREST-JAIL
+is someone arrested
+
+RELEASE-PAROLE
+is someone released
+
+TRIAL-HEARING
+is someone on a trial or hearing
+
+CHARGE-INDICT
+is someone charged or indicted
+
+SUE
+is someone sued
+
+CONVICT
+is someone convicted
+
+SENTENCE
+is someone sentenced
+
+FINE
+is someone fined an amount of money
+
+EXECUTE
+is some legally condemned person executed
+
+EXTRADITE
+is someone extradited
+
+ACQUIT
+is someone acquitted
+
+PARDON
+is someone pardoned
+
+APPEAL
+is there an appeal

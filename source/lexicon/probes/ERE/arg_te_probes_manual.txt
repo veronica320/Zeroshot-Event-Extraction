@@ -1,0 +1,223 @@
+BE-BORN
+Person_Arg:{} is born. 
+Place_Arg:{} is the place that someone is born.
+Time_Arg:{} is the time that someone is born.
+
+MARRY
+Person_Arg:{} is married.
+Place_Arg:{} is the place that someone is married.
+Time_Arg:{} is the time that someone is married.
+
+DIVORCE
+Person_Arg:{} is divorced.
+Place_Arg:{} is the place that someone is divorced.
+Time_Arg:{} is the time that someone is divorced.
+
+INJURE
+Agent_Arg:{} injures someone.
+Victim_Arg:{} is injured.
+Instrument_Arg:Someone is injured with the instrument of {}.
+Place_Arg:{} is the place that someone is injured.
+Time_Arg:{} is the time that someone is injured.
+
+DIE
+Agent_Arg:{} kills someone.
+Victim_Arg:{} is killed.
+Instrument_Arg:Someone is killed with the instrument of {}.
+Place_Arg:{} is the place that someone is killed.
+Time_Arg:{} is the time that someone is killed.
+
+TRANSPORT
+Agent_Arg:{} is the responsible person for the transportation.
+Artifact_Arg:{} is transported.
+Vehicle_Arg:{} is the vehicle in the transportation.
+Price_Arg:The transportation costs {}.
+Origin_Arg:The origin of the transportation is {}.
+Destination_Arg:The destination of the transportation is {}.
+Time_Arg:The time of the transportation is {}.
+
+TRANSFER-OWNERSHIP
+Buyer_Arg:{} buys something.
+Seller_Arg:{} sells something.
+Artifact_Arg:{} is bought.
+Price_Arg:Something costs {}.
+Beneficiary_Arg:Something is bought for {}.
+Time_Arg:The time of the purchase is {}.
+Place_Arg:The place of the purchase is {}.
+
+TRANSFER-MONEY
+Giver_Arg:{} gives the money.
+Recipient_Arg:{} receives the money.
+Beneficiary_Arg:{} is the beneficiary of the money transfer.
+Money_Arg:{} is given.
+Time_Arg:{} is the time that the money is given.
+Place_Arg:{} is the place that the money is given.
+
+START-ORG
+Agent_Arg:{} starts an organization.
+Org_Arg:{} is started.
+Time_Arg:{} is the time that an organization is started.
+Place_Arg:{} is the place that an organization is started.
+
+MERGE-ORG
+Org_Arg:{} is merged.
+Time_Arg:{} is the time that an organization is merged.
+Place_Arg:{} is the place that an organization is merged.
+
+DECLARE-BANKRUPTCY
+Org_Arg:{} is bankrupt.
+Time_Arg:{} is the time that an organization is bankrupt.
+Place_Arg:{} is the place that an organization is bankrupt.
+
+END-ORG
+Org_Arg:{} is ended.
+Time_Arg:{} is the time that an organization is ended.
+Place_Arg:{} is the place that an organization is ended.
+
+ATTACK
+Attacker_Arg:{} attacks someone.
+Target_Arg:{} is the target of the attack.
+Instrument_Arg:Someone is attacked with the instrument of {}.
+Place_Arg:{} is the place that someone is attacked.
+Time_Arg:{} is the time that someone is attacked.
+
+DEMONSTRATE
+Entity_Arg:{} goes on a demonstration.
+Time_Arg:The time of the demonstration is {}.
+Place_Arg:The place of the demonstration is {}.
+
+MEET
+Entity_Arg:{} meets with someone.
+Time_Arg:The time of the meeting is {}.
+Place_Arg:The place of the meeting is {}.
+
+PHONE-WRITE
+Entity_Arg:{} has a written or phone communication with someone.
+Time_Arg:The time of the communication is {}.
+
+START-POSITION
+Person_Arg:{} starts a job.
+Entity_Arg:{} hires someone.
+Position_Arg:Someone starts the job as {}.
+Time_Arg:{} is the time that someone starts the job.
+Place_Arg:{} is the place that someone starts the job.
+
+END-POSITION
+Person_Arg:{} ends a job.
+Entity_Arg:Someone leaves {}. 
+Position_Arg:Someone ends the job as {}.
+Time_Arg:{} is the time that someone ends the job.
+Place_Arg:{} is the place that someone ends the job.
+
+NOMINATE
+Agent_Arg:{} nominates someone.
+Person_Arg:{} is nominated.
+Position_Arg:Someone is nominated as {}.
+Time_Arg:{} is the time that someone is nominated.
+Place_Arg:{} is the place that someone is nominated.
+
+ELECT
+Entity_Arg:{} elects someone.
+Person_Arg:{} is elected.
+Position_Arg:Someone is elected to be {}.
+Time_Arg:The time of the election is {}.
+Place_Arg:The place of the election is {}.
+
+ARREST-JAIL
+Agent_Arg:{} arrests someone.
+Person_Arg:{} is arrested.
+Crime_Arg:Someone is arrested for the crime of {}.
+Time_Arg:The time of the arrest is {}.
+Place_Arg:The place of the arrest is {}.
+
+RELEASE-PAROLE
+Agent_Arg:{} releases someone.
+Person_Arg:{} is released.
+Crime_Arg:Someone is previously being held for the crime of {}.
+Time_Arg:The time of the release is {}.
+Place_Arg:The place of the release is {}.
+
+TRIAL-HEARING
+Prosecutor_Arg:{} is the prosecutor.
+Defendant_Arg:{} is on trial.
+Crime_Arg:Someone is being tried for the crime of {}.
+Adjudicator_Arg:{} is the adjudicator.
+Time_Arg:The time of the trial is {}.
+Place_Arg:The place of the trial is {}.
+
+CHARGE-INDICT
+Prosecutor_Arg:{} is the prosecutor.
+Defendant_Arg:{} is charged.
+Crime_Arg:Someone is charged for the crime of {}.
+Adjudicator_Arg:{} is the adjudicator.
+Time_Arg:The time of the charge is {}.
+Place_Arg:The place of the charge is {}.
+
+
+SUE
+Plaintiff_Arg:{} sues someone.
+Defendant_Arg:{} is sued.
+Crime_Arg:Someone is sued for the crime of {}.
+Adjudicator_Arg:{} is the adjudicator.
+Time_Arg:The time of the suit is {}.
+Place_Arg:The place of the suit is {}.
+
+CONVICT
+Defendant_Arg:{} is convicted.
+Crime_Arg:Someone is convicted for the crime of {}.
+Adjudicator_Arg:{} is the adjudicator.
+Time_Arg:The time of the conviction is {}.
+Place_Arg:The place of the conviction is {}.
+
+SENTENCE
+Defendant_Arg:{} is sentenced.
+Crime_Arg:Someone is sentenced for the crime of {}.
+Sentence_Arg:The sentence is {}.
+Adjudicator_Arg:{} is the adjudicator.
+Time_Arg:{} is the time that someone is sentenced.
+Place_Arg:{} is the place that someone is sentenced.
+
+FINE
+Adjudicator_Arg:{} fines someone.
+Entity_Arg:{} is fined.
+Crime_Arg:Someone is fined for the crime of {}.
+Money_Arg:The fine is {}.
+Time_Arg:{} is the time that someone is fined.
+Place_Arg:{} is the place that someone is fined.
+
+EXECUTE
+Agent_Arg:{} executes someone.
+Person_Arg:{} is executed.
+Crime_Arg:Someone is executed for the crime of {}.
+Time_Arg:The time of the execution is {}.
+Place_Arg:The place of the execution is {}.
+
+EXTRADITE
+Agent_Arg:{} extradites someone.
+Person_Arg:{} is extradited.
+Crime_Arg:Someone is extradited for the crime of {}.
+Origin_Arg:The origin of the extradition is {}.
+Destination_Arg:The destination of the extradition is {}.
+Time_Arg:The time of the extradition is {}.
+
+ACQUIT
+Adjudicator_Arg:{} acquits someone.
+Defendant_Arg:{} is acquitted.
+Crime_Arg:Someone is previously charged for the crime of {}.
+Time_Arg:{} is the time that someone is acquitted.
+Place_Arg:{} is the place that someone is acquitted.
+
+PARDON
+Adjudicator_Arg:{} pardons someone.
+Defendant_Arg:{} is pardoned.
+Crime_Arg:Someone is pardoned for the crime of {}.
+Time_Arg:{} is the time that someone is pardoned.
+Place_Arg:{} is the place that someone is pardoned.
+
+APPEAL
+Defendant_Arg:{} makes an appeal.
+Prosecutor_Arg:{} is the prosecutor.
+Crime_Arg:The appeal is for the crime of {}.
+Adjudicator_Arg:{} is the adjudicator.
+Time_Arg:The time of the appeal is {}.
+Place_Arg:The place of the appeal is {}.

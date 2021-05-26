@@ -1,10 +1,10 @@
 {
     "use_gpu": true,
-    "gpu_devices": "0",
+    "gpu_devices": "1",
     "bert_cache_dir": "/shared/.cache/transformers",
     "root_dir": "/shared/lyuqing/probing_for_event",
-    "input_path": "['data/ACE_oneie/en/event_only/', 'data/ERE/ERE_oneIE/LDC2015E29/'][0]",
-    "split": "['dev', 'test', 'E29'][0]",
+    "input_path": "['data/ACE_oneie/en/event_only/', 'data/ERE/ERE_oneIE/LDC2015E29/'][1]",
+    "split": "['dev', 'test', 'E29'][2]",
     "srl_model": "[None, 'celine_old', 'celine_new', 'illinois', 'celine_new_all'][-1]",
 
     "classification_only": false,

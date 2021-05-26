@@ -56,7 +56,7 @@ BROADCAST
 a broadcast
 
 CONTACT
-a contact, but can't tell if it's in-person
+a contact, but not sure if it's in-person
 
 START-POSITION
 someone being hired

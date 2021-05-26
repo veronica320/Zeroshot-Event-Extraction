@@ -72,6 +72,8 @@ with open(output_file, 'a') as fw:
 		print(i, instance.sentence)
 		# if i > 100:
 		# 	break
+		if i < 1714:
+			continue
 		pred_events = model.predict(instance)
 
 		# Gold events and model predictions will also be printed.

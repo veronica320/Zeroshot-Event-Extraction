@@ -44,23 +44,38 @@ global_constraint = eval(config.global_constraint)
 input_path = eval(config.input_path)
 split = eval(config.split)
 
+trigger_input_mode = ["scratch", "gold_ti", "gold_titc"][1]
+
+# if trigger_input_mode == "scratch":
+# 	# input_file = "output_dir/ACE/test/TE/test_m:robertal_t:0.99_a:0.9_['V', 'ARG1']_['verb', 'nom']_head:True_tp:topical_pps:None_an:True_cp:whenNone_apt:manual_gdl:pos_neg_srl:celine_new_all.event.json"
+# 	input_file = "output_dir/ERE/E29/TE/E29_m:robertal_t:0.99_a:0.9_['V', 'ARG1']_['verb', 'nom']_head:True_tp:topical_pps:None_an:True_cp:whenNone_apt:manual_gdl:pos_neg_srl:celine_new_all.event.json"
+# elif trigger_input_mode == "gold_ti":
+# 	# input_file = "output_dir/ACE/test/TE/test_cls_m:robertal_t:0.99_a:0.9_['V', 'ARG1']_['verb', 'nom']_head:True_tp:topical_pps:None_an:True_cp:whenNone_apt:manual_gdl:pos_neg_srl:celine_new_all.event.json"
+# 	input_file = "output_dir/ERE/E29/TE/E29_cls_m:robertal_t:0.99_a:0.9_['V', 'ARG1']_['verb', 'nom']_head:True_tp:topical_pps:None_an:True_cp:whenNone_apt:manual_gdl:pos_neg_srl:celine_new_all.event.json"
+# elif trigger_input_mode == "gold_titc":
 input_file = f"{input_path}/{split}.event.json"
+
 
 if "ACE" in input_file:
 	output_dir = f"output_dir/ACE/{split}/QA"
 elif "ERE" in input_file:
 	output_dir = f"output_dir/ERE/{split}"
 
-# Model predictions will be written to output_file.
-output_file = f"{output_dir}/{split}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}" \
-              f"ynm:{YN_QA_model_name}_exm:{EX_QA_model_name}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_" \
-              f"{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_" \
-              f"cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}_srl:{srl_model}" \
-              f"null_thresh:{null_score_diff_threshold}_cstr:{global_constraint}" \
-              f".event.json"
-# output_file = f"output_dir/QA/best_trigger_titc_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}ynm:{YN_QA_model_name}_exm:{EX_QA_model_name}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
 
-# # Predict
+# Model predictions will be written to output_file.
+if trigger_input_mode == "scratch":
+	output_file = f"{output_dir}/{split}_best_trigger_scratch_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}ynm:{YN_QA_model_name}_exm:{EX_QA_model_name}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
+elif trigger_input_mode == "gold_ti":
+	output_file = f"{output_dir}/{split}_best_trigger_goldti_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}ynm:{YN_QA_model_name}_exm:{EX_QA_model_name}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}.event.json"
+elif trigger_input_mode == "gold_titc":
+	output_file = f"{output_dir}/{split}_{'gt_' if gold_trigger else ''}{'cls_' if classification_only else ''}" \
+	              f"ynm:{YN_QA_model_name}_exm:{EX_QA_model_name}_t:{trg_thresh}_a:{arg_thresh}_{srl_args}_" \
+	              f"{predicate_type}_head:{identify_head}_pps:{pair_premise_strategy}_an:{add_neutral}_" \
+	              f"cp:{const_premise}_apt:{arg_probe_type}_gdl:{tune_on_gdl}_srl:{srl_model}" \
+	              f"null_thresh:{null_score_diff_threshold}_cstr:{global_constraint}" \
+	              f".event.json"
+
+# ## Predict
 # print(f'Model config: {output_file}')
 # model = EventDetectorQA(config)
 # model.load_models()
