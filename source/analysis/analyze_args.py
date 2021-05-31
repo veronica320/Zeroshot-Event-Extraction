@@ -33,7 +33,6 @@ arg_name_mapping = {"ATTACK": {"Victim":"Target",
                     }
 
 
-
 split = ["dev", "test"][1]
 input_file = f"data/ACE_oneie/en/event_only/{split}.event.json"
 model_name = ["qamr_roberta-l",

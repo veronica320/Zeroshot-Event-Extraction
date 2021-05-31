@@ -150,7 +150,7 @@ Time_Arg:When is the {trigger}
 Place_Arg:Where is the {trigger}
 
 ELECT
-Entity_Arg:Who elects someone
+Agent_Arg:Who elects someone
 Person_Arg:Who is elected
 Position_Arg:What is someone elected as
 Time_Arg:When is the {trigger}

@@ -21,6 +21,8 @@ from utils import generate_vocabs
 from pprint import pprint
 from scorer import score_graphs
 
+evaluate_only = config.evaluate_only
+
 bert_model_type = config.bert_model_type
 
 classification_only = config.classification_only
@@ -59,38 +61,41 @@ output_file = f"{output_dir}/{split}_{'gt_' if gold_trigger else ''}{'cls_' if c
 
 # Predict
 print(f'Model config: {output_file}')
-model = EventDetectorTE(config)
-model.load_models()
 
-dataset = IEDataset(input_file)
-vocabs = generate_vocabs([dataset])
-dataset.numberize(vocabs)
+if not evaluate_only:
+	model = EventDetectorTE(config)
+	model.load_models()
 
-with open(output_file, 'a') as fw:
+	dataset = IEDataset(input_file)
+	vocabs = generate_vocabs([dataset])
+	dataset.numberize(vocabs)
 
-	for i, instance in enumerate(dataset):
-		print(i, instance.sentence)
-		# if i > 100:
-		# 	break
-		if i < 1714:
-			continue
-		pred_events = model.predict(instance)
+	with open(output_file, 'a') as fw:
 
-		# Gold events and model predictions will also be printed.
-		print('Gold events:')
-		pprint(instance.events)
-		print('Pred events:')
-		pprint(pred_events)
-		print('\n')
+		for i, instance in enumerate(dataset):
+			print(i, instance.sentence)
+			# if i > 100:
+			# 	break
+			# if i < 412:
+			# 	continue
+			pred_events = model.predict(instance)
 
-		output = {'doc_id': instance.doc_id,
-		          'sent_id': instance.sent_id,
-		          'tokens': instance.tokens,
-		          'sentence': instance.sentence,
-		          'event_mentions': pred_events
-		          }
+			# Gold events and model predictions will also be printed.
+			print('Gold events:')
+			pprint(instance.events)
+			print('Pred events:')
+			pprint(pred_events)
+			print('\n')
 
-		fw.write(json.dumps(output) + '\n')
+			output = {'doc_id': instance.doc_id,
+			          'sent_id': instance.sent_id,
+			          'tokens': instance.tokens,
+			          'sentence': instance.sentence,
+			          'event_mentions': pred_events
+			          }
+
+			fw.write(json.dumps(output) + '\n')
+			fw.flush()
 
 ## Evaluate
 

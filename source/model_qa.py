@@ -17,6 +17,7 @@ import ipdb
 import sys
 from utils import *
 from copy import deepcopy
+from head_identification import stanford_head_identifier
 
 os.chdir('/shared/lyuqing/probing_for_event/')
 
@@ -60,7 +61,7 @@ class EventDetectorQA():
 
 		self.predicate_type = eval(config.predicate_type)
 		self.add_neutral = config.add_neutral
-		self.identify_head = config.identify_head
+		self.head_identifier = eval(config.head_identifier)
 		self.tune_on_gdl = eval(config.tune_on_gdl)
 		self.const_premise = eval(config.const_premise)
 		self.pair_premise_strategy = eval(config.pair_premise_strategy)
@@ -103,8 +104,13 @@ class EventDetectorQA():
 
 	def load_models(self):
 		print('Loading constituency and dependency parser...')
-		self.dependency_parser = Predictor.from_path(
+
+		if self.head_identifier == "custom":
+			self.dependency_parser = Predictor.from_path(
 			"https://s3-us-west-2.amazonaws.com/allennlp/models/biaffine-dependency-parser-ptb-2018.08.23.tar.gz")
+		elif self.head_identifier == "stanford":
+			self.stanza_client = stanford_head_identifier.initialize_head_identifier()
+
 		self.constituency_parser = Predictor.from_path(
 			"https://s3-us-west-2.amazonaws.com/allennlp/models/elmo-constituency-parser-2018.03.14.tar.gz")
 
@@ -307,21 +313,30 @@ class EventDetectorQA():
 					for target_tag in tag_set:
 						span = [j for j, tag in enumerate(srl_result['tags']) if tag[2:] == target_tag]  # TODO: multiple args for the same arg type
 						tokens = [word for i, word in enumerate(srl_tokens) if i in span]
-						if self.identify_head: # only retain the head
+						if self.head_identifier: # only retain the head
 							try:
 								pos_tags = [tag for _, tag in pos_tag(tokens)]
 							except IndexError: # event 774: IndexError: string index out of range
 								span = [None]
 								continue
-							head_idx, token = get_head(self.dependency_parser, span, tokens, pos_tags)
+							head_idx, token = None, None
+							if self.head_identifier == "custom":
+								head_idx, token = get_head(self.dependency_parser, span, tokens, pos_tags)
+							elif self.head_identifier == "stanford":
+								head_idx, token = stanford_head_identifier.identify_head(self.stanza_client, span, tokens)
 							span = [head_idx]
-						else: # retain the whole SRL argument
+
+						# Head identification not needed, or failed
+						if self.head_identifier == None or None in span:
+							# retain the whole SRL argument
 							token = ' '.join([word for i, word in enumerate(srl_tokens) if i in span])
-						if None not in span:
-							span = (srl2gold[span[0]], srl2gold[span[-1]] + 1) # map SRL ids to gold ids
-							if target_tag not in srl_arg_dict:
-								srl_arg_dict[target_tag] = []
-							srl_arg_dict[target_tag].append((span, token))
+							span = [j for j, tag in enumerate(srl_result['tags']) if tag[2:] == target_tag]
+
+						# map SRL ids to gold ids
+						span = (srl2gold[span[0]], srl2gold[span[-1]] + 1)
+						if target_tag not in srl_arg_dict:
+							srl_arg_dict[target_tag] = []
+						srl_arg_dict[target_tag].append((span, token))
 
 					# Classify each SRL argument
 					for srl_arg_type, srl_arg_ists in srl_arg_dict.items():
@@ -354,17 +369,19 @@ class EventDetectorQA():
 						if span and confidence >= self.arg_thresh: # top answer is not None; confidence is high enough
 							answer_tokens = best_prediction['answer_tokens']
 							arg_text = ' '.join(answer_tokens)
-							if self.identify_head: # get the head
+
+							if self.head_identifier: # get the head
 								pos_tags = [tag for _, tag in pos_tag(answer_tokens)]
 								if answer_tokens: # TODO: check why answer_token = [] and span = (0,0)
-									try:
+									if self.head_identifier == "custom":
 										head_idx, head_token = get_head(self.dependency_parser, span, answer_tokens, pos_tags)
-									except IndexError:
-										head_idx, head_token = None, None
-										# print(answer_tokens, span)
+									elif self.head_identifier == "stanford":
+										head_idx, head_token = stanford_head_identifier.identify_head(self.stanza_client, span, answer_tokens)
+
 									if head_idx: # TODO: check when head is None
 										span = (head_idx, head_idx+1)
 										arg_text = head_token
+
 							if srl_id: # map context ids back to ACE gold ids
 								start, end_pre = span[0], span[1]-1
 								start_in_srl, end_in_srl = text_piece_token_ids[start], text_piece_token_ids[end_pre]+1
@@ -595,4 +612,7 @@ class EventDetectorQA():
 
 		return new_pred_events
 
+	def clean_up(self):
+		if self.head_identifier == "stanford":
+			stanford_head_identifier.shut_head_identifier(self.stanza_client)
 

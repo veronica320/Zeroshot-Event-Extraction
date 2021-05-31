@@ -62,6 +62,13 @@ DOCS_TO_REVISE_SENT = {
                                   (1577, 1632)],
     }
 
+# Inconsistency between data and annotation guideline argument names
+arg_name_mapping = {"ATTACK": {"Victim":"Target",
+                               "Agent":"Attacker"},
+                    "APPEAL": {"Plaintiff":"Prosecutor"},
+                    "PHONE-WRITE": {"Place": None},
+                    }
+
 
 def mask_escape(text: str) -> str:
     """Replaces escaped characters with rare sequences.
@@ -935,26 +942,38 @@ def convert_to_event_only(input_path: str,
                 ## update argument text
 
                 for event in sentence['events']:
+                    event_type = event['event_subtype'].upper()
+                    cleaned_arguments = []
+
                     for arg in event['arguments']:
                         arg['text'] = entity_text[arg['mention_id']]
                         arg['start'] = entity_span[arg['mention_id']]['start']
                         arg['end'] = entity_span[arg['mention_id']]['end']
+                        arg['role'] = simplify_arg_role_name(arg['role'])
+
+                        if event_type in arg_name_mapping:
+                            if arg['role'] in arg_name_mapping[event_type]:
+                                new_role = arg_name_mapping[event_type][arg['role']]
+                                if new_role == None: # arg type isn't in ontology at all
+                                    continue # delete it from data
+                                else: # arg type is in ontology, but misnamed in data
+                                    arg['role'] = new_role # update its name
+
+                        cleaned_arguments.append({'text': arg['text'],
+                                                   'role': arg['role'],
+                                                   'start': arg['start'],
+                                                   'end': arg['end']})
+                    event['arguments'] = cleaned_arguments
 
                 # events
+
                 events = []
                 for event in sentence['events']:
                     events.append({
                         'event_type': '{}:{}'.format(event['event_type'],
                                                      event['event_subtype']),
                         'trigger': event['trigger'],
-                        'arguments': [
-                            {
-                                'text': arg['text'],
-                                'role': simplify_arg_role_name(arg['role']),
-                                'start': arg['start'],
-                                'end': arg['end'],
-                            } for arg in event['arguments']
-                        ]
+                        'arguments': event['arguments']
                     })
 
                 sent_obj = {
@@ -966,6 +985,7 @@ def convert_to_event_only(input_path: str,
                 }
                 w.write(json.dumps(sent_obj) + '\n')
     print('skip num: {}'.format(skip_num))
+
 
 def simplify_arg_role_name(role_name: str):
     """Converts the name of the argument role to the simple form (e.g. "Time-Within" to "Time").

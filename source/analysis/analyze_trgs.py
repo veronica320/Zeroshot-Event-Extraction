@@ -21,7 +21,7 @@ arg_name_mapping = {"ATTACK": {"Victim":"Target",
                     "APPEAL": {"Plaintiff":"Prosecutor"}
                     }
 
-input_file = "data/ACE_oneie/en/event_only/dev.event.json"
+input_file = "data/ACE_oneie/en/event_only/test.event.json"
 model_name = ["qamr_roberta-l",
               "qamr-squad2_roberta-l",
               "elior_roberta_squad2",
@@ -29,7 +29,7 @@ model_name = ["qamr_roberta-l",
               ][0]
 arg_probe_type = ['bool', 'ex', 'ex_wtrg','ex_wtrg+','ex_wtrg_type'][2]
 
-output_file = "output_dir/ACE/TE/dev_cls_m:robertal_t:0.99_a:0.9_['V', 'ARG1']_['verb', 'nom']_head:True_tp:topical_pps:None_an:True_cp:whenNone_apt:manual_gdl:pos_neg_srl:celine_new_all.event.json"
+output_file = "output_dir/ACE/test/TE/test_cls_m:robertal_t:0.99_a:0.9_['V', 'ARG0', 'ARG1', 'ARG2']_['verb', 'nom']_head:True_tp:topical_pps:None_an:True_cp:whenNone_apt:manual_gdl:pos_neg_srl:celine_new_all.event.json"
 # output_file = "dev_m_robertal_t_0.99_a_0.9_['V', 'ARG1']_['verb', 'nom']_head_True_tp_topical_pps_None_an_True_cp_whenNone_apt_manual_gdl_pos_neg_srl_celine_new_all.event"
 
 

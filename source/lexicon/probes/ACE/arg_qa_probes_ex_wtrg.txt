@@ -153,7 +153,6 @@ Adjudicator_Arg:Who is the adjudicator
 Time_Arg:When is the {trigger}
 Place_Arg:Where is the {trigger}
 
-
 SUE
 Plaintiff_Arg:Who sues someone
 Defendant_Arg:Who is sued

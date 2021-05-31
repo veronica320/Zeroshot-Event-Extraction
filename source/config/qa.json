@@ -1,4 +1,6 @@
 {
+    "evaluate_only": true,
+
     "use_gpu": true,
     "gpu_devices": "1",
     "bert_cache_dir": "/shared/.cache/transformers",
@@ -20,10 +22,10 @@
 
     "srl_args": "[['V'], ['V','ARG0','ARG1'], ['V','ARG0','ARG1','ARG2'], ['V','ARG0'], ['V', 'ARG1'], 'all'][-1]",
     "trg_thresh": "[0.80, 0.85, 0.900, 0.95, 0.97, 0.98, 0.99, 0.995][-2]",
-    "arg_thresh": "[0.0, 0.1, 0.3, 0.5, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.900, 0.95, 0.99][0]",
+    "arg_thresh": "[0.0, 0.1, 0.3, 0.5, 0.7, 0.9, 0.95, 0.99][0]",
     "predicate_type": "[['verb'], ['nom'], ['verb','nom']][-1]",
     "add_neutral": true,
-    "identify_head": true,
+    "head_identifier": "[None, 'custom', 'stanford'][1]",
     "tune_on_gdl": "[True, False][1]",
     "const_premise": "['false', 'whenNone', 'alwaystrg'][1]",
     "pair_premise_strategy": "[None, 'max_delta', 'max_conf+delta'][0]",
