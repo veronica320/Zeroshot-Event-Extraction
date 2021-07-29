@@ -486,7 +486,7 @@ def get_nom_srl(nom_srl_dict, instance):
 		srl2gold_id_map = {i:i for i in range(len(tokens_srl))}
 	return srl_output, srl2gold_id_map
 
-def load_srl(srl_model, input_file):
+def load_srl(input_file):
 	"""Loads cached SRL predictions for an input file."""
 	
 	verb_srl_dict, nom_srl_dict = {}, {}
@@ -497,15 +497,12 @@ def load_srl(srl_model, input_file):
 		dataset = "ERE"
 	else:
 		raise ValueError("Unknown dataset")
-	print(input_file)
+
 	split = input_file.split('/')[-1].split('.')[0]
 
 	for type in ['verb', 'nom']:
 		path = None
-		if srl_model == "celine_old":
-			path = f"data/srl_output/{srl_model}/{dataset}/{type}SRL_output_withid_full.json"
-		else:
-			path = f"data/srl_output/{srl_model}/{dataset}/{split}/{type}SRL_{srl_model}_{split}.json"
+		path = f"data/srl_output/{dataset}/{split}/{type}SRL_{srl_model}_{split}.jsonl"
 		with open(path, 'r') as fr:
 			for line in fr:
 				srl_res = json.loads(line)

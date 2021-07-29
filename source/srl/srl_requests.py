@@ -4,25 +4,14 @@ import json
 import os
 
 def request_srl(sentence, srl_model_name):
-	if srl_model_name == "illinois":
-		data = {
-			'text': sentence,
-			'views': 'SRL_VERB,SRL_NOM'
-		}
-		response = requests.post('http://macniece.seas.upenn.edu:4001/annotate', data=data)
+	input = '{"sentence": "' + sentence + '"}'
 
-	elif srl_model_name in ["celine_new", "celine_new_all"]:
-		input = '{"sentence": "' + sentence + '"}'
-
-		headers = {'Content-Type': 'application/json'}
-		port = ["http://leguin.seas.upenn.edu:4039/annotate",  # old port
-		        "https://cogcomp.seas.upenn.edu/dc4039/annotate",
-		        ][1]
-		try:
-			response = requests.post(port, headers=headers, data=input)
-		except UnicodeEncodeError:
-			return None, None, None
-
+	headers = {'Content-Type': 'application/json'}
+	port = "https://cogcomp.seas.upenn.edu/dc4039/annotate"
+	try:
+		response = requests.post(port, headers=headers, data=input)
+	except UnicodeEncodeError:
+		return None, None, None
 
 	text = response.text
 	try:
@@ -33,15 +22,8 @@ def request_srl(sentence, srl_model_name):
 
 	verb_srl_result, nom_srl_result = None, None
 
-	verb_srl_view_name = {"illinois":"SRL_VERB",
-	                      "celine_new":"SRL_ONTONOTES",
-	                      "celine_new_all": "SRL_ONTONOTES",
-	                      }
-
-	nom_srl_view_name = {"illinois":"SRL_NOM",
-	                     "celine_new":"SRL_NOM",
-	                     "celine_new_all": "SRL_NOM_ALL"
-	                     }
+	verb_srl_view_name = {"celine_new_all": "SRL_ONTONOTES"}
+	nom_srl_view_name = {"celine_new_all": "SRL_NOM_ALL"}
 
 	words = json_text["tokens"]
 	views = json_text["views"]
@@ -97,7 +79,7 @@ def write_to_file(srl_output_list, fwn, mode):
 
 if __name__ == "__main__":
 
-	root_dir = "/shared/lyuqing/probing_for_event/"
+	root_dir = "/shared/lyuqing/probing_for_event_client/"
 	os.chdir(root_dir)
 
 	# custom configs
@@ -111,7 +93,7 @@ if __name__ == "__main__":
 	else:
 		raise ValueError("Unknown dataset")
 
-	srl_model_name = ["celine_old", "celine_new", "celine_new_all", "illinois"][1]
+	srl_model_name = "celine_new_all"
 
 	input_fn = f"{input_dir}/{input_split}.event.json"
 

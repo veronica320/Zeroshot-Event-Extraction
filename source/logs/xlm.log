@@ -1,2925 +1,0 @@
-WARNING - You've set a doc stride which may be superior to the document length in some examples. This could result in errors when building features from the examples. Please reduce the doc stride or increase the maximum length to ensure the features are correctly built.
-07/02/2020 02:15:59 - WARNING - __main__ -   Process rank: -1, device: cuda, n_gpu: 1, distributed training: False, 16-bits training: False
-07/02/2020 02:16:00 - INFO - filelock -   Lock 140301514765200 acquired on /home1/l/lyuqing/.cache/torch/transformers/230d9a959764b99634b4ade26fa5ee35f1c7cd9dc3739ff3ee40f6c57cf57c38.4aa7c55165fcb51e8c29436a1e71ab2e978fd7054cac9ae165c5ee5d0da94d6f.lock
-07/02/2020 02:16:00 - INFO - transformers.file_utils -   https://s3.amazonaws.com/models.huggingface.co/bert/xlm-mlm-100-1280-config.json not found in cache or force_download set to True, downloading to /home1/l/lyuqing/.cache/torch/transformers/tmp0bhd2uv1
-Downloading:   0%|          | 0.00/41.9k [00:00<?, ?B/s]Downloading: 100%|██████████| 41.9k/41.9k [00:00<00:00, 1.08MB/s]
-07/02/2020 02:16:00 - INFO - transformers.file_utils -   storing https://s3.amazonaws.com/models.huggingface.co/bert/xlm-mlm-100-1280-config.json in cache at /home1/l/lyuqing/.cache/torch/transformers/230d9a959764b99634b4ade26fa5ee35f1c7cd9dc3739ff3ee40f6c57cf57c38.4aa7c55165fcb51e8c29436a1e71ab2e978fd7054cac9ae165c5ee5d0da94d6f
-07/02/2020 02:16:00 - INFO - transformers.file_utils -   creating metadata file for /home1/l/lyuqing/.cache/torch/transformers/230d9a959764b99634b4ade26fa5ee35f1c7cd9dc3739ff3ee40f6c57cf57c38.4aa7c55165fcb51e8c29436a1e71ab2e978fd7054cac9ae165c5ee5d0da94d6f
-07/02/2020 02:16:00 - INFO - filelock -   Lock 140301514765200 released on /home1/l/lyuqing/.cache/torch/transformers/230d9a959764b99634b4ade26fa5ee35f1c7cd9dc3739ff3ee40f6c57cf57c38.4aa7c55165fcb51e8c29436a1e71ab2e978fd7054cac9ae165c5ee5d0da94d6f.lock
-07/02/2020 02:16:00 - INFO - transformers.configuration_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/xlm-mlm-100-1280-config.json from cache at /home1/l/lyuqing/.cache/torch/transformers/230d9a959764b99634b4ade26fa5ee35f1c7cd9dc3739ff3ee40f6c57cf57c38.4aa7c55165fcb51e8c29436a1e71ab2e978fd7054cac9ae165c5ee5d0da94d6f
-07/02/2020 02:16:00 - INFO - transformers.configuration_utils -   Model config XLMConfig {
-  "accumulate_gradients": 4,
-  "ae_steps": [],
-  "amp": 2,
-  "architectures": [
-    "XLMWithLMHeadModel"
-  ],
-  "asm": false,
-  "attention_dropout": 0.1,
-  "batch_size": 16,
-  "beam_size": 1,
-  "bos_index": 0,
-  "bos_token_id": 0,
-  "bptt": 256,
-  "bt_src_langs": [],
-  "bt_steps": [],
-  "causal": false,
-  "clip_grad_norm": 1.0,
-  "clm_steps": [],
-  "command": "python /private/home/aconneau/workdir/xlm_17_100_big.3/2019_08_10_19_23_42/train.py --n_heads 16 --bt_steps '' --max_vocab 200000 --word_mask_keep_rand '0.8,0.1,0.1' --use_lang_emb false --data_path '/private/home/aconneau/projects/XLM/data/wiki/100/175k' --save_periodic 0 --max_len 200 --bptt 256 --ae_steps '' --fp16 true --share_inout_emb true --sinusoidal_embeddings false --word_shuffle 0 --tokens_per_batch '-1' --accumulate_gradients 4 --validation_metrics '_valid_en_mlm_ppl,_valid_mlm_ppl,_valid_zh_mlm_ppl' --attention_dropout '0.1' --split_data true --max_epoch 100000 --stopping_criterion '_valid_zh_mlm_ppl,25' --dump_path '/checkpoint/aconneau/dumped' --epoch_size 200000 --word_blank 0 --gelu_activation true --n_layers 16 --optimizer 'adam_inverse_sqrt,lr=0.00005,warmup_updates=30000,beta1=0.9,beta2=0.999,weight_decay=0.01,eps=0.000001' --mlm_steps 'en,es,fr,de,zh,ru,pt,it,ar,ja,id,tr,nl,pl,simple,fa,vi,sv,ko,he,ro,no,hi,uk,cs,fi,hu,th,da,ca,el,bg,sr,ms,bn,hr,sl,zh_yue,az,sk,eo,ta,sh,lt,et,ml,la,bs,sq,arz,af,ka,mr,eu,tl,ang,gl,nn,ur,kk,be,hy,te,lv,mk,zh_classical,als,is,wuu,my,sco,mn,ceb,ast,cy,kn,br,an,gu,bar,uz,lb,ne,si,war,jv,ga,zh_min_nan,oc,ku,sw,nds,ckb,ia,yi,fy,scn,gan,tt,am' --eval_bleu false --dropout '0.1' --mt_steps '' --batch_size 16 --word_dropout 0 --reload_model '/checkpoint/aconneau/dumped/xlm_17_100_240_big_model_upper.2/14884511/best-valid_zh_mlm_ppl.pth' --min_count 0 --amp 2 --group_by_size true --asm false --sample_alpha '0.5' --word_pred '0.15' --clip_grad_norm 1 --emb_dim 1280 --encoder_only true --lgs 'en-es-fr-de-zh-ru-pt-it-ar-ja-id-tr-nl-pl-simple-fa-vi-sv-ko-he-ro-no-hi-uk-cs-fi-hu-th-da-ca-el-bg-sr-ms-bn-hr-sl-zh_yue-az-sk-eo-ta-sh-lt-et-ml-la-bs-sq-arz-af-ka-mr-eu-tl-ang-gl-nn-ur-kk-be-hy-te-lv-mk-zh_classical-als-is-wuu-my-sco-mn-ceb-ast-cy-kn-br-an-gu-bar-uz-lb-ne-si-war-jv-ga-zh_min_nan-oc-ku-sw-nds-ckb-ia-yi-fy-scn-gan-tt-am' --clm_steps '' --exp_name 'xlm_17_100_big.3' --lg_sampling_factor '0.7' --eval_only false --exp_id 16656234 --master_port 11363 --exp_id \"16656234\"",
-  "context_size": 0,
-  "data_path": "/private/home/aconneau/projects/XLM/data/wiki/100/175k",
-  "debug": false,
-  "debug_slurm": false,
-  "debug_train": false,
-  "dropout": 0.1,
-  "dump_path": "/checkpoint/aconneau/dumped/xlm_17_100_big.3/16656234",
-  "emb_dim": 1280,
-  "embed_init_std": 0.02209708691207961,
-  "encoder_only": true,
-  "end_n_top": 5,
-  "eos_index": 1,
-  "epoch_size": 200000,
-  "eval_bleu": false,
-  "eval_only": false,
-  "exp_id": "16656234",
-  "exp_name": "xlm_17_100_big.3",
-  "fp16": true,
-  "gelu_activation": true,
-  "global_rank": 0,
-  "group_by_size": true,
-  "hyp_path": "/checkpoint/aconneau/dumped/xlm_17_100_big.3/16656234/hypotheses",
-  "id2lang": {
-    "0": "af",
-    "1": "als",
-    "10": "be",
-    "11": "bg",
-    "12": "bn",
-    "13": "br",
-    "14": "bs",
-    "15": "ca",
-    "16": "ceb",
-    "17": "ckb",
-    "18": "cs",
-    "19": "cy",
-    "2": "am",
-    "20": "da",
-    "21": "de",
-    "22": "el",
-    "23": "en",
-    "24": "eo",
-    "25": "es",
-    "26": "et",
-    "27": "eu",
-    "28": "fa",
-    "29": "fi",
-    "3": "an",
-    "30": "fr",
-    "31": "fy",
-    "32": "ga",
-    "33": "gan",
-    "34": "gl",
-    "35": "gu",
-    "36": "he",
-    "37": "hi",
-    "38": "hr",
-    "39": "hu",
-    "4": "ang",
-    "40": "hy",
-    "41": "ia",
-    "42": "id",
-    "43": "is",
-    "44": "it",
-    "45": "ja",
-    "46": "jv",
-    "47": "ka",
-    "48": "kk",
-    "49": "kn",
-    "5": "ar",
-    "50": "ko",
-    "51": "ku",
-    "52": "la",
-    "53": "lb",
-    "54": "lt",
-    "55": "lv",
-    "56": "mk",
-    "57": "ml",
-    "58": "mn",
-    "59": "mr",
-    "6": "arz",
-    "60": "ms",
-    "61": "my",
-    "62": "nds",
-    "63": "ne",
-    "64": "nl",
-    "65": "nn",
-    "66": "no",
-    "67": "oc",
-    "68": "pl",
-    "69": "pt",
-    "7": "ast",
-    "70": "ro",
-    "71": "ru",
-    "72": "scn",
-    "73": "sco",
-    "74": "sh",
-    "75": "si",
-    "76": "simple",
-    "77": "sk",
-    "78": "sl",
-    "79": "sq",
-    "8": "az",
-    "80": "sr",
-    "81": "sv",
-    "82": "sw",
-    "83": "ta",
-    "84": "te",
-    "85": "th",
-    "86": "tl",
-    "87": "tr",
-    "88": "tt",
-    "89": "uk",
-    "9": "bar",
-    "90": "ur",
-    "91": "uz",
-    "92": "vi",
-    "93": "war",
-    "94": "wuu",
-    "95": "yi",
-    "96": "zh",
-    "97": "zh_classical",
-    "98": "zh_min_nan",
-    "99": "zh_yue"
-  },
-  "init_std": 0.02,
-  "is_encoder": true,
-  "is_master": true,
-  "is_slurm_job": true,
-  "lambda_ae": 1.0,
-  "lambda_ae_config": null,
-  "lambda_bt": 1.0,
-  "lambda_bt_config": null,
-  "lambda_clm": 1.0,
-  "lambda_clm_config": null,
-  "lambda_mlm": 1.0,
-  "lambda_mlm_config": null,
-  "lambda_mt": 1.0,
-  "lambda_mt_config": null,
-  "lambda_pc": 1.0,
-  "lambda_pc_config": null,
-  "lang2id": {
-    "af": 0,
-    "als": 1,
-    "am": 2,
-    "an": 3,
-    "ang": 4,
-    "ar": 5,
-    "arz": 6,
-    "ast": 7,
-    "az": 8,
-    "bar": 9,
-    "be": 10,
-    "bg": 11,
-    "bn": 12,
-    "br": 13,
-    "bs": 14,
-    "ca": 15,
-    "ceb": 16,
-    "ckb": 17,
-    "cs": 18,
-    "cy": 19,
-    "da": 20,
-    "de": 21,
-    "el": 22,
-    "en": 23,
-    "eo": 24,
-    "es": 25,
-    "et": 26,
-    "eu": 27,
-    "fa": 28,
-    "fi": 29,
-    "fr": 30,
-    "fy": 31,
-    "ga": 32,
-    "gan": 33,
-    "gl": 34,
-    "gu": 35,
-    "he": 36,
-    "hi": 37,
-    "hr": 38,
-    "hu": 39,
-    "hy": 40,
-    "ia": 41,
-    "id": 42,
-    "is": 43,
-    "it": 44,
-    "ja": 45,
-    "jv": 46,
-    "ka": 47,
-    "kk": 48,
-    "kn": 49,
-    "ko": 50,
-    "ku": 51,
-    "la": 52,
-    "lb": 53,
-    "lt": 54,
-    "lv": 55,
-    "mk": 56,
-    "ml": 57,
-    "mn": 58,
-    "mr": 59,
-    "ms": 60,
-    "my": 61,
-    "nds": 62,
-    "ne": 63,
-    "nl": 64,
-    "nn": 65,
-    "no": 66,
-    "oc": 67,
-    "pl": 68,
-    "pt": 69,
-    "ro": 70,
-    "ru": 71,
-    "scn": 72,
-    "sco": 73,
-    "sh": 74,
-    "si": 75,
-    "simple": 76,
-    "sk": 77,
-    "sl": 78,
-    "sq": 79,
-    "sr": 80,
-    "sv": 81,
-    "sw": 82,
-    "ta": 83,
-    "te": 84,
-    "th": 85,
-    "tl": 86,
-    "tr": 87,
-    "tt": 88,
-    "uk": 89,
-    "ur": 90,
-    "uz": 91,
-    "vi": 92,
-    "war": 93,
-    "wuu": 94,
-    "yi": 95,
-    "zh": 96,
-    "zh_classical": 97,
-    "zh_min_nan": 98,
-    "zh_yue": 99
-  },
-  "lang_id": 0,
-  "langs": [
-    "en",
-    "es",
-    "fr",
-    "de",
-    "zh",
-    "ru",
-    "pt",
-    "it",
-    "ar",
-    "ja",
-    "id",
-    "tr",
-    "nl",
-    "pl",
-    "simple",
-    "fa",
-    "vi",
-    "sv",
-    "ko",
-    "he",
-    "ro",
-    "no",
-    "hi",
-    "uk",
-    "cs",
-    "fi",
-    "hu",
-    "th",
-    "da",
-    "ca",
-    "el",
-    "bg",
-    "sr",
-    "ms",
-    "bn",
-    "hr",
-    "sl",
-    "zh_yue",
-    "az",
-    "sk",
-    "eo",
-    "ta",
-    "sh",
-    "lt",
-    "et",
-    "ml",
-    "la",
-    "bs",
-    "sq",
-    "arz",
-    "af",
-    "ka",
-    "mr",
-    "eu",
-    "tl",
-    "ang",
-    "gl",
-    "nn",
-    "ur",
-    "kk",
-    "be",
-    "hy",
-    "te",
-    "lv",
-    "mk",
-    "zh_classical",
-    "als",
-    "is",
-    "wuu",
-    "my",
-    "sco",
-    "mn",
-    "ceb",
-    "ast",
-    "cy",
-    "kn",
-    "br",
-    "an",
-    "gu",
-    "bar",
-    "uz",
-    "lb",
-    "ne",
-    "si",
-    "war",
-    "jv",
-    "ga",
-    "zh_min_nan",
-    "oc",
-    "ku",
-    "sw",
-    "nds",
-    "ckb",
-    "ia",
-    "yi",
-    "fy",
-    "scn",
-    "gan",
-    "tt",
-    "am"
-  ],
-  "layer_norm_eps": 1e-12,
-  "lg_sampling_factor": 0.7,
-  "lgs": "en-es-fr-de-zh-ru-pt-it-ar-ja-id-tr-nl-pl-simple-fa-vi-sv-ko-he-ro-no-hi-uk-cs-fi-hu-th-da-ca-el-bg-sr-ms-bn-hr-sl-zh_yue-az-sk-eo-ta-sh-lt-et-ml-la-bs-sq-arz-af-ka-mr-eu-tl-ang-gl-nn-ur-kk-be-hy-te-lv-mk-zh_classical-als-is-wuu-my-sco-mn-ceb-ast-cy-kn-br-an-gu-bar-uz-lb-ne-si-war-jv-ga-zh_min_nan-oc-ku-sw-nds-ckb-ia-yi-fy-scn-gan-tt-am",
-  "local_rank": 0,
-  "mask_index": 5,
-  "mask_token_id": 0,
-  "master_addr": "learnfair0332",
-  "master_port": 11363,
-  "max_batch_size": 0,
-  "max_epoch": 100000,
-  "max_len": 200,
-  "max_position_embeddings": 512,
-  "max_vocab": 200000,
-  "min_count": 0,
-  "mlm_steps": [
-    [
-      "en",
-      null
-    ],
-    [
-      "es",
-      null
-    ],
-    [
-      "fr",
-      null
-    ],
-    [
-      "de",
-      null
-    ],
-    [
-      "zh",
-      null
-    ],
-    [
-      "ru",
-      null
-    ],
-    [
-      "pt",
-      null
-    ],
-    [
-      "it",
-      null
-    ],
-    [
-      "ar",
-      null
-    ],
-    [
-      "ja",
-      null
-    ],
-    [
-      "id",
-      null
-    ],
-    [
-      "tr",
-      null
-    ],
-    [
-      "nl",
-      null
-    ],
-    [
-      "pl",
-      null
-    ],
-    [
-      "simple",
-      null
-    ],
-    [
-      "fa",
-      null
-    ],
-    [
-      "vi",
-      null
-    ],
-    [
-      "sv",
-      null
-    ],
-    [
-      "ko",
-      null
-    ],
-    [
-      "he",
-      null
-    ],
-    [
-      "ro",
-      null
-    ],
-    [
-      "no",
-      null
-    ],
-    [
-      "hi",
-      null
-    ],
-    [
-      "uk",
-      null
-    ],
-    [
-      "cs",
-      null
-    ],
-    [
-      "fi",
-      null
-    ],
-    [
-      "hu",
-      null
-    ],
-    [
-      "th",
-      null
-    ],
-    [
-      "da",
-      null
-    ],
-    [
-      "ca",
-      null
-    ],
-    [
-      "el",
-      null
-    ],
-    [
-      "bg",
-      null
-    ],
-    [
-      "sr",
-      null
-    ],
-    [
-      "ms",
-      null
-    ],
-    [
-      "bn",
-      null
-    ],
-    [
-      "hr",
-      null
-    ],
-    [
-      "sl",
-      null
-    ],
-    [
-      "zh_yue",
-      null
-    ],
-    [
-      "az",
-      null
-    ],
-    [
-      "sk",
-      null
-    ],
-    [
-      "eo",
-      null
-    ],
-    [
-      "ta",
-      null
-    ],
-    [
-      "sh",
-      null
-    ],
-    [
-      "lt",
-      null
-    ],
-    [
-      "et",
-      null
-    ],
-    [
-      "ml",
-      null
-    ],
-    [
-      "la",
-      null
-    ],
-    [
-      "bs",
-      null
-    ],
-    [
-      "sq",
-      null
-    ],
-    [
-      "arz",
-      null
-    ],
-    [
-      "af",
-      null
-    ],
-    [
-      "ka",
-      null
-    ],
-    [
-      "mr",
-      null
-    ],
-    [
-      "eu",
-      null
-    ],
-    [
-      "tl",
-      null
-    ],
-    [
-      "ang",
-      null
-    ],
-    [
-      "gl",
-      null
-    ],
-    [
-      "nn",
-      null
-    ],
-    [
-      "ur",
-      null
-    ],
-    [
-      "kk",
-      null
-    ],
-    [
-      "be",
-      null
-    ],
-    [
-      "hy",
-      null
-    ],
-    [
-      "te",
-      null
-    ],
-    [
-      "lv",
-      null
-    ],
-    [
-      "mk",
-      null
-    ],
-    [
-      "zh_classical",
-      null
-    ],
-    [
-      "als",
-      null
-    ],
-    [
-      "is",
-      null
-    ],
-    [
-      "wuu",
-      null
-    ],
-    [
-      "my",
-      null
-    ],
-    [
-      "sco",
-      null
-    ],
-    [
-      "mn",
-      null
-    ],
-    [
-      "ceb",
-      null
-    ],
-    [
-      "ast",
-      null
-    ],
-    [
-      "cy",
-      null
-    ],
-    [
-      "kn",
-      null
-    ],
-    [
-      "br",
-      null
-    ],
-    [
-      "an",
-      null
-    ],
-    [
-      "gu",
-      null
-    ],
-    [
-      "bar",
-      null
-    ],
-    [
-      "uz",
-      null
-    ],
-    [
-      "lb",
-      null
-    ],
-    [
-      "ne",
-      null
-    ],
-    [
-      "si",
-      null
-    ],
-    [
-      "war",
-      null
-    ],
-    [
-      "jv",
-      null
-    ],
-    [
-      "ga",
-      null
-    ],
-    [
-      "zh_min_nan",
-      null
-    ],
-    [
-      "oc",
-      null
-    ],
-    [
-      "ku",
-      null
-    ],
-    [
-      "sw",
-      null
-    ],
-    [
-      "nds",
-      null
-    ],
-    [
-      "ckb",
-      null
-    ],
-    [
-      "ia",
-      null
-    ],
-    [
-      "yi",
-      null
-    ],
-    [
-      "fy",
-      null
-    ],
-    [
-      "scn",
-      null
-    ],
-    [
-      "gan",
-      null
-    ],
-    [
-      "tt",
-      null
-    ],
-    [
-      "am",
-      null
-    ]
-  ],
-  "model_type": "xlm",
-  "mono_dataset": {
-    "af": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.af.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.af.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.af.pth"
-    },
-    "als": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.als.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.als.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.als.pth"
-    },
-    "am": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.am.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.am.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.am.pth"
-    },
-    "an": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.an.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.an.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.an.pth"
-    },
-    "ang": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ang.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ang.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ang.pth"
-    },
-    "ar": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ar.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ar.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ar.pth"
-    },
-    "arz": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.arz.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.arz.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.arz.pth"
-    },
-    "ast": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ast.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ast.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ast.pth"
-    },
-    "az": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.az.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.az.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.az.pth"
-    },
-    "bar": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.bar.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.bar.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.bar.pth"
-    },
-    "be": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.be.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.be.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.be.pth"
-    },
-    "bg": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.bg.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.bg.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.bg.pth"
-    },
-    "bn": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.bn.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.bn.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.bn.pth"
-    },
-    "br": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.br.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.br.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.br.pth"
-    },
-    "bs": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.bs.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.bs.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.bs.pth"
-    },
-    "ca": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ca.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ca.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ca.pth"
-    },
-    "ceb": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ceb.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ceb.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ceb.pth"
-    },
-    "ckb": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ckb.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ckb.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ckb.pth"
-    },
-    "cs": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.cs.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.cs.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.cs.pth"
-    },
-    "cy": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.cy.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.cy.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.cy.pth"
-    },
-    "da": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.da.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.da.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.da.pth"
-    },
-    "de": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.de.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.de.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.de.pth"
-    },
-    "el": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.el.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.el.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.el.pth"
-    },
-    "en": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.en.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.en.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.en.pth"
-    },
-    "eo": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.eo.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.eo.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.eo.pth"
-    },
-    "es": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.es.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.es.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.es.pth"
-    },
-    "et": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.et.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.et.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.et.pth"
-    },
-    "eu": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.eu.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.eu.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.eu.pth"
-    },
-    "fa": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.fa.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.fa.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.fa.pth"
-    },
-    "fi": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.fi.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.fi.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.fi.pth"
-    },
-    "fr": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.fr.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.fr.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.fr.pth"
-    },
-    "fy": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.fy.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.fy.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.fy.pth"
-    },
-    "ga": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ga.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ga.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ga.pth"
-    },
-    "gan": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.gan.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.gan.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.gan.pth"
-    },
-    "gl": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.gl.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.gl.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.gl.pth"
-    },
-    "gu": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.gu.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.gu.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.gu.pth"
-    },
-    "he": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.he.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.he.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.he.pth"
-    },
-    "hi": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.hi.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.hi.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.hi.pth"
-    },
-    "hr": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.hr.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.hr.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.hr.pth"
-    },
-    "hu": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.hu.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.hu.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.hu.pth"
-    },
-    "hy": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.hy.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.hy.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.hy.pth"
-    },
-    "ia": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ia.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ia.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ia.pth"
-    },
-    "id": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.id.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.id.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.id.pth"
-    },
-    "is": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.is.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.is.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.is.pth"
-    },
-    "it": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.it.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.it.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.it.pth"
-    },
-    "ja": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ja.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ja.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ja.pth"
-    },
-    "jv": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.jv.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.jv.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.jv.pth"
-    },
-    "ka": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ka.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ka.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ka.pth"
-    },
-    "kk": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.kk.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.kk.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.kk.pth"
-    },
-    "kn": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.kn.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.kn.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.kn.pth"
-    },
-    "ko": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ko.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ko.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ko.pth"
-    },
-    "ku": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ku.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ku.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ku.pth"
-    },
-    "la": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.la.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.la.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.la.pth"
-    },
-    "lb": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.lb.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.lb.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.lb.pth"
-    },
-    "lt": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.lt.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.lt.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.lt.pth"
-    },
-    "lv": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.lv.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.lv.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.lv.pth"
-    },
-    "mk": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.mk.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.mk.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.mk.pth"
-    },
-    "ml": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ml.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ml.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ml.pth"
-    },
-    "mn": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.mn.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.mn.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.mn.pth"
-    },
-    "mr": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.mr.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.mr.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.mr.pth"
-    },
-    "ms": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ms.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ms.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ms.pth"
-    },
-    "my": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.my.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.my.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.my.pth"
-    },
-    "nds": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.nds.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.nds.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.nds.pth"
-    },
-    "ne": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ne.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ne.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ne.pth"
-    },
-    "nl": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.nl.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.nl.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.nl.pth"
-    },
-    "nn": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.nn.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.nn.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.nn.pth"
-    },
-    "no": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.no.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.no.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.no.pth"
-    },
-    "oc": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.oc.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.oc.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.oc.pth"
-    },
-    "pl": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.pl.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.pl.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.pl.pth"
-    },
-    "pt": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.pt.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.pt.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.pt.pth"
-    },
-    "ro": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ro.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ro.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ro.pth"
-    },
-    "ru": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ru.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ru.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ru.pth"
-    },
-    "scn": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.scn.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.scn.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.scn.pth"
-    },
-    "sco": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sco.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sco.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sco.pth"
-    },
-    "sh": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sh.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sh.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sh.pth"
-    },
-    "si": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.si.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.si.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.si.pth"
-    },
-    "simple": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.simple.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.simple.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.simple.pth"
-    },
-    "sk": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sk.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sk.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sk.pth"
-    },
-    "sl": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sl.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sl.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sl.pth"
-    },
-    "sq": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sq.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sq.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sq.pth"
-    },
-    "sr": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sr.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sr.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sr.pth"
-    },
-    "sv": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sv.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sv.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sv.pth"
-    },
-    "sw": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sw.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sw.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sw.pth"
-    },
-    "ta": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ta.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ta.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ta.pth"
-    },
-    "te": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.te.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.te.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.te.pth"
-    },
-    "th": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.th.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.th.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.th.pth"
-    },
-    "tl": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.tl.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.tl.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.tl.pth"
-    },
-    "tr": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.tr.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.tr.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.tr.pth"
-    },
-    "tt": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.tt.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.tt.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.tt.pth"
-    },
-    "uk": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.uk.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.uk.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.uk.pth"
-    },
-    "ur": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ur.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ur.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ur.pth"
-    },
-    "uz": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.uz.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.uz.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.uz.pth"
-    },
-    "vi": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.vi.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.vi.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.vi.pth"
-    },
-    "war": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.war.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.war.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.war.pth"
-    },
-    "wuu": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.wuu.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.wuu.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.wuu.pth"
-    },
-    "yi": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.yi.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.yi.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.yi.pth"
-    },
-    "zh": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.zh.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.zh.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.zh.pth"
-    },
-    "zh_classical": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.zh_classical.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.zh_classical.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.zh_classical.pth"
-    },
-    "zh_min_nan": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.zh_min_nan.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.zh_min_nan.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.zh_min_nan.pth"
-    },
-    "zh_yue": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.zh_yue.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.zh_yue.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.zh_yue.pth"
-    }
-  },
-  "mono_list": [
-    "en",
-    "es",
-    "fr",
-    "de",
-    "zh",
-    "ru",
-    "pt",
-    "it",
-    "ar",
-    "ja",
-    "id",
-    "tr",
-    "nl",
-    "pl",
-    "simple",
-    "fa",
-    "vi",
-    "sv",
-    "ko",
-    "he",
-    "ro",
-    "no",
-    "hi",
-    "uk",
-    "cs",
-    "fi",
-    "hu",
-    "th",
-    "da",
-    "ca",
-    "el",
-    "bg",
-    "sr",
-    "ms",
-    "bn",
-    "hr",
-    "sl",
-    "zh_yue",
-    "az",
-    "sk",
-    "eo",
-    "ta",
-    "sh",
-    "lt",
-    "et",
-    "ml",
-    "la",
-    "bs",
-    "sq",
-    "arz",
-    "af",
-    "ka",
-    "mr",
-    "eu",
-    "tl",
-    "ang",
-    "gl",
-    "nn",
-    "ur",
-    "kk",
-    "be",
-    "hy",
-    "te",
-    "lv",
-    "mk",
-    "zh_classical",
-    "als",
-    "is",
-    "wuu",
-    "my",
-    "sco",
-    "mn",
-    "ceb",
-    "ast",
-    "cy",
-    "kn",
-    "br",
-    "an",
-    "gu",
-    "bar",
-    "uz",
-    "lb",
-    "ne",
-    "si",
-    "war",
-    "jv",
-    "ga",
-    "zh_min_nan",
-    "oc",
-    "ku",
-    "sw",
-    "nds",
-    "ckb",
-    "ia",
-    "yi",
-    "fy",
-    "scn",
-    "gan",
-    "tt",
-    "am"
-  ],
-  "mt_steps": [],
-  "multi_gpu": true,
-  "multi_node": true,
-  "n_gpu_per_node": 8,
-  "n_heads": 16,
-  "n_langs": 100,
-  "n_layers": 16,
-  "n_nodes": 4,
-  "node_id": 0,
-  "optimizer": "adam_inverse_sqrt,lr=0.00005,warmup_updates=30000,beta1=0.9,beta2=0.999,weight_decay=0.01,eps=0.000001",
-  "pad_index": 2,
-  "pad_token_id": 2,
-  "para_dataset": {},
-  "para_list": [],
-  "pc_steps": [],
-  "ref_paths": {},
-  "reload_checkpoint": "",
-  "reload_emb": "",
-  "reload_model": "/checkpoint/aconneau/dumped/xlm_17_100_240_big_model_upper.2/14884511/best-valid_zh_mlm_ppl.pth",
-  "sample_alpha": 0.5,
-  "save_periodic": 0,
-  "share_inout_emb": true,
-  "sinusoidal_embeddings": false,
-  "split_data": true,
-  "start_n_top": 5,
-  "stopping_criterion": "_valid_zh_mlm_ppl,25",
-  "summary_activation": null,
-  "summary_first_dropout": 0.1,
-  "summary_proj_to_labels": true,
-  "summary_type": "first",
-  "summary_use_proj": true,
-  "tokens_per_batch": -1,
-  "unk_index": 3,
-  "use_lang_emb": false,
-  "use_memory": false,
-  "validation_metrics": "_valid_en_mlm_ppl,_valid_mlm_ppl,_valid_zh_mlm_ppl",
-  "vocab_size": 200000,
-  "word_blank": 0.0,
-  "word_dropout": 0.0,
-  "word_keep": 0.1,
-  "word_mask": 0.8,
-  "word_mask_keep_rand": "0.8,0.1,0.1",
-  "word_pred": 0.15,
-  "word_rand": 0.1,
-  "word_shuffle": 0.0,
-  "world_size": 32
-}
-
-07/02/2020 02:16:00 - INFO - transformers.configuration_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/xlm-mlm-100-1280-config.json from cache at /home1/l/lyuqing/.cache/torch/transformers/230d9a959764b99634b4ade26fa5ee35f1c7cd9dc3739ff3ee40f6c57cf57c38.4aa7c55165fcb51e8c29436a1e71ab2e978fd7054cac9ae165c5ee5d0da94d6f
-07/02/2020 02:16:00 - INFO - transformers.configuration_utils -   Model config XLMConfig {
-  "accumulate_gradients": 4,
-  "ae_steps": [],
-  "amp": 2,
-  "architectures": [
-    "XLMWithLMHeadModel"
-  ],
-  "asm": false,
-  "attention_dropout": 0.1,
-  "batch_size": 16,
-  "beam_size": 1,
-  "bos_index": 0,
-  "bos_token_id": 0,
-  "bptt": 256,
-  "bt_src_langs": [],
-  "bt_steps": [],
-  "causal": false,
-  "clip_grad_norm": 1.0,
-  "clm_steps": [],
-  "command": "python /private/home/aconneau/workdir/xlm_17_100_big.3/2019_08_10_19_23_42/train.py --n_heads 16 --bt_steps '' --max_vocab 200000 --word_mask_keep_rand '0.8,0.1,0.1' --use_lang_emb false --data_path '/private/home/aconneau/projects/XLM/data/wiki/100/175k' --save_periodic 0 --max_len 200 --bptt 256 --ae_steps '' --fp16 true --share_inout_emb true --sinusoidal_embeddings false --word_shuffle 0 --tokens_per_batch '-1' --accumulate_gradients 4 --validation_metrics '_valid_en_mlm_ppl,_valid_mlm_ppl,_valid_zh_mlm_ppl' --attention_dropout '0.1' --split_data true --max_epoch 100000 --stopping_criterion '_valid_zh_mlm_ppl,25' --dump_path '/checkpoint/aconneau/dumped' --epoch_size 200000 --word_blank 0 --gelu_activation true --n_layers 16 --optimizer 'adam_inverse_sqrt,lr=0.00005,warmup_updates=30000,beta1=0.9,beta2=0.999,weight_decay=0.01,eps=0.000001' --mlm_steps 'en,es,fr,de,zh,ru,pt,it,ar,ja,id,tr,nl,pl,simple,fa,vi,sv,ko,he,ro,no,hi,uk,cs,fi,hu,th,da,ca,el,bg,sr,ms,bn,hr,sl,zh_yue,az,sk,eo,ta,sh,lt,et,ml,la,bs,sq,arz,af,ka,mr,eu,tl,ang,gl,nn,ur,kk,be,hy,te,lv,mk,zh_classical,als,is,wuu,my,sco,mn,ceb,ast,cy,kn,br,an,gu,bar,uz,lb,ne,si,war,jv,ga,zh_min_nan,oc,ku,sw,nds,ckb,ia,yi,fy,scn,gan,tt,am' --eval_bleu false --dropout '0.1' --mt_steps '' --batch_size 16 --word_dropout 0 --reload_model '/checkpoint/aconneau/dumped/xlm_17_100_240_big_model_upper.2/14884511/best-valid_zh_mlm_ppl.pth' --min_count 0 --amp 2 --group_by_size true --asm false --sample_alpha '0.5' --word_pred '0.15' --clip_grad_norm 1 --emb_dim 1280 --encoder_only true --lgs 'en-es-fr-de-zh-ru-pt-it-ar-ja-id-tr-nl-pl-simple-fa-vi-sv-ko-he-ro-no-hi-uk-cs-fi-hu-th-da-ca-el-bg-sr-ms-bn-hr-sl-zh_yue-az-sk-eo-ta-sh-lt-et-ml-la-bs-sq-arz-af-ka-mr-eu-tl-ang-gl-nn-ur-kk-be-hy-te-lv-mk-zh_classical-als-is-wuu-my-sco-mn-ceb-ast-cy-kn-br-an-gu-bar-uz-lb-ne-si-war-jv-ga-zh_min_nan-oc-ku-sw-nds-ckb-ia-yi-fy-scn-gan-tt-am' --clm_steps '' --exp_name 'xlm_17_100_big.3' --lg_sampling_factor '0.7' --eval_only false --exp_id 16656234 --master_port 11363 --exp_id \"16656234\"",
-  "context_size": 0,
-  "data_path": "/private/home/aconneau/projects/XLM/data/wiki/100/175k",
-  "debug": false,
-  "debug_slurm": false,
-  "debug_train": false,
-  "dropout": 0.1,
-  "dump_path": "/checkpoint/aconneau/dumped/xlm_17_100_big.3/16656234",
-  "emb_dim": 1280,
-  "embed_init_std": 0.02209708691207961,
-  "encoder_only": true,
-  "end_n_top": 5,
-  "eos_index": 1,
-  "epoch_size": 200000,
-  "eval_bleu": false,
-  "eval_only": false,
-  "exp_id": "16656234",
-  "exp_name": "xlm_17_100_big.3",
-  "fp16": true,
-  "gelu_activation": true,
-  "global_rank": 0,
-  "group_by_size": true,
-  "hyp_path": "/checkpoint/aconneau/dumped/xlm_17_100_big.3/16656234/hypotheses",
-  "id2lang": {
-    "0": "af",
-    "1": "als",
-    "10": "be",
-    "11": "bg",
-    "12": "bn",
-    "13": "br",
-    "14": "bs",
-    "15": "ca",
-    "16": "ceb",
-    "17": "ckb",
-    "18": "cs",
-    "19": "cy",
-    "2": "am",
-    "20": "da",
-    "21": "de",
-    "22": "el",
-    "23": "en",
-    "24": "eo",
-    "25": "es",
-    "26": "et",
-    "27": "eu",
-    "28": "fa",
-    "29": "fi",
-    "3": "an",
-    "30": "fr",
-    "31": "fy",
-    "32": "ga",
-    "33": "gan",
-    "34": "gl",
-    "35": "gu",
-    "36": "he",
-    "37": "hi",
-    "38": "hr",
-    "39": "hu",
-    "4": "ang",
-    "40": "hy",
-    "41": "ia",
-    "42": "id",
-    "43": "is",
-    "44": "it",
-    "45": "ja",
-    "46": "jv",
-    "47": "ka",
-    "48": "kk",
-    "49": "kn",
-    "5": "ar",
-    "50": "ko",
-    "51": "ku",
-    "52": "la",
-    "53": "lb",
-    "54": "lt",
-    "55": "lv",
-    "56": "mk",
-    "57": "ml",
-    "58": "mn",
-    "59": "mr",
-    "6": "arz",
-    "60": "ms",
-    "61": "my",
-    "62": "nds",
-    "63": "ne",
-    "64": "nl",
-    "65": "nn",
-    "66": "no",
-    "67": "oc",
-    "68": "pl",
-    "69": "pt",
-    "7": "ast",
-    "70": "ro",
-    "71": "ru",
-    "72": "scn",
-    "73": "sco",
-    "74": "sh",
-    "75": "si",
-    "76": "simple",
-    "77": "sk",
-    "78": "sl",
-    "79": "sq",
-    "8": "az",
-    "80": "sr",
-    "81": "sv",
-    "82": "sw",
-    "83": "ta",
-    "84": "te",
-    "85": "th",
-    "86": "tl",
-    "87": "tr",
-    "88": "tt",
-    "89": "uk",
-    "9": "bar",
-    "90": "ur",
-    "91": "uz",
-    "92": "vi",
-    "93": "war",
-    "94": "wuu",
-    "95": "yi",
-    "96": "zh",
-    "97": "zh_classical",
-    "98": "zh_min_nan",
-    "99": "zh_yue"
-  },
-  "init_std": 0.02,
-  "is_encoder": true,
-  "is_master": true,
-  "is_slurm_job": true,
-  "lambda_ae": 1.0,
-  "lambda_ae_config": null,
-  "lambda_bt": 1.0,
-  "lambda_bt_config": null,
-  "lambda_clm": 1.0,
-  "lambda_clm_config": null,
-  "lambda_mlm": 1.0,
-  "lambda_mlm_config": null,
-  "lambda_mt": 1.0,
-  "lambda_mt_config": null,
-  "lambda_pc": 1.0,
-  "lambda_pc_config": null,
-  "lang2id": {
-    "af": 0,
-    "als": 1,
-    "am": 2,
-    "an": 3,
-    "ang": 4,
-    "ar": 5,
-    "arz": 6,
-    "ast": 7,
-    "az": 8,
-    "bar": 9,
-    "be": 10,
-    "bg": 11,
-    "bn": 12,
-    "br": 13,
-    "bs": 14,
-    "ca": 15,
-    "ceb": 16,
-    "ckb": 17,
-    "cs": 18,
-    "cy": 19,
-    "da": 20,
-    "de": 21,
-    "el": 22,
-    "en": 23,
-    "eo": 24,
-    "es": 25,
-    "et": 26,
-    "eu": 27,
-    "fa": 28,
-    "fi": 29,
-    "fr": 30,
-    "fy": 31,
-    "ga": 32,
-    "gan": 33,
-    "gl": 34,
-    "gu": 35,
-    "he": 36,
-    "hi": 37,
-    "hr": 38,
-    "hu": 39,
-    "hy": 40,
-    "ia": 41,
-    "id": 42,
-    "is": 43,
-    "it": 44,
-    "ja": 45,
-    "jv": 46,
-    "ka": 47,
-    "kk": 48,
-    "kn": 49,
-    "ko": 50,
-    "ku": 51,
-    "la": 52,
-    "lb": 53,
-    "lt": 54,
-    "lv": 55,
-    "mk": 56,
-    "ml": 57,
-    "mn": 58,
-    "mr": 59,
-    "ms": 60,
-    "my": 61,
-    "nds": 62,
-    "ne": 63,
-    "nl": 64,
-    "nn": 65,
-    "no": 66,
-    "oc": 67,
-    "pl": 68,
-    "pt": 69,
-    "ro": 70,
-    "ru": 71,
-    "scn": 72,
-    "sco": 73,
-    "sh": 74,
-    "si": 75,
-    "simple": 76,
-    "sk": 77,
-    "sl": 78,
-    "sq": 79,
-    "sr": 80,
-    "sv": 81,
-    "sw": 82,
-    "ta": 83,
-    "te": 84,
-    "th": 85,
-    "tl": 86,
-    "tr": 87,
-    "tt": 88,
-    "uk": 89,
-    "ur": 90,
-    "uz": 91,
-    "vi": 92,
-    "war": 93,
-    "wuu": 94,
-    "yi": 95,
-    "zh": 96,
-    "zh_classical": 97,
-    "zh_min_nan": 98,
-    "zh_yue": 99
-  },
-  "lang_id": 0,
-  "langs": [
-    "en",
-    "es",
-    "fr",
-    "de",
-    "zh",
-    "ru",
-    "pt",
-    "it",
-    "ar",
-    "ja",
-    "id",
-    "tr",
-    "nl",
-    "pl",
-    "simple",
-    "fa",
-    "vi",
-    "sv",
-    "ko",
-    "he",
-    "ro",
-    "no",
-    "hi",
-    "uk",
-    "cs",
-    "fi",
-    "hu",
-    "th",
-    "da",
-    "ca",
-    "el",
-    "bg",
-    "sr",
-    "ms",
-    "bn",
-    "hr",
-    "sl",
-    "zh_yue",
-    "az",
-    "sk",
-    "eo",
-    "ta",
-    "sh",
-    "lt",
-    "et",
-    "ml",
-    "la",
-    "bs",
-    "sq",
-    "arz",
-    "af",
-    "ka",
-    "mr",
-    "eu",
-    "tl",
-    "ang",
-    "gl",
-    "nn",
-    "ur",
-    "kk",
-    "be",
-    "hy",
-    "te",
-    "lv",
-    "mk",
-    "zh_classical",
-    "als",
-    "is",
-    "wuu",
-    "my",
-    "sco",
-    "mn",
-    "ceb",
-    "ast",
-    "cy",
-    "kn",
-    "br",
-    "an",
-    "gu",
-    "bar",
-    "uz",
-    "lb",
-    "ne",
-    "si",
-    "war",
-    "jv",
-    "ga",
-    "zh_min_nan",
-    "oc",
-    "ku",
-    "sw",
-    "nds",
-    "ckb",
-    "ia",
-    "yi",
-    "fy",
-    "scn",
-    "gan",
-    "tt",
-    "am"
-  ],
-  "layer_norm_eps": 1e-12,
-  "lg_sampling_factor": 0.7,
-  "lgs": "en-es-fr-de-zh-ru-pt-it-ar-ja-id-tr-nl-pl-simple-fa-vi-sv-ko-he-ro-no-hi-uk-cs-fi-hu-th-da-ca-el-bg-sr-ms-bn-hr-sl-zh_yue-az-sk-eo-ta-sh-lt-et-ml-la-bs-sq-arz-af-ka-mr-eu-tl-ang-gl-nn-ur-kk-be-hy-te-lv-mk-zh_classical-als-is-wuu-my-sco-mn-ceb-ast-cy-kn-br-an-gu-bar-uz-lb-ne-si-war-jv-ga-zh_min_nan-oc-ku-sw-nds-ckb-ia-yi-fy-scn-gan-tt-am",
-  "local_rank": 0,
-  "mask_index": 5,
-  "mask_token_id": 0,
-  "master_addr": "learnfair0332",
-  "master_port": 11363,
-  "max_batch_size": 0,
-  "max_epoch": 100000,
-  "max_len": 200,
-  "max_position_embeddings": 512,
-  "max_vocab": 200000,
-  "min_count": 0,
-  "mlm_steps": [
-    [
-      "en",
-      null
-    ],
-    [
-      "es",
-      null
-    ],
-    [
-      "fr",
-      null
-    ],
-    [
-      "de",
-      null
-    ],
-    [
-      "zh",
-      null
-    ],
-    [
-      "ru",
-      null
-    ],
-    [
-      "pt",
-      null
-    ],
-    [
-      "it",
-      null
-    ],
-    [
-      "ar",
-      null
-    ],
-    [
-      "ja",
-      null
-    ],
-    [
-      "id",
-      null
-    ],
-    [
-      "tr",
-      null
-    ],
-    [
-      "nl",
-      null
-    ],
-    [
-      "pl",
-      null
-    ],
-    [
-      "simple",
-      null
-    ],
-    [
-      "fa",
-      null
-    ],
-    [
-      "vi",
-      null
-    ],
-    [
-      "sv",
-      null
-    ],
-    [
-      "ko",
-      null
-    ],
-    [
-      "he",
-      null
-    ],
-    [
-      "ro",
-      null
-    ],
-    [
-      "no",
-      null
-    ],
-    [
-      "hi",
-      null
-    ],
-    [
-      "uk",
-      null
-    ],
-    [
-      "cs",
-      null
-    ],
-    [
-      "fi",
-      null
-    ],
-    [
-      "hu",
-      null
-    ],
-    [
-      "th",
-      null
-    ],
-    [
-      "da",
-      null
-    ],
-    [
-      "ca",
-      null
-    ],
-    [
-      "el",
-      null
-    ],
-    [
-      "bg",
-      null
-    ],
-    [
-      "sr",
-      null
-    ],
-    [
-      "ms",
-      null
-    ],
-    [
-      "bn",
-      null
-    ],
-    [
-      "hr",
-      null
-    ],
-    [
-      "sl",
-      null
-    ],
-    [
-      "zh_yue",
-      null
-    ],
-    [
-      "az",
-      null
-    ],
-    [
-      "sk",
-      null
-    ],
-    [
-      "eo",
-      null
-    ],
-    [
-      "ta",
-      null
-    ],
-    [
-      "sh",
-      null
-    ],
-    [
-      "lt",
-      null
-    ],
-    [
-      "et",
-      null
-    ],
-    [
-      "ml",
-      null
-    ],
-    [
-      "la",
-      null
-    ],
-    [
-      "bs",
-      null
-    ],
-    [
-      "sq",
-      null
-    ],
-    [
-      "arz",
-      null
-    ],
-    [
-      "af",
-      null
-    ],
-    [
-      "ka",
-      null
-    ],
-    [
-      "mr",
-      null
-    ],
-    [
-      "eu",
-      null
-    ],
-    [
-      "tl",
-      null
-    ],
-    [
-      "ang",
-      null
-    ],
-    [
-      "gl",
-      null
-    ],
-    [
-      "nn",
-      null
-    ],
-    [
-      "ur",
-      null
-    ],
-    [
-      "kk",
-      null
-    ],
-    [
-      "be",
-      null
-    ],
-    [
-      "hy",
-      null
-    ],
-    [
-      "te",
-      null
-    ],
-    [
-      "lv",
-      null
-    ],
-    [
-      "mk",
-      null
-    ],
-    [
-      "zh_classical",
-      null
-    ],
-    [
-      "als",
-      null
-    ],
-    [
-      "is",
-      null
-    ],
-    [
-      "wuu",
-      null
-    ],
-    [
-      "my",
-      null
-    ],
-    [
-      "sco",
-      null
-    ],
-    [
-      "mn",
-      null
-    ],
-    [
-      "ceb",
-      null
-    ],
-    [
-      "ast",
-      null
-    ],
-    [
-      "cy",
-      null
-    ],
-    [
-      "kn",
-      null
-    ],
-    [
-      "br",
-      null
-    ],
-    [
-      "an",
-      null
-    ],
-    [
-      "gu",
-      null
-    ],
-    [
-      "bar",
-      null
-    ],
-    [
-      "uz",
-      null
-    ],
-    [
-      "lb",
-      null
-    ],
-    [
-      "ne",
-      null
-    ],
-    [
-      "si",
-      null
-    ],
-    [
-      "war",
-      null
-    ],
-    [
-      "jv",
-      null
-    ],
-    [
-      "ga",
-      null
-    ],
-    [
-      "zh_min_nan",
-      null
-    ],
-    [
-      "oc",
-      null
-    ],
-    [
-      "ku",
-      null
-    ],
-    [
-      "sw",
-      null
-    ],
-    [
-      "nds",
-      null
-    ],
-    [
-      "ckb",
-      null
-    ],
-    [
-      "ia",
-      null
-    ],
-    [
-      "yi",
-      null
-    ],
-    [
-      "fy",
-      null
-    ],
-    [
-      "scn",
-      null
-    ],
-    [
-      "gan",
-      null
-    ],
-    [
-      "tt",
-      null
-    ],
-    [
-      "am",
-      null
-    ]
-  ],
-  "model_type": "xlm",
-  "mono_dataset": {
-    "af": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.af.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.af.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.af.pth"
-    },
-    "als": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.als.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.als.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.als.pth"
-    },
-    "am": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.am.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.am.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.am.pth"
-    },
-    "an": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.an.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.an.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.an.pth"
-    },
-    "ang": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ang.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ang.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ang.pth"
-    },
-    "ar": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ar.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ar.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ar.pth"
-    },
-    "arz": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.arz.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.arz.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.arz.pth"
-    },
-    "ast": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ast.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ast.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ast.pth"
-    },
-    "az": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.az.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.az.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.az.pth"
-    },
-    "bar": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.bar.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.bar.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.bar.pth"
-    },
-    "be": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.be.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.be.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.be.pth"
-    },
-    "bg": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.bg.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.bg.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.bg.pth"
-    },
-    "bn": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.bn.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.bn.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.bn.pth"
-    },
-    "br": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.br.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.br.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.br.pth"
-    },
-    "bs": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.bs.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.bs.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.bs.pth"
-    },
-    "ca": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ca.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ca.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ca.pth"
-    },
-    "ceb": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ceb.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ceb.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ceb.pth"
-    },
-    "ckb": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ckb.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ckb.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ckb.pth"
-    },
-    "cs": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.cs.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.cs.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.cs.pth"
-    },
-    "cy": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.cy.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.cy.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.cy.pth"
-    },
-    "da": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.da.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.da.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.da.pth"
-    },
-    "de": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.de.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.de.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.de.pth"
-    },
-    "el": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.el.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.el.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.el.pth"
-    },
-    "en": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.en.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.en.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.en.pth"
-    },
-    "eo": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.eo.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.eo.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.eo.pth"
-    },
-    "es": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.es.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.es.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.es.pth"
-    },
-    "et": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.et.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.et.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.et.pth"
-    },
-    "eu": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.eu.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.eu.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.eu.pth"
-    },
-    "fa": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.fa.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.fa.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.fa.pth"
-    },
-    "fi": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.fi.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.fi.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.fi.pth"
-    },
-    "fr": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.fr.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.fr.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.fr.pth"
-    },
-    "fy": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.fy.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.fy.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.fy.pth"
-    },
-    "ga": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ga.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ga.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ga.pth"
-    },
-    "gan": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.gan.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.gan.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.gan.pth"
-    },
-    "gl": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.gl.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.gl.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.gl.pth"
-    },
-    "gu": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.gu.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.gu.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.gu.pth"
-    },
-    "he": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.he.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.he.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.he.pth"
-    },
-    "hi": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.hi.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.hi.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.hi.pth"
-    },
-    "hr": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.hr.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.hr.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.hr.pth"
-    },
-    "hu": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.hu.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.hu.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.hu.pth"
-    },
-    "hy": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.hy.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.hy.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.hy.pth"
-    },
-    "ia": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ia.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ia.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ia.pth"
-    },
-    "id": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.id.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.id.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.id.pth"
-    },
-    "is": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.is.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.is.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.is.pth"
-    },
-    "it": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.it.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.it.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.it.pth"
-    },
-    "ja": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ja.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ja.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ja.pth"
-    },
-    "jv": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.jv.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.jv.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.jv.pth"
-    },
-    "ka": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ka.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ka.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ka.pth"
-    },
-    "kk": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.kk.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.kk.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.kk.pth"
-    },
-    "kn": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.kn.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.kn.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.kn.pth"
-    },
-    "ko": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ko.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ko.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ko.pth"
-    },
-    "ku": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ku.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ku.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ku.pth"
-    },
-    "la": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.la.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.la.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.la.pth"
-    },
-    "lb": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.lb.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.lb.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.lb.pth"
-    },
-    "lt": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.lt.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.lt.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.lt.pth"
-    },
-    "lv": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.lv.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.lv.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.lv.pth"
-    },
-    "mk": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.mk.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.mk.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.mk.pth"
-    },
-    "ml": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ml.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ml.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ml.pth"
-    },
-    "mn": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.mn.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.mn.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.mn.pth"
-    },
-    "mr": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.mr.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.mr.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.mr.pth"
-    },
-    "ms": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ms.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ms.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ms.pth"
-    },
-    "my": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.my.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.my.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.my.pth"
-    },
-    "nds": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.nds.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.nds.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.nds.pth"
-    },
-    "ne": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ne.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ne.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ne.pth"
-    },
-    "nl": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.nl.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.nl.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.nl.pth"
-    },
-    "nn": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.nn.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.nn.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.nn.pth"
-    },
-    "no": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.no.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.no.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.no.pth"
-    },
-    "oc": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.oc.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.oc.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.oc.pth"
-    },
-    "pl": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.pl.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.pl.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.pl.pth"
-    },
-    "pt": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.pt.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.pt.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.pt.pth"
-    },
-    "ro": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ro.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ro.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ro.pth"
-    },
-    "ru": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ru.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ru.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ru.pth"
-    },
-    "scn": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.scn.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.scn.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.scn.pth"
-    },
-    "sco": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sco.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sco.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sco.pth"
-    },
-    "sh": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sh.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sh.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sh.pth"
-    },
-    "si": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.si.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.si.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.si.pth"
-    },
-    "simple": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.simple.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.simple.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.simple.pth"
-    },
-    "sk": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sk.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sk.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sk.pth"
-    },
-    "sl": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sl.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sl.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sl.pth"
-    },
-    "sq": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sq.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sq.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sq.pth"
-    },
-    "sr": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sr.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sr.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sr.pth"
-    },
-    "sv": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sv.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sv.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sv.pth"
-    },
-    "sw": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.sw.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.sw.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.sw.pth"
-    },
-    "ta": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ta.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ta.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ta.pth"
-    },
-    "te": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.te.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.te.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.te.pth"
-    },
-    "th": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.th.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.th.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.th.pth"
-    },
-    "tl": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.tl.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.tl.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.tl.pth"
-    },
-    "tr": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.tr.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.tr.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.tr.pth"
-    },
-    "tt": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.tt.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.tt.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.tt.pth"
-    },
-    "uk": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.uk.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.uk.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.uk.pth"
-    },
-    "ur": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.ur.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.ur.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.ur.pth"
-    },
-    "uz": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.uz.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.uz.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.uz.pth"
-    },
-    "vi": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.vi.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.vi.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.vi.pth"
-    },
-    "war": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.war.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.war.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.war.pth"
-    },
-    "wuu": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.wuu.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.wuu.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.wuu.pth"
-    },
-    "yi": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.yi.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.yi.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.yi.pth"
-    },
-    "zh": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.zh.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.zh.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.zh.pth"
-    },
-    "zh_classical": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.zh_classical.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.zh_classical.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.zh_classical.pth"
-    },
-    "zh_min_nan": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.zh_min_nan.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.zh_min_nan.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.zh_min_nan.pth"
-    },
-    "zh_yue": {
-      "test": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/test.zh_yue.pth",
-      "train": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/train.zh_yue.pth",
-      "valid": "/private/home/aconneau/projects/XLM/data/wiki/100/175k/valid.zh_yue.pth"
-    }
-  },
-  "mono_list": [
-    "en",
-    "es",
-    "fr",
-    "de",
-    "zh",
-    "ru",
-    "pt",
-    "it",
-    "ar",
-    "ja",
-    "id",
-    "tr",
-    "nl",
-    "pl",
-    "simple",
-    "fa",
-    "vi",
-    "sv",
-    "ko",
-    "he",
-    "ro",
-    "no",
-    "hi",
-    "uk",
-    "cs",
-    "fi",
-    "hu",
-    "th",
-    "da",
-    "ca",
-    "el",
-    "bg",
-    "sr",
-    "ms",
-    "bn",
-    "hr",
-    "sl",
-    "zh_yue",
-    "az",
-    "sk",
-    "eo",
-    "ta",
-    "sh",
-    "lt",
-    "et",
-    "ml",
-    "la",
-    "bs",
-    "sq",
-    "arz",
-    "af",
-    "ka",
-    "mr",
-    "eu",
-    "tl",
-    "ang",
-    "gl",
-    "nn",
-    "ur",
-    "kk",
-    "be",
-    "hy",
-    "te",
-    "lv",
-    "mk",
-    "zh_classical",
-    "als",
-    "is",
-    "wuu",
-    "my",
-    "sco",
-    "mn",
-    "ceb",
-    "ast",
-    "cy",
-    "kn",
-    "br",
-    "an",
-    "gu",
-    "bar",
-    "uz",
-    "lb",
-    "ne",
-    "si",
-    "war",
-    "jv",
-    "ga",
-    "zh_min_nan",
-    "oc",
-    "ku",
-    "sw",
-    "nds",
-    "ckb",
-    "ia",
-    "yi",
-    "fy",
-    "scn",
-    "gan",
-    "tt",
-    "am"
-  ],
-  "mt_steps": [],
-  "multi_gpu": true,
-  "multi_node": true,
-  "n_gpu_per_node": 8,
-  "n_heads": 16,
-  "n_langs": 100,
-  "n_layers": 16,
-  "n_nodes": 4,
-  "node_id": 0,
-  "optimizer": "adam_inverse_sqrt,lr=0.00005,warmup_updates=30000,beta1=0.9,beta2=0.999,weight_decay=0.01,eps=0.000001",
-  "pad_index": 2,
-  "pad_token_id": 2,
-  "para_dataset": {},
-  "para_list": [],
-  "pc_steps": [],
-  "ref_paths": {},
-  "reload_checkpoint": "",
-  "reload_emb": "",
-  "reload_model": "/checkpoint/aconneau/dumped/xlm_17_100_240_big_model_upper.2/14884511/best-valid_zh_mlm_ppl.pth",
-  "sample_alpha": 0.5,
-  "save_periodic": 0,
-  "share_inout_emb": true,
-  "sinusoidal_embeddings": false,
-  "split_data": true,
-  "start_n_top": 5,
-  "stopping_criterion": "_valid_zh_mlm_ppl,25",
-  "summary_activation": null,
-  "summary_first_dropout": 0.1,
-  "summary_proj_to_labels": true,
-  "summary_type": "first",
-  "summary_use_proj": true,
-  "tokens_per_batch": -1,
-  "unk_index": 3,
-  "use_lang_emb": false,
-  "use_memory": false,
-  "validation_metrics": "_valid_en_mlm_ppl,_valid_mlm_ppl,_valid_zh_mlm_ppl",
-  "vocab_size": 200000,
-  "word_blank": 0.0,
-  "word_dropout": 0.0,
-  "word_keep": 0.1,
-  "word_mask": 0.8,
-  "word_mask_keep_rand": "0.8,0.1,0.1",
-  "word_pred": 0.15,
-  "word_rand": 0.1,
-  "word_shuffle": 0.0,
-  "world_size": 32
-}
-
-07/02/2020 02:16:01 - INFO - filelock -   Lock 140301201264712 acquired on /home1/l/lyuqing/.cache/torch/transformers/36cc0aaffa16aeaa0c6f7b21e58a10a9ab609ed4dbd2ff17423fc95690b4a8bf.50ff3a1ade6a729ff2500ee529c5c0d5630ef2025abc4d2a25e845aca60bac98.lock
-07/02/2020 02:16:01 - INFO - transformers.file_utils -   https://s3.amazonaws.com/models.huggingface.co/bert/xlm-mlm-100-1280-vocab.json not found in cache or force_download set to True, downloading to /home1/l/lyuqing/.cache/torch/transformers/tmpa4q5zpnh
-Downloading:   0%|          | 0.00/5.72M [00:00<?, ?B/s]Downloading:   1%|          | 69.6k/5.72M [00:00<00:09, 597kB/s]Downloading:   3%|▎         | 173k/5.72M [00:00<00:08, 660kB/s] Downloading:   5%|▍         | 261k/5.72M [00:00<00:08, 681kB/s]Downloading:   6%|▋         | 366k/5.72M [00:00<00:07, 731kB/s]Downloading:   8%|▊         | 453k/5.72M [00:00<00:07, 735kB/s]Downloading:  10%|█         | 574k/5.72M [00:00<00:06, 799kB/s]Downloading:  12%|█▏        | 679k/5.72M [00:00<00:06, 826kB/s]Downloading:  14%|█▍        | 801k/5.72M [00:00<00:05, 878kB/s]Downloading:  16%|█▌        | 923k/5.72M [00:01<00:05, 918kB/s]Downloading:  19%|█▊        | 1.06M/5.72M [00:01<00:04, 982kB/s]Downloading:  21%|██        | 1.20M/5.72M [00:01<00:04, 1.03MB/s]Downloading:  24%|██▍       | 1.36M/5.72M [00:01<00:03, 1.10MB/s]Downloading:  26%|██▋       | 1.51M/5.72M [00:01<00:03, 1.16MB/s]Downloading:  29%|██▉       | 1.67M/5.72M [00:01<00:03, 1.20MB/s]Downloading:  32%|███▏      | 1.85M/5.72M [00:01<00:03, 1.26MB/s]Downloading:  35%|███▌      | 2.02M/5.72M [00:01<00:02, 1.32MB/s]Downloading:  38%|███▊      | 2.19M/5.72M [00:02<00:02, 1.36MB/s]Downloading:  42%|████▏     | 2.38M/5.72M [00:02<00:02, 1.42MB/s]Downloading:  45%|████▌     | 2.58M/5.72M [00:02<00:02, 1.47MB/s]Downloading:  49%|████▊     | 2.79M/5.72M [00:02<00:01, 1.55MB/s]Downloading:  52%|█████▏    | 2.99M/5.72M [00:02<00:01, 1.60MB/s]Downloading:  56%|█████▌    | 3.20M/5.72M [00:02<00:01, 1.65MB/s]Downloading:  60%|██████    | 3.43M/5.72M [00:02<00:01, 1.72MB/s]Downloading:  64%|██████▍   | 3.66M/5.72M [00:02<00:01, 1.77MB/s]Downloading:  68%|██████▊   | 3.90M/5.72M [00:02<00:00, 1.85MB/s]Downloading:  72%|███████▏  | 4.14M/5.72M [00:03<00:00, 1.90MB/s]Downloading:  77%|███████▋  | 4.39M/5.72M [00:03<00:00, 1.94MB/s]Downloading:  81%|████████  | 4.63M/5.72M [00:03<00:00, 1.98MB/s]Downloading:  86%|████████▌ | 4.89M/5.72M [00:03<00:00, 2.04MB/s]Downloading:  90%|█████████ | 5.17M/5.72M [00:03<00:00, 2.12MB/s]Downloading:  95%|█████████▌| 5.45M/5.72M [00:03<00:00, 2.17MB/s]Downloading: 100%|██████████| 5.72M/5.72M [00:03<00:00, 1.51MB/s]
-07/02/2020 02:16:05 - INFO - transformers.file_utils -   storing https://s3.amazonaws.com/models.huggingface.co/bert/xlm-mlm-100-1280-vocab.json in cache at /home1/l/lyuqing/.cache/torch/transformers/36cc0aaffa16aeaa0c6f7b21e58a10a9ab609ed4dbd2ff17423fc95690b4a8bf.50ff3a1ade6a729ff2500ee529c5c0d5630ef2025abc4d2a25e845aca60bac98
-07/02/2020 02:16:05 - INFO - transformers.file_utils -   creating metadata file for /home1/l/lyuqing/.cache/torch/transformers/36cc0aaffa16aeaa0c6f7b21e58a10a9ab609ed4dbd2ff17423fc95690b4a8bf.50ff3a1ade6a729ff2500ee529c5c0d5630ef2025abc4d2a25e845aca60bac98
-07/02/2020 02:16:05 - INFO - filelock -   Lock 140301201264712 released on /home1/l/lyuqing/.cache/torch/transformers/36cc0aaffa16aeaa0c6f7b21e58a10a9ab609ed4dbd2ff17423fc95690b4a8bf.50ff3a1ade6a729ff2500ee529c5c0d5630ef2025abc4d2a25e845aca60bac98.lock
-07/02/2020 02:16:05 - INFO - filelock -   Lock 140301239711392 acquired on /home1/l/lyuqing/.cache/torch/transformers/3e86a68a8775a1b921af60bcce492264e458bc21ca4239639ea8c253fb18ac53.7b94ff5bc85062952d4da8c1ef6755c3f7fd50b4ba33d63407770a920d1b4711.lock
-07/02/2020 02:16:05 - INFO - transformers.file_utils -   https://s3.amazonaws.com/models.huggingface.co/bert/xlm-mlm-100-1280-merges.txt not found in cache or force_download set to True, downloading to /home1/l/lyuqing/.cache/torch/transformers/tmp_yrwxr_j
-Downloading:   0%|          | 0.00/2.97M [00:00<?, ?B/s]Downloading:   2%|▏         | 69.6k/2.97M [00:00<00:04, 594kB/s]Downloading:   6%|▌         | 173k/2.97M [00:00<00:04, 656kB/s] Downloading:   9%|▉         | 261k/2.97M [00:00<00:03, 679kB/s]Downloading:  12%|█▏        | 366k/2.97M [00:00<00:03, 725kB/s]Downloading:  16%|█▌        | 470k/2.97M [00:00<00:03, 765kB/s]Downloading:  19%|█▉        | 574k/2.97M [00:00<00:03, 796kB/s]Downloading:  23%|██▎       | 695k/2.97M [00:00<00:02, 851kB/s]Downloading:  28%|██▊       | 818k/2.97M [00:00<00:02, 894kB/s]Downloading:  32%|███▏      | 940k/2.97M [00:01<00:02, 932kB/s]Downloading:  36%|███▋      | 1.08M/2.97M [00:01<00:01, 990kB/s]Downloading:  41%|████      | 1.22M/2.97M [00:01<00:01, 1.04MB/s]Downloading:  46%|████▋     | 1.38M/2.97M [00:01<00:01, 1.11MB/s]Downloading:  51%|█████     | 1.51M/2.97M [00:01<00:01, 1.14MB/s]Downloading:  57%|█████▋    | 1.69M/2.97M [00:01<00:01, 1.21MB/s]Downloading:  62%|██████▏   | 1.85M/2.97M [00:01<00:00, 1.25MB/s]Downloading:  68%|██████▊   | 2.02M/2.97M [00:01<00:00, 1.31MB/s]Downloading:  74%|███████▍  | 2.21M/2.97M [00:02<00:00, 1.38MB/s]Downloading:  81%|████████  | 2.40M/2.97M [00:02<00:00, 1.44MB/s]Downloading:  87%|████████▋ | 2.59M/2.97M [00:02<00:00, 1.49MB/s]Downloading:  94%|█████████▎| 2.79M/2.97M [00:02<00:00, 1.53MB/s]Downloading: 100%|██████████| 2.97M/2.97M [00:02<00:00, 1.20MB/s]
-07/02/2020 02:16:08 - INFO - transformers.file_utils -   storing https://s3.amazonaws.com/models.huggingface.co/bert/xlm-mlm-100-1280-merges.txt in cache at /home1/l/lyuqing/.cache/torch/transformers/3e86a68a8775a1b921af60bcce492264e458bc21ca4239639ea8c253fb18ac53.7b94ff5bc85062952d4da8c1ef6755c3f7fd50b4ba33d63407770a920d1b4711
-07/02/2020 02:16:08 - INFO - transformers.file_utils -   creating metadata file for /home1/l/lyuqing/.cache/torch/transformers/3e86a68a8775a1b921af60bcce492264e458bc21ca4239639ea8c253fb18ac53.7b94ff5bc85062952d4da8c1ef6755c3f7fd50b4ba33d63407770a920d1b4711
-07/02/2020 02:16:08 - INFO - filelock -   Lock 140301239711392 released on /home1/l/lyuqing/.cache/torch/transformers/3e86a68a8775a1b921af60bcce492264e458bc21ca4239639ea8c253fb18ac53.7b94ff5bc85062952d4da8c1ef6755c3f7fd50b4ba33d63407770a920d1b4711.lock
-07/02/2020 02:16:08 - INFO - transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/xlm-mlm-100-1280-vocab.json from cache at /home1/l/lyuqing/.cache/torch/transformers/36cc0aaffa16aeaa0c6f7b21e58a10a9ab609ed4dbd2ff17423fc95690b4a8bf.50ff3a1ade6a729ff2500ee529c5c0d5630ef2025abc4d2a25e845aca60bac98
-07/02/2020 02:16:08 - INFO - transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/xlm-mlm-100-1280-merges.txt from cache at /home1/l/lyuqing/.cache/torch/transformers/3e86a68a8775a1b921af60bcce492264e458bc21ca4239639ea8c253fb18ac53.7b94ff5bc85062952d4da8c1ef6755c3f7fd50b4ba33d63407770a920d1b4711
-07/02/2020 02:16:09 - INFO - filelock -   Lock 140301201371768 acquired on /home1/l/lyuqing/.cache/torch/transformers/32915d63a86318c34c846fe4792713d3a199f5ece2e334e2d681da0315bb076e.f2e36d5181b147331929e329fafc532d23b4def47c15eadd8e6f787c55f95c4e.lock
-07/02/2020 02:16:09 - INFO - transformers.file_utils -   https://cdn.huggingface.co/xlm-mlm-100-1280-pytorch_model.bin not found in cache or force_download set to True, downloading to /home1/l/lyuqing/.cache/torch/transformers/tmpgaaf_lha
-Downloading:   0%|          | 0.00/1.14G [00:00<?, ?B/s]Downloading:   0%|          | 2.54M/1.14G [00:00<00:44, 25.4MB/s]Downloading:   1%|          | 6.27M/1.14G [00:00<00:40, 28.1MB/s]Downloading:   1%|          | 10.2M/1.14G [00:00<00:36, 30.7MB/s]Downloading:   1%|          | 13.2M/1.14G [00:00<00:37, 30.5MB/s]Downloading:   1%|▏         | 16.6M/1.14G [00:00<00:35, 31.4MB/s]Downloading:   2%|▏         | 21.7M/1.14G [00:00<00:31, 35.5MB/s]Downloading:   2%|▏         | 25.2M/1.14G [00:00<00:53, 20.9MB/s]Downloading:   2%|▏         | 28.1M/1.14G [00:01<00:48, 22.9MB/s]Downloading:   3%|▎         | 31.3M/1.14G [00:01<00:44, 25.0MB/s]Downloading:   3%|▎         | 34.6M/1.14G [00:01<00:41, 27.0MB/s]Downloading:   3%|▎         | 38.0M/1.14G [00:01<00:38, 28.7MB/s]Downloading:   4%|▎         | 41.4M/1.14G [00:01<00:36, 30.2MB/s]Downloading:   4%|▍         | 44.6M/1.14G [00:01<00:35, 30.7MB/s]Downloading:   4%|▍         | 48.0M/1.14G [00:01<00:34, 31.5MB/s]Downloading:   4%|▍         | 51.4M/1.14G [00:01<00:33, 32.3MB/s]Downloading:   5%|▍         | 54.8M/1.14G [00:01<00:33, 32.8MB/s]Downloading:   5%|▌         | 58.3M/1.14G [00:01<00:32, 33.4MB/s]Downloading:   5%|▌         | 62.0M/1.14G [00:02<00:31, 34.5MB/s]Downloading:   6%|▌         | 65.7M/1.14G [00:02<00:30, 35.1MB/s]Downloading:   6%|▌         | 69.2M/1.14G [00:02<00:30, 35.2MB/s]Downloading:   6%|▋         | 72.8M/1.14G [00:02<00:30, 34.9MB/s]Downloading:   7%|▋         | 76.3M/1.14G [00:02<00:30, 34.9MB/s]Downloading:   7%|▋         | 80.1M/1.14G [00:02<00:29, 35.8MB/s]Downloading:   7%|▋         | 83.9M/1.14G [00:02<00:29, 36.5MB/s]Downloading:   8%|▊         | 87.9M/1.14G [00:02<00:28, 37.3MB/s]Downloading:   8%|▊         | 92.0M/1.14G [00:02<00:27, 38.5MB/s]Downloading:   8%|▊         | 95.9M/1.14G [00:02<00:28, 36.7MB/s]Downloading:   9%|▊         | 99.9M/1.14G [00:03<00:27, 37.6MB/s]Downloading:   9%|▉         | 104M/1.14G [00:03<00:26, 38.8MB/s] Downloading:   9%|▉         | 108M/1.14G [00:03<00:25, 39.9MB/s]Downloading:  10%|▉         | 112M/1.14G [00:03<00:25, 40.1MB/s]Downloading:  10%|█         | 117M/1.14G [00:03<00:25, 40.7MB/s]Downloading:  11%|█         | 121M/1.14G [00:03<00:24, 41.2MB/s]Downloading:  11%|█         | 125M/1.14G [00:03<00:24, 40.9MB/s]Downloading:  11%|█▏        | 129M/1.14G [00:03<00:24, 41.0MB/s]Downloading:  12%|█▏        | 133M/1.14G [00:03<00:24, 40.8MB/s]Downloading:  12%|█▏        | 137M/1.14G [00:03<00:24, 40.7MB/s]Downloading:  12%|█▏        | 141M/1.14G [00:04<00:24, 41.0MB/s]Downloading:  13%|█▎        | 146M/1.14G [00:04<00:24, 41.0MB/s]Downloading:  13%|█▎        | 150M/1.14G [00:04<00:24, 40.6MB/s]Downloading:  13%|█▎        | 154M/1.14G [00:04<00:24, 40.5MB/s]Downloading:  14%|█▍        | 158M/1.14G [00:04<00:24, 40.7MB/s]Downloading:  14%|█▍        | 162M/1.14G [00:04<00:23, 41.0MB/s]Downloading:  15%|█▍        | 166M/1.14G [00:04<00:24, 40.3MB/s]Downloading:  15%|█▍        | 170M/1.14G [00:04<00:24, 40.2MB/s]Downloading:  15%|█▌        | 174M/1.14G [00:04<00:24, 39.9MB/s]Downloading:  16%|█▌        | 178M/1.14G [00:04<00:24, 39.8MB/s]Downloading:  16%|█▌        | 182M/1.14G [00:05<00:23, 40.1MB/s]Downloading:  16%|█▋        | 186M/1.14G [00:05<00:23, 40.2MB/s]Downloading:  17%|█▋        | 190M/1.14G [00:05<00:23, 40.2MB/s]Downloading:  17%|█▋        | 194M/1.14G [00:05<00:23, 40.1MB/s]Downloading:  17%|█▋        | 198M/1.14G [00:05<00:23, 40.2MB/s]Downloading:  18%|█▊        | 202M/1.14G [00:05<00:23, 39.9MB/s]Downloading:  18%|█▊        | 206M/1.14G [00:05<00:24, 38.6MB/s]Downloading:  18%|█▊        | 210M/1.14G [00:05<00:25, 36.9MB/s]Downloading:  19%|█▊        | 214M/1.14G [00:05<00:25, 37.1MB/s]Downloading:  19%|█▉        | 218M/1.14G [00:06<00:24, 37.8MB/s]Downloading:  19%|█▉        | 222M/1.14G [00:06<00:24, 38.2MB/s]Downloading:  20%|█▉        | 226M/1.14G [00:06<00:23, 38.5MB/s]Downloading:  20%|██        | 230M/1.14G [00:06<00:23, 38.7MB/s]Downloading:  20%|██        | 234M/1.14G [00:06<00:23, 39.1MB/s]Downloading:  21%|██        | 238M/1.14G [00:06<00:23, 38.9MB/s]Downloading:  21%|██        | 242M/1.14G [00:06<00:22, 39.2MB/s]Downloading:  21%|██▏       | 246M/1.14G [00:06<00:22, 39.5MB/s]Downloading:  22%|██▏       | 250M/1.14G [00:06<00:22, 39.6MB/s]Downloading:  22%|██▏       | 254M/1.14G [00:06<00:22, 39.9MB/s]Downloading:  23%|██▎       | 258M/1.14G [00:07<00:22, 40.0MB/s]Downloading:  23%|██▎       | 262M/1.14G [00:07<00:21, 40.4MB/s]Downloading:  23%|██▎       | 266M/1.14G [00:07<00:21, 40.9MB/s]Downloading:  24%|██▎       | 270M/1.14G [00:07<00:21, 41.3MB/s]Downloading:  24%|██▍       | 275M/1.14G [00:07<00:20, 41.7MB/s]Downloading:  24%|██▍       | 279M/1.14G [00:07<00:21, 40.1MB/s]Downloading:  25%|██▍       | 283M/1.14G [00:07<00:22, 38.1MB/s]Downloading:  25%|██▌       | 287M/1.14G [00:07<00:21, 39.1MB/s]Downloading:  25%|██▌       | 291M/1.14G [00:07<00:21, 38.9MB/s]Downloading:  26%|██▌       | 295M/1.14G [00:07<00:21, 38.9MB/s]Downloading:  26%|██▌       | 299M/1.14G [00:08<00:21, 38.9MB/s]Downloading:  26%|██▋       | 303M/1.14G [00:08<00:21, 39.2MB/s]Downloading:  27%|██▋       | 307M/1.14G [00:08<00:21, 39.4MB/s]Downloading:  27%|██▋       | 311M/1.14G [00:08<00:21, 39.5MB/s]Downloading:  28%|██▊       | 315M/1.14G [00:08<00:21, 38.8MB/s]Downloading:  28%|██▊       | 319M/1.14G [00:08<00:21, 38.4MB/s]Downloading:  28%|██▊       | 323M/1.14G [00:08<00:21, 38.7MB/s]Downloading:  29%|██▊       | 327M/1.14G [00:08<00:20, 38.9MB/s]Downloading:  29%|██▉       | 331M/1.14G [00:08<00:20, 39.8MB/s]Downloading:  29%|██▉       | 335M/1.14G [00:08<00:19, 40.5MB/s]Downloading:  30%|██▉       | 339M/1.14G [00:09<00:19, 41.0MB/s]Downloading:  30%|███       | 343M/1.14G [00:09<00:19, 41.4MB/s]Downloading:  30%|███       | 348M/1.14G [00:09<00:19, 41.1MB/s]Downloading:  31%|███       | 352M/1.14G [00:09<00:18, 42.2MB/s]Downloading:  31%|███       | 357M/1.14G [00:09<00:18, 43.1MB/s]Downloading:  32%|███▏      | 361M/1.14G [00:09<00:17, 43.6MB/s]Downloading:  32%|███▏      | 365M/1.14G [00:09<00:17, 43.5MB/s]Downloading:  32%|███▏      | 370M/1.14G [00:09<00:17, 44.0MB/s]Downloading:  33%|███▎      | 374M/1.14G [00:09<00:17, 44.2MB/s]Downloading:  33%|███▎      | 379M/1.14G [00:09<00:17, 44.5MB/s]Downloading:  34%|███▎      | 383M/1.14G [00:10<00:17, 44.7MB/s]Downloading:  34%|███▍      | 388M/1.14G [00:10<00:16, 44.8MB/s]Downloading:  34%|███▍      | 392M/1.14G [00:10<00:16, 44.9MB/s]Downloading:  35%|███▍      | 397M/1.14G [00:10<00:16, 44.9MB/s]Downloading:  35%|███▌      | 402M/1.14G [00:10<00:16, 45.5MB/s]Downloading:  36%|███▌      | 406M/1.14G [00:10<00:16, 44.8MB/s]Downloading:  36%|███▌      | 411M/1.14G [00:10<00:18, 39.2MB/s]Downloading:  36%|███▋      | 415M/1.14G [00:10<00:23, 31.0MB/s]Downloading:  37%|███▋      | 418M/1.14G [00:10<00:22, 32.5MB/s]Downloading:  37%|███▋      | 422M/1.14G [00:11<00:21, 33.6MB/s]Downloading:  37%|███▋      | 426M/1.14G [00:11<00:20, 34.4MB/s]Downloading:  38%|███▊      | 429M/1.14G [00:11<00:20, 34.8MB/s]Downloading:  38%|███▊      | 433M/1.14G [00:11<00:20, 35.1MB/s]Downloading:  38%|███▊      | 436M/1.14G [00:11<00:20, 35.2MB/s]Downloading:  38%|███▊      | 440M/1.14G [00:11<00:19, 35.5MB/s]Downloading:  39%|███▉      | 444M/1.14G [00:11<00:19, 36.2MB/s]Downloading:  39%|███▉      | 448M/1.14G [00:11<00:19, 35.0MB/s]Downloading:  39%|███▉      | 451M/1.14G [00:11<00:19, 35.6MB/s]Downloading:  40%|███▉      | 455M/1.14G [00:12<00:19, 35.7MB/s]Downloading:  40%|████      | 458M/1.14G [00:12<00:19, 35.2MB/s]Downloading:  40%|████      | 462M/1.14G [00:12<00:22, 30.9MB/s]Downloading:  41%|████      | 466M/1.14G [00:12<00:21, 32.3MB/s]Downloading:  41%|████      | 469M/1.14G [00:12<00:19, 33.8MB/s]Downloading:  41%|████▏     | 473M/1.14G [00:12<00:18, 35.3MB/s]Downloading:  42%|████▏     | 478M/1.14G [00:12<00:17, 38.7MB/s]Downloading:  42%|████▏     | 483M/1.14G [00:12<00:16, 40.7MB/s]Downloading:  43%|████▎     | 487M/1.14G [00:12<00:15, 41.9MB/s]Downloading:  43%|████▎     | 492M/1.14G [00:12<00:15, 41.9MB/s]Downloading:  43%|████▎     | 496M/1.14G [00:13<00:18, 35.9MB/s]Downloading:  44%|████▎     | 500M/1.14G [00:13<00:17, 36.9MB/s]Downloading:  44%|████▍     | 504M/1.14G [00:13<00:16, 38.5MB/s]Downloading:  44%|████▍     | 509M/1.14G [00:13<00:15, 40.3MB/s]Downloading:  45%|████▍     | 513M/1.14G [00:13<00:15, 41.7MB/s]Downloading:  45%|████▌     | 518M/1.14G [00:13<00:14, 42.6MB/s]Downloading:  46%|████▌     | 522M/1.14G [00:13<00:14, 43.4MB/s]Downloading:  46%|████▌     | 527M/1.14G [00:13<00:14, 43.9MB/s]Downloading:  46%|████▋     | 531M/1.14G [00:13<00:13, 44.0MB/s]Downloading:  47%|████▋     | 536M/1.14G [00:14<00:13, 44.1MB/s]Downloading:  47%|████▋     | 540M/1.14G [00:14<00:13, 44.4MB/s]Downloading:  48%|████▊     | 545M/1.14G [00:14<00:13, 44.3MB/s]Downloading:  48%|████▊     | 549M/1.14G [00:14<00:13, 44.5MB/s]Downloading:  48%|████▊     | 554M/1.14G [00:14<00:13, 44.4MB/s]Downloading:  49%|████▉     | 558M/1.14G [00:14<00:13, 44.0MB/s]Downloading:  49%|████▉     | 563M/1.14G [00:14<00:13, 44.6MB/s]Downloading:  50%|████▉     | 567M/1.14G [00:14<00:13, 43.5MB/s]Downloading:  50%|████▉     | 571M/1.14G [00:14<00:13, 43.6MB/s]Downloading:  50%|█████     | 576M/1.14G [00:14<00:13, 42.9MB/s]Downloading:  51%|█████     | 580M/1.14G [00:15<00:13, 42.4MB/s]Downloading:  51%|█████     | 584M/1.14G [00:15<00:13, 42.8MB/s]Downloading:  51%|█████▏    | 589M/1.14G [00:15<00:15, 36.5MB/s]Downloading:  52%|█████▏    | 593M/1.14G [00:15<00:14, 37.1MB/s]Downloading:  52%|█████▏    | 597M/1.14G [00:15<00:14, 38.0MB/s]Downloading:  53%|█████▎    | 601M/1.14G [00:15<00:13, 39.3MB/s]Downloading:  53%|█████▎    | 605M/1.14G [00:15<00:13, 40.7MB/s]Downloading:  53%|█████▎    | 610M/1.14G [00:15<00:12, 41.2MB/s]Downloading:  54%|█████▎    | 614M/1.14G [00:15<00:12, 41.8MB/s]Downloading:  54%|█████▍    | 618M/1.14G [00:16<00:12, 42.1MB/s]Downloading:  54%|█████▍    | 622M/1.14G [00:16<00:12, 41.8MB/s]Downloading:  55%|█████▍    | 627M/1.14G [00:16<00:12, 42.4MB/s]Downloading:  55%|█████▌    | 631M/1.14G [00:16<00:12, 42.2MB/s]Downloading:  56%|█████▌    | 635M/1.14G [00:16<00:11, 42.4MB/s]Downloading:  56%|█████▌    | 640M/1.14G [00:16<00:11, 42.4MB/s]Downloading:  56%|█████▋    | 644M/1.14G [00:16<00:11, 42.6MB/s]Downloading:  57%|█████▋    | 648M/1.14G [00:16<00:11, 42.6MB/s]Downloading:  57%|█████▋    | 652M/1.14G [00:16<00:11, 42.5MB/s]Downloading:  57%|█████▋    | 657M/1.14G [00:16<00:11, 43.3MB/s]Downloading:  58%|█████▊    | 662M/1.14G [00:17<00:10, 44.9MB/s]Downloading:  58%|█████▊    | 667M/1.14G [00:17<00:10, 45.5MB/s]Downloading:  59%|█████▊    | 671M/1.14G [00:17<00:10, 45.3MB/s]Downloading:  59%|█████▉    | 676M/1.14G [00:17<00:10, 46.3MB/s]Downloading:  60%|█████▉    | 681M/1.14G [00:17<00:11, 40.4MB/s]Downloading:  60%|█████▉    | 685M/1.14G [00:17<00:11, 41.5MB/s]Downloading:  60%|██████    | 690M/1.14G [00:17<00:10, 43.6MB/s]Downloading:  61%|██████    | 694M/1.14G [00:17<00:10, 42.7MB/s]Downloading:  61%|██████    | 699M/1.14G [00:17<00:14, 31.4MB/s]Downloading:  61%|██████▏   | 702M/1.14G [00:18<00:13, 32.5MB/s]Downloading:  62%|██████▏   | 706M/1.14G [00:18<00:12, 33.8MB/s]Downloading:  62%|██████▏   | 710M/1.14G [00:18<00:12, 35.2MB/s]Downloading:  62%|██████▏   | 714M/1.14G [00:18<00:12, 35.4MB/s]Downloading:  63%|██████▎   | 717M/1.14G [00:18<00:12, 35.3MB/s]Downloading:  63%|██████▎   | 721M/1.14G [00:18<00:11, 35.6MB/s]Downloading:  63%|██████▎   | 725M/1.14G [00:18<00:11, 35.9MB/s]Downloading:  64%|██████▎   | 728M/1.14G [00:18<00:11, 36.1MB/s]Downloading:  64%|██████▍   | 732M/1.14G [00:18<00:11, 36.3MB/s]Downloading:  64%|██████▍   | 736M/1.14G [00:19<00:11, 36.5MB/s]Downloading:  65%|██████▍   | 740M/1.14G [00:19<00:10, 37.1MB/s]Downloading:  65%|██████▌   | 744M/1.14G [00:19<00:10, 37.7MB/s]Downloading:  65%|██████▌   | 747M/1.14G [00:19<00:10, 37.1MB/s]Downloading:  66%|██████▌   | 751M/1.14G [00:19<00:10, 37.5MB/s]Downloading:  66%|██████▌   | 755M/1.14G [00:19<00:10, 38.0MB/s]Downloading:  66%|██████▋   | 759M/1.14G [00:19<00:10, 38.3MB/s]Downloading:  67%|██████▋   | 763M/1.14G [00:19<00:09, 38.9MB/s]Downloading:  67%|██████▋   | 768M/1.14G [00:19<00:09, 41.0MB/s]Downloading:  68%|██████▊   | 772M/1.14G [00:19<00:08, 42.2MB/s]Downloading:  68%|██████▊   | 777M/1.14G [00:20<00:08, 43.2MB/s]Downloading:  68%|██████▊   | 781M/1.14G [00:20<00:08, 43.9MB/s]Downloading:  69%|██████▊   | 786M/1.14G [00:20<00:08, 44.4MB/s]Downloading:  69%|██████▉   | 790M/1.14G [00:20<00:07, 44.5MB/s]Downloading:  70%|██████▉   | 795M/1.14G [00:20<00:07, 44.6MB/s]Downloading:  70%|██████▉   | 799M/1.14G [00:20<00:07, 44.3MB/s]Downloading:  70%|███████   | 804M/1.14G [00:20<00:07, 44.1MB/s]Downloading:  71%|███████   | 808M/1.14G [00:20<00:07, 44.4MB/s]Downloading:  71%|███████   | 813M/1.14G [00:20<00:07, 44.0MB/s]Downloading:  71%|███████▏  | 817M/1.14G [00:20<00:07, 43.7MB/s]Downloading:  72%|███████▏  | 822M/1.14G [00:21<00:07, 43.6MB/s]Downloading:  72%|███████▏  | 826M/1.14G [00:21<00:07, 43.6MB/s]Downloading:  73%|███████▎  | 830M/1.14G [00:21<00:07, 43.8MB/s]Downloading:  73%|███████▎  | 835M/1.14G [00:21<00:06, 44.1MB/s]Downloading:  73%|███████▎  | 839M/1.14G [00:21<00:06, 44.2MB/s]Downloading:  74%|███████▍  | 844M/1.14G [00:21<00:06, 43.9MB/s]Downloading:  74%|███████▍  | 848M/1.14G [00:21<00:06, 43.9MB/s]Downloading:  75%|███████▍  | 853M/1.14G [00:21<00:06, 44.0MB/s]Downloading:  75%|███████▍  | 857M/1.14G [00:21<00:06, 43.2MB/s]Downloading:  75%|███████▌  | 861M/1.14G [00:21<00:06, 43.6MB/s]Downloading:  76%|███████▌  | 866M/1.14G [00:22<00:06, 43.9MB/s]Downloading:  76%|███████▌  | 870M/1.14G [00:22<00:06, 44.0MB/s]Downloading:  77%|███████▋  | 875M/1.14G [00:22<00:06, 44.1MB/s]Downloading:  77%|███████▋  | 879M/1.14G [00:22<00:06, 43.9MB/s]Downloading:  77%|███████▋  | 884M/1.14G [00:22<00:05, 45.5MB/s]Downloading:  78%|███████▊  | 889M/1.14G [00:22<00:05, 47.0MB/s]Downloading:  78%|███████▊  | 894M/1.14G [00:22<00:05, 46.4MB/s]Downloading:  79%|███████▊  | 899M/1.14G [00:22<00:05, 45.8MB/s]Downloading:  79%|███████▉  | 904M/1.14G [00:22<00:05, 47.0MB/s]Downloading:  79%|███████▉  | 909M/1.14G [00:22<00:04, 48.2MB/s]Downloading:  80%|███████▉  | 914M/1.14G [00:23<00:04, 46.7MB/s]Downloading:  80%|████████  | 918M/1.14G [00:23<00:04, 46.7MB/s]Downloading:  81%|████████  | 923M/1.14G [00:23<00:04, 47.0MB/s]Downloading:  81%|████████  | 928M/1.14G [00:23<00:04, 47.0MB/s]Downloading:  82%|████████▏ | 933M/1.14G [00:23<00:04, 48.1MB/s]Downloading:  82%|████████▏ | 938M/1.14G [00:23<00:04, 49.0MB/s]Downloading:  82%|████████▏ | 943M/1.14G [00:23<00:04, 44.7MB/s]Downloading:  83%|████████▎ | 948M/1.14G [00:23<00:04, 45.2MB/s]Downloading:  83%|████████▎ | 952M/1.14G [00:23<00:04, 45.3MB/s]Downloading:  84%|████████▎ | 957M/1.14G [00:23<00:04, 44.9MB/s]Downloading:  84%|████████▍ | 961M/1.14G [00:24<00:04, 44.6MB/s]Downloading:  84%|████████▍ | 966M/1.14G [00:24<00:03, 45.3MB/s]Downloading:  85%|████████▍ | 971M/1.14G [00:24<00:03, 45.9MB/s]Downloading:  85%|████████▌ | 975M/1.14G [00:24<00:03, 45.1MB/s]Downloading:  86%|████████▌ | 980M/1.14G [00:24<00:03, 45.7MB/s]Downloading:  86%|████████▌ | 984M/1.14G [00:24<00:04, 39.3MB/s]Downloading:  86%|████████▋ | 989M/1.14G [00:24<00:03, 39.2MB/s]Downloading:  87%|████████▋ | 993M/1.14G [00:24<00:03, 41.2MB/s]Downloading:  87%|████████▋ | 998M/1.14G [00:24<00:03, 42.4MB/s]Downloading:  88%|████████▊ | 1.00G/1.14G [00:25<00:03, 42.7MB/s]Downloading:  88%|████████▊ | 1.01G/1.14G [00:25<00:03, 43.4MB/s]Downloading:  88%|████████▊ | 1.01G/1.14G [00:25<00:03, 43.5MB/s]Downloading:  89%|████████▉ | 1.02G/1.14G [00:25<00:02, 43.8MB/s]Downloading:  89%|████████▉ | 1.02G/1.14G [00:25<00:02, 44.0MB/s]Downloading:  90%|████████▉ | 1.02G/1.14G [00:25<00:02, 43.8MB/s]Downloading:  90%|████████▉ | 1.03G/1.14G [00:25<00:02, 42.9MB/s]Downloading:  90%|█████████ | 1.03G/1.14G [00:25<00:02, 40.9MB/s]Downloading:  91%|█████████ | 1.04G/1.14G [00:26<00:03, 29.2MB/s]Downloading:  91%|█████████ | 1.04G/1.14G [00:26<00:03, 32.8MB/s]Downloading:  92%|█████████▏| 1.05G/1.14G [00:26<00:02, 36.0MB/s]Downloading:  92%|█████████▏| 1.05G/1.14G [00:26<00:02, 38.5MB/s]Downloading:  92%|█████████▏| 1.06G/1.14G [00:26<00:02, 40.4MB/s]Downloading:  93%|█████████▎| 1.06G/1.14G [00:26<00:02, 41.5MB/s]Downloading:  93%|█████████▎| 1.06G/1.14G [00:26<00:01, 42.7MB/s]Downloading:  94%|█████████▎| 1.07G/1.14G [00:26<00:01, 43.6MB/s]Downloading:  94%|█████████▍| 1.07G/1.14G [00:26<00:01, 44.3MB/s]Downloading:  94%|█████████▍| 1.08G/1.14G [00:26<00:01, 44.9MB/s]Downloading:  95%|█████████▍| 1.08G/1.14G [00:27<00:01, 44.9MB/s]Downloading:  95%|█████████▌| 1.09G/1.14G [00:27<00:01, 44.7MB/s]Downloading:  96%|█████████▌| 1.09G/1.14G [00:27<00:01, 47.0MB/s]Downloading:  96%|█████████▌| 1.10G/1.14G [00:27<00:00, 48.4MB/s]Downloading:  96%|█████████▋| 1.10G/1.14G [00:27<00:00, 46.2MB/s]Downloading:  97%|█████████▋| 1.11G/1.14G [00:27<00:00, 46.4MB/s]Downloading:  97%|█████████▋| 1.11G/1.14G [00:27<00:00, 48.5MB/s]Downloading:  98%|█████████▊| 1.12G/1.14G [00:27<00:00, 50.1MB/s]Downloading:  98%|█████████▊| 1.12G/1.14G [00:27<00:00, 51.2MB/s]Downloading:  99%|█████████▉| 1.13G/1.14G [00:27<00:00, 52.3MB/s]Downloading:  99%|█████████▉| 1.13G/1.14G [00:28<00:00, 52.5MB/s]Downloading: 100%|█████████▉| 1.14G/1.14G [00:28<00:00, 52.8MB/s]Downloading: 100%|██████████| 1.14G/1.14G [00:28<00:00, 40.5MB/s]
-07/02/2020 02:17:04 - INFO - filelock -   Lock 140301201371768 released on /home1/l/lyuqing/.cache/torch/transformers/32915d63a86318c34c846fe4792713d3a199f5ece2e334e2d681da0315bb076e.f2e36d5181b147331929e329fafc532d23b4def47c15eadd8e6f787c55f95c4e.lock
-Traceback (most recent call last):
-  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/transformers/modeling_utils.py", line 649, in from_pretrained
-    local_files_only=local_files_only,
-  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/transformers/file_utils.py", line 279, in cached_path
-    local_files_only=local_files_only,
-  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/transformers/file_utils.py", line 458, in get_from_cache
-    http_get(url, temp_file, proxies=proxies, resume_size=resume_size, user_agent=user_agent)
-  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/tempfile.py", line 503, in __exit__
-    result = self.file.__exit__(exc, value, tb)
-OSError: [Errno 122] Disk quota exceeded
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "transformers/examples/question-answering/run_squad.py", line 828, in <module>
-    main()
-  File "transformers/examples/question-answering/run_squad.py", line 742, in main
-    cache_dir=args.cache_dir if args.cache_dir else None,
-  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/transformers/modeling_auto.py", line 999, in from_pretrained
-    return model_class.from_pretrained(pretrained_model_name_or_path, *model_args, config=config, **kwargs)
-  File "/shared/lyuqing/probing_for_event/env/lib/python3.6/site-packages/transformers/modeling_utils.py", line 659, in from_pretrained
-    raise EnvironmentError(msg)
-OSError: Can't load weights for 'xlm-mlm-100-1280'. Make sure that:
-
-- 'xlm-mlm-100-1280' is a correct model identifier listed on 'https://huggingface.co/models'
-
-- or 'xlm-mlm-100-1280' is the correct path to a directory containing a file named one of pytorch_model.bin, tf_model.h5, model.ckpt.
-
-

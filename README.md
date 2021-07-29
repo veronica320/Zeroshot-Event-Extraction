@@ -2,27 +2,14 @@
 
 This is the code repository for ACL2021 paper: [Zero-shot Event Extraction via Transfer Learning: Challenges and Insights](https://aclanthology.org/2021.acl-short.42/).
 
-## Getting Started
-
-### Environment
-
-- `environment.yml` specifies the conda environment needed running the code. You can create the environment using it according to [this guildeline](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file).
-- When installing transformers, make sure you **install it from source** and put it under the root directory of this repo. This is because we need the scripts under `transformers/examples/`. 
-
-### Data
-- ACE-2005 (LDC2006T06): Available from [LDC's release](https://catalog.ldc.upenn.edu/LDC2006T06).
-- ERE (LDC2015E29): This corpus is part of the [DEFT program](https://www.darpa.mil/program/deep-exploration-and-filtering-of-text) and thus only availble to its participants. Please check your institution's LDC account for access. 
-
-One you download the corpora, place them under `data/`, so the enti# Zero-shot Event Extraction
-
-This is the code repository for ACL2021 paper: [Zero-shot Event Extraction via Transfer Learning: Challenges and Insights](https://aclanthology.org/2021.acl-short.42/).
+A lot of the infrastructure (preprocessing, scorer, etc.) is adapted from the [OneIE codebase](http://blender.cs.illinois.edu/software/oneie/). Special thanks to the authors!
 
 ## Getting Started
 
 ### Environment
 
 - `environment.yml` specifies the conda environment needed running the code. You can create the environment using it according to [this guildeline](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file).
-- When installing transformers, make sure you **install it from source** and put it under the root directory of this repo. This is because we need the scripts under `transformers/examples/`. 
+- When installing transformers, make sure you **install it from source** and put it under the root directory of this repo. This is because we potentially need the scripts under `transformers/examples/`. 
 
 ### Data
 - ACE-2005 (LDC2006T06): Available from [LDC's release](https://catalog.ldc.upenn.edu/LDC2006T06).
@@ -30,22 +17,25 @@ This is the code repository for ACL2021 paper: [Zero-shot Event Extraction via T
 
 One you download the corpora, place them under `data/`, so the complete paths look like `data/LDC2006T06` and `data/LDC2015E29`.
 
-
 ### Pretrained Models
 - Pretrained Textual Entailment (TE) model: [coming](https://huggingface.co/veronica320/TE-for-event-extraction)
 - Pretrained Question Answering (QA) model: [coming](https://huggingface.co/veronica320/QA-for-event-extraction)
 
+
 ## Repository structure
 
 * `data/`: The data directory.
-    * `ACE_oneie/`: The English ACE data converted to the OneIE format. Specifically, `en/event_only/{train|dev|test}.event.json` are the 3 files for event data only.
-    * `srl_input/`: The input sentences for SRL.
-    * `srl_output/`: The output after runnign SRL. The event extraction model loads SRL outputs from this directory when making predictions.
-    * `boolq/`: The BoolQ data (for training Yes/No QA models).
+    * `LDC2006T06/`: The ACE corpus.
+    * `LDC2015E29/`: The ERE corpus.
+    * `ACE_converted/`: The preprocessed ACE corpus. Specifically, `{train|dev|test}.event.json` will be the 3 files relevant to event extraction only.
+    * `ERE_converted/`: The preprocessed ERE corpus. Specifically, `all.event.json` will be the file elevant to event extraction only.
+    * `srl_output/`: The output of running SRL on the preprocessed ACE/ERE. The event extraction model loads SRL outputs from this directory when making predictions.
+    * `splits`: The train/dev/test splits from OneIE.
 * `output_dir/`: The folder that saves the event extraction predictions.  
 * `output_model_dir/`: The folder that saves various finetuned QA/TE models.  
 * `source/`: The source codes.
 	* `config/`: Model configuration files. A specific README is included within.
+	* `prepreocessing/`: Preprocessing scripts for ACE and ERE data.
 	* `lexicon/`: Stores various txt files.
 		* `probes/`: The "probe" files. Each file contains a set of probes (i.e. hypothese templates / question templates). Each file name is in the format of `{arg|trg}_{te|qa}_probes_{setting}.txt`. The most recently developed (and the best performing) ones are `trg_te_probes_topical.txt` and `arg_te_probes_manual.txt`.
 		* `anno_guideline_examples`: The example sentences from the annotation guideline. 
@@ -59,100 +49,115 @@ One you download the corpora, place them under `data/`, so the complete paths lo
 	* `graph.py`: The Graph class. Adapted from OneIE.
 	* `data.py`: The Dataset class. Adapted from OneIE.
 	* `util.py`: Helper functions. Adapted from OneIE.
-	* `entail.py`: Code for unit testing a TE model.
-	* `train_{quase|te|yn}.py`: The code to finetune a pretrained extractive QA | TE | Yes/No QA model respectively. See `finetune.sh` for running instructions.
-	* `finetune.sh`: The scripts to finetune models with `train_{quase|te|yn}.py`. See comments in the file.
 	* `srl.sh`: The scripts to run verbSRL (AllenNLP) and nomSRL (Celine's). See comments in the file. For more details, refer to [Celine's repo](https://github.com/celine-lee/nominal-srl-allennlpv0.9.0).
 * `transformers/`: The huggingface transformers repository cloned from source. This is for the purpose of finetuning QA/TE models.  
-* `env/`: The virtual environment.  No need to worry about. 
+
 
 ## Usage
+Here are the instructions on how to run our system for inference.
+To start, go to the `source` folder.
 
-### Make Predictions & Evaluate the Model
-#### 1. Set the configuration
-Go to `source/config`, and create a `.json` config file. The existing `te_optimial.json` can be a reference; it has the best performing config for TE-based classification only setting.  
-See `source/config/config_README.md` for details on each parameter.
-#### 2. Make predictions
+### Data preprocessing
+Our preprocessing scripts are adapted from the [OneIE codebase](http://blender.cs.illinois.edu/software/oneie/).
+
+#### Preprocessing ACE2005
+The `prepreocessing/process_ace.py` script converts raw ACE2005 datasets to the format used by our system. 
+
+Usage:
+
+```
+python preprocessing/process_ace.py -i <INPUT_DIR> -o <OUTPUT_DIR> -s data/splits/ACE05-E -b <BERT_MODEL> -c <CACHE_DIR> -l <LANGUAGE> --time_and_val
+```
+
+Example:
+
+```
+python preprocessing/process_ace.py -i data/LDC2006T06/data -o data/ACE_converted -s data/splits/ACE05-E -b bert-large-cased -c /shared/.cache/transformers -l english --time_and_val
+```
+
+Arguments:
+
+- -i, --input: Path to the input directory. Should be `data/LDC2006T06/data`.
+- -o, --output: Path to the output directory. Should be `data/ACE_converted`.
+- -b, --bert: Bert model name.
+- -c, --cache\_dir: Path to your Huggingface Transformer cache directory.
+- -s, --split: Path to the split directory. We use the same splits as OneIE.
+- -l, --lang: Language (options: english, chinese).
+
+#### Preprocessing ERE
+The `prepreocessing/process_ere.py` script converts raw ERE dataset to the format used by our system.
+
+Usage:
+
+```
+python preprocessing/process_ere.py -i <INPUT_DIR> -o <OUTPUT_DIR> -b <BERT_MODEL> -c <CACHE_DIR> -l <LANGUAGE>
+```
+
+Example:
+
+```
+python preprocessing/process_ere.py -i data/LDC2015E29/LDC2015E29_DEFT_Rich_ERE_English_Training_Annotation_V2/data -o data/ERE_converted -b bert-large-cased -c /shared/.cache/transformers -l english
+```
+
+Arguments:
+
+- -i, --input: Path to the input directory. Should be `data/LDC2015E29/data`.
+- -o, --output: Path to the output directory. Should be `data/ERE_converted`.
+- -b, --bert: Bert model name.
+- -c, --cache\_dir: Path to the BERT cache directory.
+- -l, --lang: Language (options: english, spanish).
+
+### Getting the SRL output
+
+After preprocessing, we run the SRL model developed by [Celine Lee](https://github.com/celine-lee). The SRL output will be used by the subsequent event extracion components.
+
+To run the SRL models, you can clone the SRL repos below and follow their instructions:
+
+- [Verb SRL](https://github.com/celine-lee/transformers-srl)
+- [Nominal SRL](https://github.com/celine-lee/nominal-srl-allennlpv0.9.0)
+
+You should put the SRL output files under `data/SRL_output/ACE` or `data/SRL_output/ERE`. The output files should be named `{nom|verb}SRL_{split}.jsonl`. For example, `data/SRL_output/ACE/nomSRL_dev.jsonl`.
+
+To see what format the output files should be, please refer to the sample files: `data/SRL_output/ACE/{nom|verb}SRL_dev.jsonl`. Each sample file has the NomSRL/VerbSRL output respectively. All json fields except for 
+`verbs/nominals` come from the preprocessed data in the previous step. The same format applies to other splits and the ERE corpus.
+
+Each sample file has only one sentence, due to ACE confidentiality restrictions.
+
+### Set the configuration
+Go to `source/config`, and set the configuration for the TE and QA models in `{te|qa}.json`. See `source/config/config_README.md` for details on each parameter.
+
+
+
+### Make predictions
 Open `source/predict.py`, and change the config file name in the `config_path` variable accordingly. Then, run `python predict.py`.   
 The gold and predicted events will be printed to std output. A json version of the predicted events will also be saved to `output_dir/`, in the same format as the input file.
-#### 3. Evaluate the predictions
+
+### Evaluate the model
 Open `source/evaluate.py`, and change the config file name in the `config_path` variable accordingly.  Then, run `python evaluate.py`.  
 The scores will be printed to std output.
 
-### Change the Model
-The files that you might want to look into are `model_te.py` (and `model_qa.py` in the future), the config file, the probe files. Others are pretty much fixed.
 
+## Citation
+If you find this repo useful, please cite the following paper:
 
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-
-### Pretrained Models
-- Pretrained Textual Entailment (TE) model:
-- Pretrained Question Answering (QA) model:
-
-## Repository structure
-
-* `data/`: The data directory.
-    * `ACE_oneie/`: The English ACE data converted to the OneIE format. Specifically, `en/event_only/{train|dev|test}.event.json` are the 3 files for event data only. This is likely the only thing in `data/` that you need to use.
-    * `srl_input/`: The input sentences for SRL.
-    * `srl_output/`: The output after runnign SRL. The event extraction model loads SRL outputs from this directory when making predictions.
-    * `boolq/`: The BoolQ data (for training Yes/No QA models).
-    * `gdl_te/`: The positive and negative examples in the TE format converted from annotation guideline example sentences. This is for the purpose of continue finetuning TE models on the annotation guideline.
-    * 	`apex/`: The apex package. No need to worry about.
-* `output_dir/`: The folder that saves the event extraction predictions.  
-* `output_model_dir/`: The folder that saves various finetuned QA/TE models.  
-* `source/`: The source codes.
-	* `config/`: Model configuration files. A specific README is included within.
-	* `lexicon/`: Stores various txt files.
-		* `probes/`: The "probe" files. Each file contains a set of probes (i.e. hypothese templates / question templates). Each file name is in the format of `{arg|trg}_{te|qa}_probes_{setting}.txt`. The most recently developed (and the best performing) ones are `trg_te_probes_topical.txt` and `arg_te_probes_manual.txt`.
-		* `anno_guideline_examples`: The example sentences from the annotation guideline. 
-		* `arg_srl2ace.txt`: A one-to-many mapping from SRL argument names to ACE argument names.
-	* `configuration.py`: The Configuration class. Adapted from OneIE.
-	* `model_te.py`: The TE-based event extraction pipeline. See comments inside.
-	* `model_qa.py`: The QA-based event extraction pipeline (under development).
-	* `predict.py`: The code to make predictions with the event extraction pipeline.
-	* `evaluate.py`: The code to evaluate model predictions against gold annotations.
-	* `scorer.py`: The scorer called by `evaluate.py`. Adapted from OneIE.
-	* `graph.py`: The Graph class. Adapted from OneIE.
-	* `data.py`: The Dataset class. Adapted from OneIE.
-	* `util.py`: Helper functions. Adapted from OneIE.
-	* `entail.py`: Code for unit testing a TE model.
-	* `train_{quase|te|yn}.py`: The code to finetune a pretrained extractive QA | TE | Yes/No QA model respectively. See `finetune.sh` for running instructions.
-	* `finetune.sh`: The scripts to finetune models with `train_{quase|te|yn}.py`. See comments in the file.
-	* `srl.sh`: The scripts to run verbSRL (AllenNLP) and nomSRL (Celine's). See comments in the file. For more details, refer to [Celine's repo](https://github.com/celine-lee/nominal-srl-allennlpv0.9.0).
-	* `multilingual_te.ipynb`: The multilingual version of the event extraction pipeline under development.
-	* `scratch.{ipynb|py}`: Code drafts. 
-	* `logs`: The logs of finetuning TE/QA models.
-	* `apex/`: The apex package. No need to worry about.
-* `ncdu`: A [tool](https://dev.yorhel.nl/ncdu) for disk usage management.  
-* `SRL/`: SRL model repositories cloned from Celine. Under it, `transformers-srl/` is the multilingual verbal+nominal SRL model (under development), and `nominal-srl-allennlpv9.0/` is the English nominal SRL model. Since I already generated SRL predictions on the ACE data, there's no need to worry about this folder at the moment.   
-* `transformers/`: The huggingface transformers repository cloned from source. This is for the purpose of finetuning QA/TE models.  
-* `env/`: The virtual environment.  No need to worry about. 
-* `oneie/`: The cloned OneIE repository. No need to worry about.    
-* `demo_archive/`: The demo for the QA/TE model. No need to worry about.  
-* `emb_dir/`: An archived embedding-based trigger classification model. No need to worry about.  
-* `ISfromQA/`: Hangfeng's QUASE repository. No need to worry about.  
-
-## Usage
-
-### Make Predictions & Evaluate the Model
-#### 1. Set the configuration
-Go to `source/config`, and create a `.json` config file. The existing `te_optimial.json` can be a reference; it has the best performing config for TE-based classification only setting.  
-See `source/config/config_README.md` for details on each parameter.
-#### 2. Make predictions
-Open `source/predict.py`, and change the config file name in the `config_path` variable accordingly. Then, run `python predict.py`.   
-The gold and predicted events will be printed to std output. A json version of the predicted events will also be saved to `output_dir/`, in the same format as the input file.
-#### 3. Evaluate the predictions
-Open `source/evaluate.py`, and change the config file name in the `config_path` variable accordingly.  Then, run `python evaluate.py`.  
-The scores will be printed to std output.
-
-### Change the Model
-The files that you might want to look into are `model_te.py` (and `model_qa.py` in the future), the config file, the probe files. Others are pretty much fixed.
-
+```
+@inproceedings{lyu-etal-2021-zero,
+    title = "Zero-shot Event Extraction via Transfer Learning: {C}hallenges and Insights",
+    author = "Lyu, Qing  and
+      Zhang, Hongming  and
+      Sulem, Elior  and
+      Roth, Dan",
+    booktitle = "Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 2: Short Papers)",
+    month = aug,
+    year = "2021",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2021.acl-short.42",
+    doi = "10.18653/v1/2021.acl-short.42",
+    pages = "322--332",
+    abstract = "Event extraction has long been a challenging task, addressed mostly with supervised methods that require expensive annotation and are not extensible to new event ontologies. In this work, we explore the possibility of zero-shot event extraction by formulating it as a set of Textual Entailment (TE) and/or Question Answering (QA) queries (e.g. {``}A city was attacked{''} entails {``}There is an attack{''}), exploiting pretrained TE/QA models for direct transfer. On ACE-2005 and ERE, our system achieves acceptable results, yet there is still a large gap from supervised approaches, showing that current QA and TE technologies fail in transferring to a different domain. To investigate the reasons behind the gap, we analyze the remaining key challenges, their respective impact, and possible improvement directions.",
+}
+```
 
 
 <!-- LICENSE -->

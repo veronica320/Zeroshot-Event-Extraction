@@ -1,157 +1,0 @@
-/shared/lyuqing/probing_for_event/env/lib/python3.7/site-packages/transformers/training_args.py:332: FutureWarning: The `evaluate_during_training` argument is deprecated in favor of `evaluation_strategy` (which has more options)
-  FutureWarning,
-11/11/2020 03:09:59 - WARNING - __main__ -   Process rank: -1, device: cuda:0, n_gpu: 1, distributed training: False, 16-bits training: True
-11/11/2020 03:09:59 - INFO - __main__ -   Training/evaluation parameters TrainingArguments(output_dir='output_dir/gdl_te_pos_only_roberta-large-mnli', overwrite_output_dir=True, do_train=True, do_eval=True, do_predict=False, evaluate_during_training=True, evaluation_strategy=<EvaluationStrategy.STEPS: 'steps'>, prediction_loss_only=False, per_device_train_batch_size=8, per_device_eval_batch_size=8, per_gpu_train_batch_size=8, per_gpu_eval_batch_size=24, gradient_accumulation_steps=1, learning_rate=1e-05, weight_decay=0.0, adam_beta1=0.9, adam_beta2=0.999, adam_epsilon=1e-08, max_grad_norm=1.0, num_train_epochs=5.0, max_steps=-1, warmup_steps=0, logging_dir='runs/Nov11_03-09-59_higdon', logging_first_step=False, logging_steps=500, save_steps=-1, save_total_limit=None, no_cuda=False, seed=42, fp16=True, fp16_opt_level='O1', local_rank=-1, tpu_num_cores=None, tpu_metrics_debug=False, debug=False, dataloader_drop_last=False, eval_steps=500, dataloader_num_workers=0, past_index=-1, run_name=None, disable_tqdm=False, remove_unused_columns=True, label_names=None, load_best_model_at_end=False, metric_for_best_model=None, greater_is_better=False)
-Some weights of the model checkpoint at roberta-large-mnli were not used when initializing RobertaForSequenceClassification: ['roberta.pooler.dense.weight', 'roberta.pooler.dense.bias']
-- This IS expected if you are initializing RobertaForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPretraining model).
-- This IS NOT expected if you are initializing RobertaForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
-11/11/2020 03:10:11 - INFO - filelock -   Lock 140112535198800 acquired on data/gdl_te/pos_only/cached_train_RobertaTokenizer_200_wnli.lock
-11/11/2020 03:10:11 - INFO - filelock -   Lock 140112535198800 released on data/gdl_te/pos_only/cached_train_RobertaTokenizer_200_wnli.lock
-11/11/2020 03:10:11 - INFO - filelock -   Lock 140112535198416 acquired on data/gdl_te/pos_only/cached_dev_RobertaTokenizer_200_wnli.lock
-11/11/2020 03:10:11 - INFO - filelock -   Lock 140112535198416 released on data/gdl_te/pos_only/cached_dev_RobertaTokenizer_200_wnli.lock
-Using deprecated `--per_gpu_train_batch_size` argument which will be removed in a future version. Using `--per_device_train_batch_size` is preferred.
-Using deprecated `--per_gpu_train_batch_size` argument which will be removed in a future version. Using `--per_device_train_batch_size` is preferred.
-Using deprecated `--per_gpu_eval_batch_size` argument which will be removed in a future version. Using `--per_device_eval_batch_size` is preferred.
-Using deprecated `--per_gpu_train_batch_size` argument which will be removed in a future version. Using `--per_device_train_batch_size` is preferred.
-Epoch:   0%|          | 0/5 [00:00<?, ?it/s]
-Iteration:   0%|          | 0/24 [00:00<?, ?it/s][A
-Iteration:   4%|▍         | 1/24 [00:00<00:15,  1.52it/s][A
-Iteration:   8%|▊         | 2/24 [00:00<00:12,  1.82it/s][A
-Iteration:  12%|█▎        | 3/24 [00:01<00:09,  2.17it/s][A
-Iteration:  17%|█▋        | 4/24 [00:01<00:07,  2.53it/s][A
-Iteration:  21%|██        | 5/24 [00:01<00:06,  2.84it/s][A
-Iteration:  25%|██▌       | 6/24 [00:01<00:05,  3.10it/s][A
-Iteration:  29%|██▉       | 7/24 [00:02<00:05,  3.32it/s][A
-Iteration:  33%|███▎      | 8/24 [00:02<00:04,  3.50it/s][A
-Iteration:  38%|███▊      | 9/24 [00:02<00:04,  3.63it/s][A
-Iteration:  42%|████▏     | 10/24 [00:02<00:03,  3.76it/s][A
-Iteration:  46%|████▌     | 11/24 [00:03<00:03,  3.85it/s][A
-Iteration:  50%|█████     | 12/24 [00:03<00:03,  3.94it/s][A
-Iteration:  54%|█████▍    | 13/24 [00:03<00:02,  4.02it/s][A
-Iteration:  58%|█████▊    | 14/24 [00:03<00:02,  4.03it/s][A
-Iteration:  62%|██████▎   | 15/24 [00:04<00:02,  3.97it/s][A
-Iteration:  67%|██████▋   | 16/24 [00:04<00:02,  3.98it/s][A
-Iteration:  71%|███████   | 17/24 [00:04<00:01,  3.98it/s][A
-Iteration:  75%|███████▌  | 18/24 [00:04<00:01,  3.99it/s][A
-Iteration:  79%|███████▉  | 19/24 [00:05<00:01,  4.00it/s][A
-Iteration:  83%|████████▎ | 20/24 [00:05<00:01,  4.00it/s][A
-Iteration:  88%|████████▊ | 21/24 [00:05<00:00,  4.00it/s][A
-Iteration:  92%|█████████▏| 22/24 [00:05<00:00,  4.00it/s][A
-Iteration:  96%|█████████▌| 23/24 [00:06<00:00,  4.01it/s][A
-Iteration: 100%|██████████| 24/24 [00:06<00:00,  4.17it/s][AIteration: 100%|██████████| 24/24 [00:06<00:00,  3.75it/s]
-Epoch:  20%|██        | 1/5 [00:06<00:25,  6.39s/it]
-Iteration:   0%|          | 0/24 [00:00<?, ?it/s][A
-Iteration:   4%|▍         | 1/24 [00:00<00:05,  4.00it/s][A
-Iteration:   8%|▊         | 2/24 [00:00<00:05,  4.00it/s][A
-Iteration:  12%|█▎        | 3/24 [00:00<00:05,  4.00it/s][A
-Iteration:  17%|█▋        | 4/24 [00:00<00:04,  4.00it/s][A
-Iteration:  21%|██        | 5/24 [00:01<00:04,  4.04it/s][A
-Iteration:  25%|██▌       | 6/24 [00:01<00:04,  4.08it/s][A
-Iteration:  29%|██▉       | 7/24 [00:01<00:04,  4.11it/s][A
-Iteration:  33%|███▎      | 8/24 [00:01<00:03,  4.13it/s][A
-Iteration:  38%|███▊      | 9/24 [00:02<00:03,  4.12it/s][A
-Iteration:  42%|████▏     | 10/24 [00:02<00:03,  4.11it/s][A
-Iteration:  46%|████▌     | 11/24 [00:02<00:03,  4.10it/s][A
-Iteration:  50%|█████     | 12/24 [00:02<00:02,  4.09it/s][A
-Iteration:  54%|█████▍    | 13/24 [00:03<00:02,  4.07it/s][A
-Iteration:  58%|█████▊    | 14/24 [00:03<00:02,  4.07it/s][A
-Iteration:  62%|██████▎   | 15/24 [00:03<00:02,  4.00it/s][A
-Iteration:  67%|██████▋   | 16/24 [00:03<00:01,  4.03it/s][A
-Iteration:  71%|███████   | 17/24 [00:04<00:01,  4.02it/s][A
-Iteration:  75%|███████▌  | 18/24 [00:04<00:01,  4.01it/s][A
-Iteration:  79%|███████▉  | 19/24 [00:04<00:01,  4.05it/s][A
-Iteration:  83%|████████▎ | 20/24 [00:04<00:01,  3.96it/s][A
-Iteration:  88%|████████▊ | 21/24 [00:05<00:00,  3.97it/s][A
-Iteration:  92%|█████████▏| 22/24 [00:05<00:00,  4.02it/s][A
-Iteration:  96%|█████████▌| 23/24 [00:05<00:00,  4.01it/s][A
-Iteration: 100%|██████████| 24/24 [00:05<00:00,  4.16it/s][AIteration: 100%|██████████| 24/24 [00:05<00:00,  4.06it/s]
-Epoch:  40%|████      | 2/5 [00:12<00:18,  6.25s/it]
-Iteration:   0%|          | 0/24 [00:00<?, ?it/s][A
-Iteration:   4%|▍         | 1/24 [00:00<00:05,  3.99it/s][A
-Iteration:   8%|▊         | 2/24 [00:00<00:05,  3.99it/s][A
-Iteration:  12%|█▎        | 3/24 [00:00<00:05,  3.99it/s][A
-Iteration:  17%|█▋        | 4/24 [00:00<00:04,  4.03it/s][A
-Iteration:  21%|██        | 5/24 [00:01<00:04,  4.02it/s][A
-Iteration:  25%|██▌       | 6/24 [00:01<00:04,  4.05it/s][A
-Iteration:  29%|██▉       | 7/24 [00:01<00:04,  4.03it/s][A
-Iteration:  33%|███▎      | 8/24 [00:01<00:03,  4.02it/s][A
-Iteration:  38%|███▊      | 9/24 [00:02<00:03,  3.88it/s][A
-Iteration:  42%|████▏     | 10/24 [00:02<00:03,  3.80it/s][A
-Iteration:  46%|████▌     | 11/24 [00:02<00:03,  3.78it/s][A
-Iteration:  50%|█████     | 12/24 [00:03<00:03,  3.76it/s][A
-Iteration:  54%|█████▍    | 13/24 [00:03<00:02,  3.75it/s][A
-Iteration:  58%|█████▊    | 14/24 [00:03<00:02,  3.76it/s][A
-Iteration:  62%|██████▎   | 15/24 [00:03<00:02,  3.77it/s][A
-Iteration:  67%|██████▋   | 16/24 [00:04<00:02,  3.77it/s][A
-Iteration:  71%|███████   | 17/24 [00:04<00:01,  3.77it/s][A
-Iteration:  75%|███████▌  | 18/24 [00:04<00:01,  3.74it/s][A
-Iteration:  79%|███████▉  | 19/24 [00:04<00:01,  3.73it/s][A
-Iteration:  83%|████████▎ | 20/24 [00:05<00:01,  3.80it/s][A
-Iteration:  88%|████████▊ | 21/24 [00:05<00:00,  3.89it/s][A
-Iteration:  92%|█████████▏| 22/24 [00:05<00:00,  3.95it/s][A
-Iteration:  96%|█████████▌| 23/24 [00:05<00:00,  3.89it/s][A
-Iteration: 100%|██████████| 24/24 [00:06<00:00,  4.08it/s][AIteration: 100%|██████████| 24/24 [00:06<00:00,  3.89it/s]
-Epoch:  60%|██████    | 3/5 [00:18<00:12,  6.22s/it]
-Iteration:   0%|          | 0/24 [00:00<?, ?it/s][A
-Iteration:   4%|▍         | 1/24 [00:00<00:06,  3.60it/s][A
-Iteration:   8%|▊         | 2/24 [00:00<00:06,  3.60it/s][A
-Iteration:  12%|█▎        | 3/24 [00:00<00:05,  3.58it/s][A
-Iteration:  17%|█▋        | 4/24 [00:01<00:05,  3.57it/s][A
-Iteration:  21%|██        | 5/24 [00:01<00:05,  3.57it/s][A
-Iteration:  25%|██▌       | 6/24 [00:01<00:05,  3.57it/s][A
-Iteration:  29%|██▉       | 7/24 [00:01<00:04,  3.58it/s][A
-Iteration:  33%|███▎      | 8/24 [00:02<00:04,  3.58it/s][A
-Iteration:  38%|███▊      | 9/24 [00:02<00:04,  3.74it/s][A
-Iteration:  42%|████▏     | 10/24 [00:02<00:03,  3.82it/s][A
-Iteration:  46%|████▌     | 11/24 [00:02<00:03,  3.87it/s][A
-Iteration:  50%|█████     | 12/24 [00:03<00:03,  3.90it/s][A
-Iteration:  54%|█████▍    | 13/24 [00:03<00:02,  3.93it/s][A
-Iteration:  58%|█████▊    | 14/24 [00:03<00:02,  3.95it/s][A
-Iteration:  62%|██████▎   | 15/24 [00:03<00:02,  3.96it/s][A
-Iteration:  67%|██████▋   | 16/24 [00:04<00:02,  3.97it/s][A
-Iteration:  71%|███████   | 17/24 [00:04<00:01,  3.97it/s][A
-Iteration:  75%|███████▌  | 18/24 [00:04<00:01,  3.98it/s][A
-Iteration:  79%|███████▉  | 19/24 [00:04<00:01,  3.99it/s][A
-Iteration:  83%|████████▎ | 20/24 [00:05<00:01,  3.98it/s][A
-Iteration:  88%|████████▊ | 21/24 [00:05<00:00,  4.01it/s][A
-Iteration:  92%|█████████▏| 22/24 [00:05<00:00,  4.00it/s][A
-Iteration:  96%|█████████▌| 23/24 [00:05<00:00,  4.01it/s][A
-Iteration: 100%|██████████| 24/24 [00:06<00:00,  4.17it/s][AIteration: 100%|██████████| 24/24 [00:06<00:00,  3.87it/s]
-Epoch:  80%|████████  | 4/5 [00:24<00:06,  6.22s/it]
-Iteration:   0%|          | 0/24 [00:00<?, ?it/s][A
-Iteration:   4%|▍         | 1/24 [00:00<00:05,  4.15it/s][A
-Iteration:   8%|▊         | 2/24 [00:00<00:05,  4.10it/s][A
-Iteration:  12%|█▎        | 3/24 [00:00<00:05,  4.07it/s][A
-Iteration:  17%|█▋        | 4/24 [00:00<00:04,  4.04it/s][A
-Iteration:  21%|██        | 5/24 [00:01<00:04,  4.02it/s][A
-Iteration:  25%|██▌       | 6/24 [00:01<00:04,  4.04it/s][A
-Iteration:  29%|██▉       | 7/24 [00:01<00:04,  4.02it/s][A
-Iteration:  33%|███▎      | 8/24 [00:01<00:03,  4.01it/s][A
-Iteration:  38%|███▊      | 9/24 [00:02<00:03,  4.03it/s][A
-Iteration:  42%|████▏     | 10/24 [00:02<00:03,  4.02it/s][A
-Iteration:  46%|████▌     | 11/24 [00:02<00:03,  4.01it/s][A
-Iteration:  50%|█████     | 12/24 [00:03<00:03,  3.92it/s][A
-Iteration:  54%|█████▍    | 13/24 [00:03<00:02,  3.86it/s][A
-Iteration:  58%|█████▊    | 14/24 [00:03<00:02,  3.82it/s][A
-Iteration:  62%|██████▎   | 15/24 [00:03<00:02,  3.78it/s][A
-Iteration:  67%|██████▋   | 16/24 [00:04<00:02,  3.81it/s][A
-Iteration:  71%|███████   | 17/24 [00:04<00:01,  3.86it/s][A
-Iteration:  75%|███████▌  | 18/24 [00:04<00:01,  3.90it/s][A
-Iteration:  79%|███████▉  | 19/24 [00:04<00:01,  3.92it/s][A
-Iteration:  83%|████████▎ | 20/24 [00:05<00:01,  3.96it/s][A
-Iteration:  88%|████████▊ | 21/24 [00:05<00:00,  3.96it/s][A
-Iteration:  92%|█████████▏| 22/24 [00:05<00:00,  3.97it/s][A
-Iteration:  96%|█████████▌| 23/24 [00:05<00:00,  3.97it/s][A
-Iteration: 100%|██████████| 24/24 [00:06<00:00,  4.13it/s][AIteration: 100%|██████████| 24/24 [00:06<00:00,  3.97it/s]
-Epoch: 100%|██████████| 5/5 [00:30<00:00,  6.17s/it]Epoch: 100%|██████████| 5/5 [00:30<00:00,  6.14s/it]
-/shared/lyuqing/probing_for_event/env/lib/python3.7/site-packages/transformers/trainer.py:1175: FutureWarning: This method is deprecated, use `Trainer.is_world_process_zero()` instead.
-  warnings.warn("This method is deprecated, use `Trainer.is_world_process_zero()` instead.", FutureWarning)
-11/11/2020 03:11:03 - INFO - __main__ -   *** Evaluate ***
-Using deprecated `--per_gpu_eval_batch_size` argument which will be removed in a future version. Using `--per_device_eval_batch_size` is preferred.
-Evaluation:   0%|          | 0/8 [00:00<?, ?it/s]Evaluation:  12%|█▎        | 1/8 [00:00<00:02,  3.14it/s]Evaluation:  25%|██▌       | 2/8 [00:00<00:01,  3.19it/s]Evaluation:  38%|███▊      | 3/8 [00:00<00:01,  3.22it/s]Evaluation:  50%|█████     | 4/8 [00:01<00:01,  3.24it/s]Evaluation:  62%|██████▎   | 5/8 [00:01<00:00,  3.26it/s]Evaluation:  75%|███████▌  | 6/8 [00:01<00:00,  3.27it/s]Evaluation:  88%|████████▊ | 7/8 [00:02<00:00,  3.27it/s]Evaluation: 100%|██████████| 8/8 [00:02<00:00,  3.34it/s]Evaluation: 100%|██████████| 8/8 [00:02<00:00,  3.30it/s]
-11/11/2020 03:11:06 - INFO - __main__ -   ***** Eval results wnli *****
-11/11/2020 03:11:06 - INFO - __main__ -     eval_loss = 0.00017272812240806066
-11/11/2020 03:11:06 - INFO - __main__ -     eval_acc = 1.0
-11/11/2020 03:11:06 - INFO - __main__ -     epoch = 5.0
-11/11/2020 03:11:06 - INFO - __main__ -     total_flos = 405113613660000
-{'eval_loss': 0.00017272812240806066, 'eval_acc': 1.0, 'epoch': 5.0, 'total_flos': 405113613660000, 'step': 120}
