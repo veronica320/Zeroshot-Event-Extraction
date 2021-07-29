@@ -1,0 +1,23 @@
+channels:
+  - stanfordnlp
+  - pytorch
+  - defaults
+  - conda-forge
+dependencies:
+  - nltk=3.5=py_0
+  - numpy-base=1.19.2=py37hfa32c7d_0
+  - python=3.7.7=hcff3b4d_5
+  - pytorch=1.7.0=py3.7_cuda10.1.243_cudnn7.6.3_0
+  - regex=2020.7.14=py37h7b6447c_0
+  - stanza=1.2.0=py37_0
+  - pip:
+    - allennlp==0.9.0
+    - apex==0.1
+    - matplotlib==3.3.1
+    - numpy==1.19.1
+    - pandas==1.2.1
+    - scikit-learn==0.23.2
+    - scipy==1.4.1
+    - seaborn==0.11.1
+    - spacy==2.1.9
+    - transformers==4.9.1

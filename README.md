@@ -9,7 +9,6 @@ A lot of the infrastructure (preprocessing, scorer, etc.) is adapted from the [O
 ### Environment
 
 - `environment.yml` specifies the conda environment needed running the code. You can create the environment using it according to [this guildeline](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file).
-- When installing transformers, make sure you **install it from source** and put it under the root directory of this repo. This is because we potentially need the scripts under `transformers/examples/`. 
 
 ### Data
 - ACE-2005 (LDC2006T06): Available from [LDC's release](https://catalog.ldc.upenn.edu/LDC2006T06).
@@ -18,9 +17,10 @@ A lot of the infrastructure (preprocessing, scorer, etc.) is adapted from the [O
 One you download the corpora, place them under `data/`, so the complete paths look like `data/LDC2006T06` and `data/LDC2015E29`.
 
 ### Pretrained Models
-- Pretrained Textual Entailment (TE) model: [coming](https://huggingface.co/veronica320/TE-for-event-extraction)
-- Pretrained Question Answering (QA) model: [coming](https://huggingface.co/veronica320/QA-for-event-extraction)
+- Pretrained Textual Entailment (TE) model: [link](https://huggingface.co/veronica320/TE-for-Event-Extraction)
+- Pretrained Question Answering (QA) model: [link](https://huggingface.co/veronica320/QA-for-Event-Extraction)
 
+No need to pre-download them yourself; once you follow the instructions to run the event extration pipeline, they will be downloaded automatically.
 
 ## Repository structure
 
