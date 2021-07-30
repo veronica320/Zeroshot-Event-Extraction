@@ -1,6 +1,7 @@
 # Custom
 *_rank.csv
 *_conf.csv
+*.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
