@@ -116,9 +116,9 @@ To run the SRL models, you can clone the SRL repos below and follow their instru
 - [Verb SRL](https://github.com/celine-lee/transformers-srl)
 - [Nominal SRL](https://github.com/celine-lee/nominal-srl-allennlpv0.9.0)
 
-You should put the SRL output files under `data/SRL_output/ACE` or `data/SRL_output/ERE`. The output files should be named `{nom|verb}SRL_{split}.jsonl`. For example, `data/SRL_output/ACE/nomSRL_dev.jsonl`.
+You should put the SRL output files under `data/SRL_output/ACE` or `data/SRL_output/ERE`. The output files should be named `{nom|verb}SRL_{split}.jsonl`. For example, `data/SRL_output/ACE/nomSRL_dev.jsonl`, or `data/SRL_output/ERE/nomSRL_all.jsonl`.
 
-To see what format the output files should be, please refer to the sample files: `data/SRL_output/ACE/{nom|verb}SRL_dev.jsonl`. Each sample file has the NomSRL/VerbSRL output respectively. All json fields except for 
+To see what format the output files should be, please refer to the sample files: `data/SRL_output/ACE/{nom|verb}SRL_dev_sample.jsonl`. Each sample file has the NomSRL/VerbSRL output respectively. All json fields except for 
 `verbs/nominals` come from the preprocessed data in the previous step. The same format applies to other splits and the ERE corpus.
 
 Each sample file has only one sentence, due to ACE confidentiality restrictions.
@@ -163,4 +163,4 @@ If you find this repo useful, please cite the following paper:
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License.
