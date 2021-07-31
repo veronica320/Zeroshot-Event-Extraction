@@ -10,13 +10,13 @@
     "setting": "['scratch', 'gold_TI', 'gold_TI+TC'][0]",
 
     "TE_model": "veronica320/TE-for-Event-Extraction",
-    "srl_consts_for_trg": "[['V'], ['V','ARG0','ARG1','ARG2'], ['all'][1]",
+    "srl_consts_for_trg": "[['V'], ['V','ARG0','ARG1','ARG2'], ['all']][1]",
     "trg_thresh": "[0.80, 0.85, 0.90, 0.95, 0.99][-1]",
     "trg_probe_type": "['topical', 'natural', 'exist'][0]",
 
     "QA_model": "veronica320/QA-for-Event-Extraction",
-    "srl_consts_for_arg ": "[['V'], ['V','ARG0','ARG1','ARG2'], 'all'][2]",
+    "srl_consts_for_arg": "[['V'], ['V','ARG0','ARG1','ARG2'], ['all']][2]",
     "arg_thresh": "[0.900, 0.95, 0.99][0]",
-    "arg_probe_type":"['static', 'contexutalized'][1]",
+    "arg_probe_type":"['static', 'contextualized'][1]",
     "identify_head": true
 }

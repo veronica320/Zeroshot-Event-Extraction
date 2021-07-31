@@ -1,4 +1,4 @@
-"""Our scorer is adapted from: https://github.com/dwadden/dygiepp"""
+"""Scorer of model predictions. Adaped from OneIE. """
 
 
 def safe_div(num, denom):

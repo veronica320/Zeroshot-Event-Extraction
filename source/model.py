@@ -10,28 +10,26 @@ import json
 from pprint import pprint
 import ipdb
 import sys
+from utils import srl, lexicon
 import utils
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModelForQuestionAnswering
 from allennlp.predictors.predictor import Predictor
 
-# repo root dir; change to your own
-root_dir = "/shared/lyuqing/Zeroshot-Event-Extraction"
-os.chdir(root_dir)
 
 class EventDetector():
 	"""The Event Extraction pipeline."""
 
-	def __init__(self,
-	             config,
-	             ):
+	def __init__(self, config):
+		"""Initialize the pipeline.
+		:param config (Config): configuration settings
+		"""
 
 		## Config
 
 		# devices
 		if config.use_gpu and config.gpu_devices != -1:
 			self.gpu_devices = [int(_) for _ in config.gpu_devices.split(",")]
-			os.environ["CUDA_VISIBLE_DEVICES"] = self.gpu_devices
 		else:
 			self.gpu_devices = None
 
@@ -48,7 +46,7 @@ class EventDetector():
 		input_file = f"{input_dir}/{split}.event.json"
 
 		# eval settings
-		self.setting = config.setting
+		self.setting = eval(config.setting)
 
 		# TE-related config
 		self.TE_model_name = config.TE_model
@@ -69,14 +67,14 @@ class EventDetector():
 		probe_dir = f'source/lexicon/probes/{dataset}'
 		trg_probes_frn = f'{probe_dir}/trg_te_probes_{self.trg_probe_type}.txt'
 		with open(trg_probes_frn, 'r') as fr:
-			self.trg_probe_lexicon = utils.load_trg_probe_lexicon(fr)
+			self.trg_probe_lexicon = lexicon.load_trg_probe_lexicon(fr)
 
 		# Load argument probes and the SRL-to-ACE argument type mapping
 		arg_probes_frn = f'{probe_dir}/arg_qa_probes_{self.arg_probe_type}.txt'
 		with open(arg_probes_frn, 'r') as fr:
-			self.arg_probe_lexicon = utils.load_arg_probe_lexicon(fr, self.arg_probe_type)
+			self.arg_probe_lexicon = lexicon.load_arg_probe_lexicon(fr, self.arg_probe_type)
 		with open('source/lexicon/arg_srl2ace.txt') as fr:
-			self.arg_map = utils.load_arg_map(fr)
+			self.arg_map = lexicon.load_arg_map(fr)
 
 
 		## Event types
@@ -85,12 +83,13 @@ class EventDetector():
 
 		## SRL-related
 		# stopwords that will be exluded from SRL predicates as potential triggers
-		self.sw = utils.load_stopwords()
+		self.stopwords = srl.load_stopwords()
 		# cached SRL output
-		self.verb_srl_dict, self.nom_srl_dict = utils.load_srl(input_file)
-
+		self.verb_srl_dict, self.nom_srl_dict = srl.load_srl(input_file)
 
 	def load_models(self):
+		"""Load pretrained models.
+		"""
 		print('Loading constituency and dependency parser...')
 		self.dependency_parser = Predictor.from_path(
 			"https://s3-us-west-2.amazonaws.com/allennlp/models/biaffine-dependency-parser-ptb-2018.08.23.tar.gz")
@@ -122,204 +121,202 @@ class EventDetector():
 		:param instance (Instance): a sentence instance
 		"""
 
-		srl_id_results, text_pieces, trg_cands, srl2gold_maps = get_srl_results(instance,
-		                                                                        self.predicate_type,
-		                                                                        (self.verb_srl_dict, self.nom_srl_dict),
-		                                                                        self.sw,
-		                                                                        self.srl_args,
-		                                                                        self.srl_model
-		                                                                        )  # get SRL results for the current instance
+		# get SRL results for the current instance
+		srl_id_results, text_pieces, trg_cands, srl2gold_maps = srl.get_srl_results(instance,
+		                                                                            (self.verb_srl_dict, self.nom_srl_dict),
+		                                                                            self.stopwords,
+		                                                                            self.srl_consts_for_trg)
 		pred_events = []  # a list of predicted events
 
 		# predict triggers
 		pred_events = self.extract_triggers(instance, pred_events, srl_id_results, text_pieces, trg_cands)
 
 		# predict arguments
-		# pred_events = self.extract_arguments(instance, pred_events, srl_id_results, text_pieces, trg_cands, srl2gold_maps)
+		pred_events = self.extract_arguments(instance, pred_events, srl_id_results, text_pieces, trg_cands, srl2gold_maps)
 
 		return pred_events
 
 	def extract_triggers(self, instance, pred_events, srl_id_results, text_pieces, trg_cands):
 		"""Extract triggers."""
 
-		sent = instance.sentence
-		tokens_gold = instance.tokens  # ACE tokens
-
-		if self.gold_trigger:  # directly return gold trigger identification + classification results
-			for event in instance.events:
-				gold_trg_res = {"event_type": event['event_type'],
-				                "trigger": event["trigger"].copy(),
-				                "arguments": []}
-				pred_events.append(gold_trg_res)
-
-				for event_id, event in enumerate(pred_events):  # Get the premise from SRL (for argument extraction)
-					trigger_text = event["trigger"]["text"]
-
-					# Get the premise
-					srl_id, text_piece = None, None
-					for id, cand in trg_cands.items():
-						if trigger_text in cand[1] or cand[
-							1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
-							text_piece = text_pieces[id]  # Use the srl text piece as the premise
-							srl_id = id
-					if text_piece == None:  # if the gold trigger isn't in SRL prediates
-						if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
-							text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
-					if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
-						text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
-
-					premise = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
-
-					pred_events[event_id]["text_piece"] = text_piece
-					pred_events[event_id]['srl_id'] = srl_id
-
-		elif self.classification_only:  # do trigger classification only
-			# Get the gold identified triggers
-			for event in instance.events:
-				gold_trg_res = {"event_type": None,
-				                "trigger": event["trigger"].copy(),
-				                "arguments": []}
-				pred_events.append(gold_trg_res)
-
-			for event_id, event in enumerate(pred_events):  # Classify each gold trigger
-				trigger_text = event["trigger"]["text"]
-
-				# Get the premise
-				srl_id, text_piece = None, None
-				for id, cand in trg_cands.items():
-					if trigger_text in cand[1] or cand[
-						1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
-						text_piece = text_pieces[id]  # Use the srl text piece as the premise
-						srl_id = id
-				if text_piece == None:  # if the gold trigger isn't in SRL prediates
-					if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
-						text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
-				if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
-					text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
-
-				premise = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
-
-				top_type, confidence = self.classify_a_trigger(premise, trigger_text)
-
-				pred_events[event_id]["event_type"] = top_type
-				pred_events[event_id]["text_piece"] = text_piece
-				pred_events[event_id]["trigger"]['confidence'] = confidence
-				pred_events[event_id]['srl_id'] = srl_id
-
-		else:  # identification + classification
-			for srl_id, text_piece in text_pieces.items():
-				trigger_text = trg_cands[srl_id][1]
-				premise = text_piece
-
-				top_type, confidence = self.classify_a_trigger(premise, trigger_text)
-
-				if confidence > self.trg_thresh:
-					event = {'event_type': top_type,
-					         'text_piece': text_piece,
-					         'trigger': {'text': trg_cands[srl_id][1],
-					                     'start': trg_cands[srl_id][0][0],
-					                     'end': trg_cands[srl_id][0][1],
-					                     'confidence': confidence,
-					                     },
-					         'arguments': [],
-					         'srl_id': srl_id,
-					         }
-					pred_events.append(event)
+		# sent = instance.sentence
+		# tokens_gold = instance.tokens  # ACE tokens
+		#
+		# if self.gold_trigger:  # directly return gold trigger identification + classification results
+		# 	for event in instance.events:
+		# 		gold_trg_res = {"event_type": event['event_type'],
+		# 		                "trigger": event["trigger"].copy(),
+		# 		                "arguments": []}
+		# 		pred_events.append(gold_trg_res)
+		#
+		# 		for event_id, event in enumerate(pred_events):  # Get the premise from SRL (for argument extraction)
+		# 			trigger_text = event["trigger"]["text"]
+		#
+		# 			# Get the premise
+		# 			srl_id, text_piece = None, None
+		# 			for id, cand in trg_cands.items():
+		# 				if trigger_text in cand[1] or cand[
+		# 					1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
+		# 					text_piece = text_pieces[id]  # Use the srl text piece as the premise
+		# 					srl_id = id
+		# 			if text_piece == None:  # if the gold trigger isn't in SRL prediates
+		# 				if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
+		# 					text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+		# 			if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
+		# 				text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+		#
+		# 			premise = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
+		#
+		# 			pred_events[event_id]["text_piece"] = text_piece
+		# 			pred_events[event_id]['srl_id'] = srl_id
+		#
+		# elif self.classification_only:  # do trigger classification only
+		# 	# Get the gold identified triggers
+		# 	for event in instance.events:
+		# 		gold_trg_res = {"event_type": None,
+		# 		                "trigger": event["trigger"].copy(),
+		# 		                "arguments": []}
+		# 		pred_events.append(gold_trg_res)
+		#
+		# 	for event_id, event in enumerate(pred_events):  # Classify each gold trigger
+		# 		trigger_text = event["trigger"]["text"]
+		#
+		# 		# Get the premise
+		# 		srl_id, text_piece = None, None
+		# 		for id, cand in trg_cands.items():
+		# 			if trigger_text in cand[1] or cand[
+		# 				1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
+		# 				text_piece = text_pieces[id]  # Use the srl text piece as the premise
+		# 				srl_id = id
+		# 		if text_piece == None:  # if the gold trigger isn't in SRL prediates
+		# 			if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
+		# 				text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+		# 		if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
+		# 			text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
+		#
+		# 		premise = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
+		#
+		# 		top_type, confidence = self.classify_a_trigger(premise, trigger_text)
+		#
+		# 		pred_events[event_id]["event_type"] = top_type
+		# 		pred_events[event_id]["text_piece"] = text_piece
+		# 		pred_events[event_id]["trigger"]['confidence'] = confidence
+		# 		pred_events[event_id]['srl_id'] = srl_id
+		#
+		# else:  # identification + classification
+		# 	for srl_id, text_piece in text_pieces.items():
+		# 		trigger_text = trg_cands[srl_id][1]
+		# 		premise = text_piece
+		#
+		# 		top_type, confidence = self.classify_a_trigger(premise, trigger_text)
+		#
+		# 		if confidence > self.trg_thresh:
+		# 			event = {'event_type': top_type,
+		# 			         'text_piece': text_piece,
+		# 			         'trigger': {'text': trg_cands[srl_id][1],
+		# 			                     'start': trg_cands[srl_id][0][0],
+		# 			                     'end': trg_cands[srl_id][0][1],
+		# 			                     'confidence': confidence,
+		# 			                     },
+		# 			         'arguments': [],
+		# 			         'srl_id': srl_id,
+		# 			         }
+		# 			pred_events.append(event)
 
 		return pred_events
 
 	def extract_arguments(self, instance, pred_events, srl_id_results, text_pieces, trg_cands, srl2gold_maps):
 		"""Extract arguments."""
 
-		sent = instance.sentence
-		tokens_gold = instance.tokens  # ACE tokens
-		verb_srl2gold, nom_srl2gold = srl2gold_maps
-
-		if self.classification_only:
-			for gold_event, pred_event in zip(instance.events, pred_events):
-				pred_event['arguments'] = [{"text": arg["text"],
-				                            "role": None,
-				                            "start": arg["start"],
-				                            "end": arg["end"]}
-				                           for arg in gold_event["arguments"]]
-
-			for event_id, event in enumerate(pred_events):
-				srl_id = event['srl_id']
-				trigger_text = event['trigger']['text']
-				event_type = event['event_type']
-
-				# Get the premise
-				text_piece = None
-				if srl_id:  # if the gold trigger is in the SRL predicates
-					srl_result = srl_id_results[srl_id]
-					srl_tokens = srl_result['words']
-					text_piece = ' '.join([srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if
-					                       tag != 'O'])  # Concatenate all SRL arguments as the premise
-				premise = text_piece if text_piece else sent
-
-				# Classify each argument
-				cand_ace_args = self.arg_probe_lexicon[
-					event_type]  # Take all ACE argument types of the current event type as candidates
-				for arg_id, arg in enumerate(event["arguments"]):
-					top_arg_name, top_arg_score = self.classify_an_argument(arg, event_type, premise, cand_ace_args)
-					event["arguments"][arg_id]['role'] = top_arg_name
-					event["arguments"][arg_id]['confidence'] = top_arg_score
-
-		else:
-			for event_id, event in enumerate(pred_events):
-				# Get the premise
-				srl_id = event['srl_id']
-				if self.gold_trigger and srl_id == None:  # the gold trigger isn't in SRL predicates. TE can't identify arguments.
-					continue
-				trigger_text = event['trigger']['text']
-				event_type = event['event_type']
-
-				# Get the premise
-				srl_result = srl_id_results[srl_id]
-				srl_tokens = srl_result['words']
-				text_piece = ' '.join([srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if tag != 'O'])
-				srl2gold = nom_srl2gold if srl_result['predicate_type'] == 'nom' else verb_srl2gold
-
-				# Construct srl_arg_dict
-				srl_arg_dict = {}  # The span and tokens of all SRL arguments. Format: {'ARG0': [(span, token),(span, token)], 'ARG1': [(span, token), ...], ...}
-				tag_set = set([tag[2:] for tag in srl_result['tags'] if
-				               tag not in ['O', 'B-V', 'I-V']])  # SRL argument tags: ARG0, ARG1, ARGM-TMP...
-				for target_tag in tag_set:
-					span = [j for j, tag in enumerate(srl_result['tags']) if
-					        tag[2:] == target_tag]  # TODO: multiple args for the same arg type
-					tokens = [word for i, word in enumerate(srl_tokens) if i in span]
-					if self.identify_head:  # only retain the head
-						try:
-							pos_tags = [tag for _, tag in pos_tag(tokens)]
-						except IndexError:  # event 774: IndexError: string index out of range
-							span = [None]
-							continue
-						head_idx, token = get_head(self.dependency_parser, span, tokens, pos_tags)
-						span = [head_idx]
-					else:  # retain the whole SRL argument
-						token = ' '.join([word for i, word in enumerate(srl_tokens) if i in span])
-					if None not in span:
-						span = (srl2gold[span[0]], srl2gold[span[-1]] + 1)  # map SRL ids to gold ids
-						if target_tag not in srl_arg_dict:
-							srl_arg_dict[target_tag] = []
-						srl_arg_dict[target_tag].append((span, token))
-
-				# Classify each SRL argument
-				for srl_arg_type, srl_arg_ists in srl_arg_dict.items():
-					if srl_arg_type not in self.arg_map[event_type]:  # the SRL argument isn't a potential ACE argument
-						continue
-					cand_ace_args = self.arg_map[event_type][
-						srl_arg_type]  # Only take the ACE argument types in the SRL-to-ACE argument mapping as candidates
-					for srl_arg_ist in srl_arg_ists:  # an instance of SRL argument
-						top_arg_name, top_arg_score = self.classify_an_argument(srl_arg_ist, event_type, text_piece,
-						                                                        cand_ace_args)
-						if top_arg_score >= self.arg_thresh:
-							event['arguments'].append({'text': srl_arg_ist[1],
-							                           'role': top_arg_name,
-							                           'start': srl_arg_ist[0][0],
-							                           'end': srl_arg_ist[0][1],
-							                           'confidence': top_arg_score,
-							                           })
+		# sent = instance.sentence
+		# tokens_gold = instance.tokens  # ACE tokens
+		# verb_srl2gold, nom_srl2gold = srl2gold_maps
+		#
+		# if self.classification_only:
+		# 	for gold_event, pred_event in zip(instance.events, pred_events):
+		# 		pred_event['arguments'] = [{"text": arg["text"],
+		# 		                            "role": None,
+		# 		                            "start": arg["start"],
+		# 		                            "end": arg["end"]}
+		# 		                           for arg in gold_event["arguments"]]
+		#
+		# 	for event_id, event in enumerate(pred_events):
+		# 		srl_id = event['srl_id']
+		# 		trigger_text = event['trigger']['text']
+		# 		event_type = event['event_type']
+		#
+		# 		# Get the premise
+		# 		text_piece = None
+		# 		if srl_id:  # if the gold trigger is in the SRL predicates
+		# 			srl_result = srl_id_results[srl_id]
+		# 			srl_tokens = srl_result['words']
+		# 			text_piece = ' '.join([srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if
+		# 			                       tag != 'O'])  # Concatenate all SRL arguments as the premise
+		# 		premise = text_piece if text_piece else sent
+		#
+		# 		# Classify each argument
+		# 		cand_ace_args = self.arg_probe_lexicon[
+		# 			event_type]  # Take all ACE argument types of the current event type as candidates
+		# 		for arg_id, arg in enumerate(event["arguments"]):
+		# 			top_arg_name, top_arg_score = self.classify_an_argument(arg, event_type, premise, cand_ace_args)
+		# 			event["arguments"][arg_id]['role'] = top_arg_name
+		# 			event["arguments"][arg_id]['confidence'] = top_arg_score
+		#
+		# else:
+		# 	for event_id, event in enumerate(pred_events):
+		# 		# Get the premise
+		# 		srl_id = event['srl_id']
+		# 		if self.gold_trigger and srl_id == None:  # the gold trigger isn't in SRL predicates. TE can't identify arguments.
+		# 			continue
+		# 		trigger_text = event['trigger']['text']
+		# 		event_type = event['event_type']
+		#
+		# 		# Get the premise
+		# 		srl_result = srl_id_results[srl_id]
+		# 		srl_tokens = srl_result['words']
+		# 		text_piece = ' '.join([srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if tag != 'O'])
+		# 		srl2gold = nom_srl2gold if srl_result['predicate_type'] == 'nom' else verb_srl2gold
+		#
+		# 		# Construct srl_arg_dict
+		# 		srl_arg_dict = {}  # The span and tokens of all SRL arguments. Format: {'ARG0': [(span, token),(span, token)], 'ARG1': [(span, token), ...], ...}
+		# 		tag_set = set([tag[2:] for tag in srl_result['tags'] if
+		# 		               tag not in ['O', 'B-V', 'I-V']])  # SRL argument tags: ARG0, ARG1, ARGM-TMP...
+		# 		for target_tag in tag_set:
+		# 			span = [j for j, tag in enumerate(srl_result['tags']) if
+		# 			        tag[2:] == target_tag]  # TODO: multiple args for the same arg type
+		# 			tokens = [word for i, word in enumerate(srl_tokens) if i in span]
+		# 			if self.identify_head:  # only retain the head
+		# 				try:
+		# 					pos_tags = [tag for _, tag in pos_tag(tokens)]
+		# 				except IndexError:  # event 774: IndexError: string index out of range
+		# 					span = [None]
+		# 					continue
+		# 				head_idx, token = get_head(self.dependency_parser, span, tokens, pos_tags)
+		# 				span = [head_idx]
+		# 			else:  # retain the whole SRL argument
+		# 				token = ' '.join([word for i, word in enumerate(srl_tokens) if i in span])
+		# 			if None not in span:
+		# 				span = (srl2gold[span[0]], srl2gold[span[-1]] + 1)  # map SRL ids to gold ids
+		# 				if target_tag not in srl_arg_dict:
+		# 					srl_arg_dict[target_tag] = []
+		# 				srl_arg_dict[target_tag].append((span, token))
+		#
+		# 		# Classify each SRL argument
+		# 		for srl_arg_type, srl_arg_ists in srl_arg_dict.items():
+		# 			if srl_arg_type not in self.arg_map[event_type]:  # the SRL argument isn't a potential ACE argument
+		# 				continue
+		# 			cand_ace_args = self.arg_map[event_type][
+		# 				srl_arg_type]  # Only take the ACE argument types in the SRL-to-ACE argument mapping as candidates
+		# 			for srl_arg_ist in srl_arg_ists:  # an instance of SRL argument
+		# 				top_arg_name, top_arg_score = self.classify_an_argument(srl_arg_ist, event_type, text_piece,
+		# 				                                                        cand_ace_args)
+		# 				if top_arg_score >= self.arg_thresh:
+		# 					event['arguments'].append({'text': srl_arg_ist[1],
+		# 					                           'role': top_arg_name,
+		# 					                           'start': srl_arg_ist[0][0],
+		# 					                           'end': srl_arg_ist[0][1],
+		# 					                           'confidence': top_arg_score,
+		# 					                           })
 
 		return pred_events
 

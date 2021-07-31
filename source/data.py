@@ -6,39 +6,12 @@ from torch.utils.data import Dataset
 from collections import Counter, namedtuple, defaultdict
 import sys
 from graph import Graph
-# from util import read_ltf, read_txt, read_json, read_json_single
 
 instance_fields = [
     'doc_id', 'sent_id', 'tokens', 'sentence', 'events',
     'graph', 'trigger_num'
 ]
-# instance_ldc_eval_fields = [
-#     'sent_id', 'tokens', 'token_ids', 'pieces', 'piece_idxs',
-#     'token_lens', 'attention_mask'
-# ]
-# batch_fields = [
-#     'sent_ids', 'tokens', 'piece_idxs', 'token_lens', 'attention_masks',
-#     'entity_label_idxs', 'trigger_label_idxs',
-#     'entity_type_idxs', 'event_type_idxs', 'mention_type_idxs',
-#     'relation_type_idxs', 'role_type_idxs',
-#     'graphs', 'token_nums'
-# ]
-# batch_ldc_eval_fields = [
-#     'sent_ids', 'token_ids', 'tokens', 'piece_idxs', 'token_lens', 'attention_masks', 'token_nums'
-# ]
-# Instance = namedtuple('Instance', field_names=instance_fields, defaults=[None] * len(instance_fields))
 Instance = namedtuple('Instance', field_names=instance_fields)
-# InstanceLdcEval = namedtuple('InstanceLdcEval',
-#                              field_names=instance_ldc_eval_fields,
-#                              defaults=[None] * len(instance_ldc_eval_fields))
-# Batch = namedtuple('Batch', field_names=batch_fields,
-#                    defaults=[None] * len(batch_fields))
-# BatchLdcEval = namedtuple('BatchLdcEval',
-#                           field_names=batch_ldc_eval_fields,
-#                           defaults=[None] * len(batch_ldc_eval_fields))
-# BatchEval = namedtuple('BatchEval', field_names=['sent_ids', 'piece_idxs',
-#                                                  'tokens', 'attention_masks',
-#                                                  'token_lens', 'token_nums'])
 
 
 def get_trigger_labels(events, token_num):
