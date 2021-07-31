@@ -10,8 +10,7 @@ import json
 from pprint import pprint
 import ipdb
 import sys
-from utils import srl, lexicon
-import utils
+from utils import srl, lexicon, span_utils, postprocessing
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModelForQuestionAnswering
 from allennlp.predictors.predictor import Predictor
@@ -50,13 +49,14 @@ class EventDetector():
 
 		# TE-related config
 		self.TE_model_name = config.TE_model
-		self.srl_consts_for_trg = eval(config.srl_consts_for_trg)
+		self.TE_model_type = eval(config.TE_model_type)
+		self.srl_consts = eval(config.srl_consts)
 		self.trg_thresh = eval(config.trg_thresh)
 		self.trg_probe_type = eval(config.trg_probe_type)
 
 		# QA-related config
 		self.QA_model_name = config.QA_model
-		self.srl_consts_for_arg = eval(config.srl_consts_for_arg)
+		self.QA_model_type = eval(config.QA_model_type)
 		self.arg_thresh = eval(config.arg_thresh)
 		self.arg_probe_type = eval(config.arg_probe_type)
 		self.identify_head = config.identify_head
@@ -100,19 +100,19 @@ class EventDetector():
 		print(f'Loading TE model...')
 		if self.gpu_devices:
 			self.TE_model = AutoModelForSequenceClassification.from_pretrained(self.TE_model_name,
-			                                                                   cache_dir=self.transformers_cache_dir).to('cuda:0')
+																			   cache_dir=self.transformers_cache_dir).to('cuda:0')
 		else:
 			self.TE_model = AutoModelForSequenceClassification.from_pretrained(self.TE_model_name,
-			                                                                   cache_dir=self.transformers_cache_dir)
+																			   cache_dir=self.transformers_cache_dir)
 		self.TE_tokenizer = AutoTokenizer.from_pretrained(self.TE_model_name, cache_dir=self.transformers_cache_dir)
 
 		print('Loading QA model...')
 		if self.gpu_devices:
 			self.QA_model = AutoModelForQuestionAnswering.from_pretrained(self.QA_model_name,
-			                                                              cache_dir=self.transformers_cache_dir).to('cuda:0')
+																		  cache_dir=self.transformers_cache_dir).to('cuda:0')
 		else:
 			self.QA_model = AutoModelForQuestionAnswering.from_pretrained(self.QA_model_name,
-			                                                              cache_dir=self.transformers_cache_dir)
+																		  cache_dir=self.transformers_cache_dir)
 
 		self.QA_tokenizer = AutoTokenizer.from_pretrained(self.QA_model_name, cache_dir=self.transformers_cache_dir)
 
@@ -123,9 +123,9 @@ class EventDetector():
 
 		# get SRL results for the current instance
 		srl_id_results, text_pieces, trg_cands, srl2gold_maps = srl.get_srl_results(instance,
-		                                                                            (self.verb_srl_dict, self.nom_srl_dict),
-		                                                                            self.stopwords,
-		                                                                            self.srl_consts_for_trg)
+																						(self.verb_srl_dict, self.nom_srl_dict),
+																						self.stopwords,
+																						self.srl_consts)
 		pred_events = []  # a list of predicted events
 
 		# predict triggers
@@ -139,218 +139,175 @@ class EventDetector():
 	def extract_triggers(self, instance, pred_events, srl_id_results, text_pieces, trg_cands):
 		"""Extract triggers."""
 
-		# sent = instance.sentence
-		# tokens_gold = instance.tokens  # ACE tokens
-		#
-		# if self.gold_trigger:  # directly return gold trigger identification + classification results
-		# 	for event in instance.events:
-		# 		gold_trg_res = {"event_type": event['event_type'],
-		# 		                "trigger": event["trigger"].copy(),
-		# 		                "arguments": []}
-		# 		pred_events.append(gold_trg_res)
-		#
-		# 		for event_id, event in enumerate(pred_events):  # Get the premise from SRL (for argument extraction)
-		# 			trigger_text = event["trigger"]["text"]
-		#
-		# 			# Get the premise
-		# 			srl_id, text_piece = None, None
-		# 			for id, cand in trg_cands.items():
-		# 				if trigger_text in cand[1] or cand[
-		# 					1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
-		# 					text_piece = text_pieces[id]  # Use the srl text piece as the premise
-		# 					srl_id = id
-		# 			if text_piece == None:  # if the gold trigger isn't in SRL prediates
-		# 				if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
-		# 					text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
-		# 			if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
-		# 				text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
-		#
-		# 			premise = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
-		#
-		# 			pred_events[event_id]["text_piece"] = text_piece
-		# 			pred_events[event_id]['srl_id'] = srl_id
-		#
-		# elif self.classification_only:  # do trigger classification only
-		# 	# Get the gold identified triggers
-		# 	for event in instance.events:
-		# 		gold_trg_res = {"event_type": None,
-		# 		                "trigger": event["trigger"].copy(),
-		# 		                "arguments": []}
-		# 		pred_events.append(gold_trg_res)
-		#
-		# 	for event_id, event in enumerate(pred_events):  # Classify each gold trigger
-		# 		trigger_text = event["trigger"]["text"]
-		#
-		# 		# Get the premise
-		# 		srl_id, text_piece = None, None
-		# 		for id, cand in trg_cands.items():
-		# 			if trigger_text in cand[1] or cand[
-		# 				1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
-		# 				text_piece = text_pieces[id]  # Use the srl text piece as the premise
-		# 				srl_id = id
-		# 		if text_piece == None:  # if the gold trigger isn't in SRL prediates
-		# 			if self.const_premise == 'whenNone':  # use the lowest constituent as the premise
-		# 				text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
-		# 		if self.const_premise == 'alwaystrg':  # regardless of whether the gold trigger is in SRL predicates, always use the lowest constituent as the premise
-		# 			text_piece = find_lowest_constituent(self.constituency_parser, trigger_text, sent)
-		#
-		# 		premise = text_piece if text_piece else sent  # if text_piece is None, use the entire sentence as the premise
-		#
-		# 		top_type, confidence = self.classify_a_trigger(premise, trigger_text)
-		#
-		# 		pred_events[event_id]["event_type"] = top_type
-		# 		pred_events[event_id]["text_piece"] = text_piece
-		# 		pred_events[event_id]["trigger"]['confidence'] = confidence
-		# 		pred_events[event_id]['srl_id'] = srl_id
-		#
-		# else:  # identification + classification
-		# 	for srl_id, text_piece in text_pieces.items():
-		# 		trigger_text = trg_cands[srl_id][1]
-		# 		premise = text_piece
-		#
-		# 		top_type, confidence = self.classify_a_trigger(premise, trigger_text)
-		#
-		# 		if confidence > self.trg_thresh:
-		# 			event = {'event_type': top_type,
-		# 			         'text_piece': text_piece,
-		# 			         'trigger': {'text': trg_cands[srl_id][1],
-		# 			                     'start': trg_cands[srl_id][0][0],
-		# 			                     'end': trg_cands[srl_id][0][1],
-		# 			                     'confidence': confidence,
-		# 			                     },
-		# 			         'arguments': [],
-		# 			         'srl_id': srl_id,
-		# 			         }
-		# 			pred_events.append(event)
+		sent = instance.sentence
+		tokens_gold = instance.tokens  # tokens from preprocessed dataset
+
+		if self.setting == "gold_TI+TC":  # directly return gold trigger identification + classification results
+
+			for event in instance.events:
+				# directly copy the gold trigger
+				gold_trg_res = {"event_type": event['event_type'],
+								"trigger": event["trigger"].copy(),
+								"arguments": []}
+				pred_events.append(gold_trg_res)
+
+				# Get the SRL id
+				for event_id, event in enumerate(pred_events):
+					trigger_text = event["trigger"]["text"]
+					
+					srl_id, _ = srl.get_srl_id_and_premise(sent, 
+														   trigger_text, 
+														   trg_cands,
+														   text_pieces,
+														   self.constituency_parser)
+
+					pred_events[event_id]["trg_premise"] = None
+					pred_events[event_id]['srl_id'] = srl_id
+
+		elif self.setting == "gold_TI":  # do trigger classification only
+
+			# Get gold trigger spans
+			for event in instance.events:
+				gold_trg_res = {"event_type": None,
+								"trigger": event["trigger"].copy(),
+								"arguments": []}
+				pred_events.append(gold_trg_res)
+
+			# Classify each trigger
+			for event_id, event in enumerate(pred_events):
+				trigger_text = event["trigger"]["text"]
+
+				# Get the SRL id and premise
+				srl_id, premise = srl.get_srl_id_and_premise(sent,
+															 trigger_text,
+															 trg_cands,
+															 text_pieces,
+															 self.constituency_parser)
+
+				# if SRL text_piece is None, use the entire sentence as the premise
+				if premise is None:
+					premise = sent
+
+				# Classify
+				top_type, confidence = self.classify_a_trigger(premise, trigger_text)
+				pred_events[event_id]["event_type"] = top_type
+				pred_events[event_id]["trg_premise"] = premise
+				pred_events[event_id]["trigger"]['confidence'] = confidence
+				pred_events[event_id]['srl_id'] = srl_id
+
+		else:  # trigger identification + classification
+			for srl_id, text_piece in text_pieces.items():
+				trigger_text = trg_cands[srl_id][1]
+				premise = text_piece
+
+				top_type, confidence = self.classify_a_trigger(premise, trigger_text)
+
+				if confidence > self.trg_thresh:
+					event = {'event_type': top_type,
+							 'text_piece': text_piece,
+							 'trigger': {'text': trg_cands[srl_id][1],
+										 'start': trg_cands[srl_id][0][0],
+										 'end': trg_cands[srl_id][0][1],
+										 'confidence': confidence,
+										 },
+							 'arguments': [],
+							 'srl_id': srl_id,
+							 }
+					pred_events.append(event)
 
 		return pred_events
 
-	def extract_arguments(self, instance, pred_events, srl_id_results, text_pieces, trg_cands, srl2gold_maps):
+	def extract_arguments(self, instance, pred_events, srl_id_results, arg_text_pieces, trg_cands, srl2gold_maps):
 		"""Extract arguments."""
 
-		# sent = instance.sentence
-		# tokens_gold = instance.tokens  # ACE tokens
-		# verb_srl2gold, nom_srl2gold = srl2gold_maps
-		#
-		# if self.classification_only:
-		# 	for gold_event, pred_event in zip(instance.events, pred_events):
-		# 		pred_event['arguments'] = [{"text": arg["text"],
-		# 		                            "role": None,
-		# 		                            "start": arg["start"],
-		# 		                            "end": arg["end"]}
-		# 		                           for arg in gold_event["arguments"]]
-		#
-		# 	for event_id, event in enumerate(pred_events):
-		# 		srl_id = event['srl_id']
-		# 		trigger_text = event['trigger']['text']
-		# 		event_type = event['event_type']
-		#
-		# 		# Get the premise
-		# 		text_piece = None
-		# 		if srl_id:  # if the gold trigger is in the SRL predicates
-		# 			srl_result = srl_id_results[srl_id]
-		# 			srl_tokens = srl_result['words']
-		# 			text_piece = ' '.join([srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if
-		# 			                       tag != 'O'])  # Concatenate all SRL arguments as the premise
-		# 		premise = text_piece if text_piece else sent
-		#
-		# 		# Classify each argument
-		# 		cand_ace_args = self.arg_probe_lexicon[
-		# 			event_type]  # Take all ACE argument types of the current event type as candidates
-		# 		for arg_id, arg in enumerate(event["arguments"]):
-		# 			top_arg_name, top_arg_score = self.classify_an_argument(arg, event_type, premise, cand_ace_args)
-		# 			event["arguments"][arg_id]['role'] = top_arg_name
-		# 			event["arguments"][arg_id]['confidence'] = top_arg_score
-		#
-		# else:
-		# 	for event_id, event in enumerate(pred_events):
-		# 		# Get the premise
-		# 		srl_id = event['srl_id']
-		# 		if self.gold_trigger and srl_id == None:  # the gold trigger isn't in SRL predicates. TE can't identify arguments.
-		# 			continue
-		# 		trigger_text = event['trigger']['text']
-		# 		event_type = event['event_type']
-		#
-		# 		# Get the premise
-		# 		srl_result = srl_id_results[srl_id]
-		# 		srl_tokens = srl_result['words']
-		# 		text_piece = ' '.join([srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if tag != 'O'])
-		# 		srl2gold = nom_srl2gold if srl_result['predicate_type'] == 'nom' else verb_srl2gold
-		#
-		# 		# Construct srl_arg_dict
-		# 		srl_arg_dict = {}  # The span and tokens of all SRL arguments. Format: {'ARG0': [(span, token),(span, token)], 'ARG1': [(span, token), ...], ...}
-		# 		tag_set = set([tag[2:] for tag in srl_result['tags'] if
-		# 		               tag not in ['O', 'B-V', 'I-V']])  # SRL argument tags: ARG0, ARG1, ARGM-TMP...
-		# 		for target_tag in tag_set:
-		# 			span = [j for j, tag in enumerate(srl_result['tags']) if
-		# 			        tag[2:] == target_tag]  # TODO: multiple args for the same arg type
-		# 			tokens = [word for i, word in enumerate(srl_tokens) if i in span]
-		# 			if self.identify_head:  # only retain the head
-		# 				try:
-		# 					pos_tags = [tag for _, tag in pos_tag(tokens)]
-		# 				except IndexError:  # event 774: IndexError: string index out of range
-		# 					span = [None]
-		# 					continue
-		# 				head_idx, token = get_head(self.dependency_parser, span, tokens, pos_tags)
-		# 				span = [head_idx]
-		# 			else:  # retain the whole SRL argument
-		# 				token = ' '.join([word for i, word in enumerate(srl_tokens) if i in span])
-		# 			if None not in span:
-		# 				span = (srl2gold[span[0]], srl2gold[span[-1]] + 1)  # map SRL ids to gold ids
-		# 				if target_tag not in srl_arg_dict:
-		# 					srl_arg_dict[target_tag] = []
-		# 				srl_arg_dict[target_tag].append((span, token))
-		#
-		# 		# Classify each SRL argument
-		# 		for srl_arg_type, srl_arg_ists in srl_arg_dict.items():
-		# 			if srl_arg_type not in self.arg_map[event_type]:  # the SRL argument isn't a potential ACE argument
-		# 				continue
-		# 			cand_ace_args = self.arg_map[event_type][
-		# 				srl_arg_type]  # Only take the ACE argument types in the SRL-to-ACE argument mapping as candidates
-		# 			for srl_arg_ist in srl_arg_ists:  # an instance of SRL argument
-		# 				top_arg_name, top_arg_score = self.classify_an_argument(srl_arg_ist, event_type, text_piece,
-		# 				                                                        cand_ace_args)
-		# 				if top_arg_score >= self.arg_thresh:
-		# 					event['arguments'].append({'text': srl_arg_ist[1],
-		# 					                           'role': top_arg_name,
-		# 					                           'start': srl_arg_ist[0][0],
-		# 					                           'end': srl_arg_ist[0][1],
-		# 					                           'confidence': top_arg_score,
-		# 					                           })
+		sent = instance.sentence
+		tokens_gold = instance.tokens
+		verb_srl2gold, nom_srl2gold = srl2gold_maps
+
+		for event_id, event in enumerate(pred_events):
+			srl_id = event['srl_id']
+			trigger_text = event['trigger']['text']
+			event_type = event['event_type']
+
+			# Get the context
+			if srl_id:
+				srl_result = srl_id_results[srl_id]
+				srl_tokens = srl_result['words']
+				text_piece_tokens = [srl_tokens[i] for i, tag in enumerate(srl_result['tags']) if tag != 'O']
+				text_piece_token_ids = [i for i, tag in enumerate(srl_result['tags']) if tag != 'O']
+				text_piece = ' '.join(text_piece_tokens)
+				srl2gold = nom_srl2gold if srl_result['predicate_type'] == 'nom' else verb_srl2gold
+				context_tokens = text_piece_tokens
+			else:
+				context_tokens = tokens_gold
+
+			event['arg_context'] = ' '.join(context_tokens)
+
+			for cand_ace_arg in self.arg_probe_lexicon[event_type]:
+				question = self.arg_probe_lexicon[event_type][cand_ace_arg]
+				if self.arg_probe_type == 'ex_wtrg':
+					question = question.replace('{trigger}', trigger_text)
+				best_prediction = self.answer_ex(question, context_tokens)
+
+				span = best_prediction['span']
+				confidence = best_prediction["confidence"]
+
+				if span and confidence >= self.arg_thresh:  # top answer is not None; confidence is high enough
+					answer_tokens = best_prediction['answer_tokens']
+					arg_text = ' '.join(answer_tokens)
+
+					if self.identify_head:  # get the head
+						pos_tags = [tag for _, tag in pos_tag(answer_tokens)]
+						if answer_tokens:
+							head_idx, head_token = span_utils.get_head(self.dependency_parser, span, answer_tokens, pos_tags)
+
+							if head_idx:
+								span = (head_idx, head_idx + 1)
+								arg_text = head_token
+
+					if srl_id:  # map context ids back to ACE gold ids
+						start, end_pre = span[0], span[1] - 1
+						start_in_srl, end_in_srl = text_piece_token_ids[start], text_piece_token_ids[end_pre] + 1
+						try:
+							gold_start, gold_end = srl2gold[start_in_srl], srl2gold[end_in_srl]
+						except KeyError:
+							continue # TODO: fix span mapping error
+						span = (gold_start, gold_end)
+
+					event['arguments'].append({'text': arg_text,
+											   'role': cand_ace_arg[:-4],
+											   'start': span[0],
+											   'end': span[1],
+											   'confidence': confidence,
+											   })
+
+				else:  # no answer; or confidence isn't high enough
+					continue
 
 		return pred_events
 
 	def classify_a_trigger(self, premise, trigger_text):
 		"""Classify a single trigger."""
 
-		result_dict = {}  # the temporary result dict for all possible event types. Format: {event_type:confidence_score, ...}
+		# the temporary result dict for all possible event types. Format: {event_type:confidence_score, ...}
+		result_dict = {}
+
 		for event_type in self.trg_subtypes:
 			label = self.trg_probe_lexicon[event_type]  # the (partial) probe from the lexicon
+
 			# See config_README for explanation of each trg_probe_type
 			if self.trg_probe_type == 'topical':
 				hypothesis = f'This text is about {label}.'
-			elif self.trg_probe_type == 'prem-trg+type':
-				hypothesis = re.sub(pattern=trigger_text, string=premise, repl=label).strip()
 			elif self.trg_probe_type in ['natural', 'exist']:
 				hypothesis = label
+			else:
+				raise ValueError("Undefined trg_probe_type. Should be in ['topical', 'natural', 'exist'].")
 
-			orig_entail_prob = self.entailment(premise,
-			                                   hypothesis)  # original probability of "the premise entailing the hypothesis"
-			if self.pair_premise_strategy:  # use a minimal pair of premises
-				sub_pattern = '\s?' + trigger_text + '\s?'
-				truncated_premise = re.sub(pattern=sub_pattern, string=premise,
-				                           repl=' ').strip()  # the truncated premise is the original premise - the trigger
-				truncated_entail_prob = self.entailment(truncated_premise,
-				                                        hypothesis)  # the probability of "the truncated premise entailing the hypothesis"
-				delta = orig_entail_prob - truncated_entail_prob  # the difference
+			# original probability of "the premise entailing the hypothesis"
+			orig_entail_prob = self.entailment(premise, hypothesis)
 
-			if self.pair_premise_strategy == 'max_delta':
-				result_dict[event_type] = delta  # maximizing delta
-			elif self.pair_premise_strategy == 'max_conf+delta':
-				result_dict[
-					event_type] = orig_entail_prob + delta  # maximizing the sum of the original entailment prob + delta
-			elif self.pair_premise_strategy == None:
-				result_dict[event_type] = orig_entail_prob  # maximizing the original entailment prob
+			# maximizing the original entailment prob
+			result_dict[event_type] = orig_entail_prob
 
 		sorted_res = sorted(result_dict.items(), key=lambda x: x[1], reverse=True)
 		top_type, confidence = sorted_res[0][0], sorted_res[0][1]  # Get the top event type and its confidence score
@@ -360,22 +317,6 @@ class EventDetector():
 	def classify_an_argument(self, arg, event_type, premise, cand_ace_args):
 		"""Classify a single argument."""
 
-		cand_scores = {cand: 0 for cand in cand_ace_args}
-		arg_text = arg['text'] if 'text' in arg else arg[1]
-		for cand_ace_arg in cand_ace_args:
-			if cand_ace_arg not in self.arg_probe_lexicon[event_type]:  # TODO: check why cand_ace_arg can be None
-				continue
-			hypothesis = self.arg_probe_lexicon[event_type][cand_ace_arg]
-			hypothesis = hypothesis.replace('{}', arg_text)
-			confidence = self.entailment(premise, hypothesis)
-			cand_scores[cand_ace_arg] = confidence
-
-		sorted_cands = sorted(cand_scores.items(), key=lambda x: x[1], reverse=True)
-		top_cand = sorted_cands[0]
-		top_arg_name, top_arg_score = top_cand[0][:-4], top_cand[1]
-
-		return top_arg_name, top_arg_score
-
 	def entailment(self, premise, hypothesis, premise_upper=True):
 		"""Compute the probability that the premise entails the hypothesis."""
 
@@ -383,28 +324,115 @@ class EventDetector():
 			premise = premise[0].upper() + premise[1:]
 		hypothesis = hypothesis[0].upper() + hypothesis[1:]
 
-		x = self.tokenizer.encode(premise, hypothesis, return_tensors='pt', truncation='only_first',
-		                          max_length=self.tokenizer.max_len).to('cuda:0')
-		logits = self.te_model(x)[0]
+		x = self.TE_tokenizer.encode(premise, hypothesis, return_tensors='pt', truncation='only_first',
+									 max_length=self.TE_tokenizer.model_max_length).to('cuda:0')
+		logits = self.TE_model(x)[0]
 
-		if self.bert_model_type in ['roberta', 'robertal', 'bartl',
-		                            'xlmr_xnli']:  # these models have label=2 as the entailment class
+		# these models have label=2 as the entailment class
+		if self.TE_model_type in ['roberta', 'robertal', 'bartl']:
 			entail_idx = 2
-		elif self.bert_model_type in ['bert', 'distbert', 'xlnet']:  # these models have label=1 as the entailment class
+
+		# these models have label=1 as the entailment class
+		elif self.TE_model_type in ['bert', 'bertl']:
 			entail_idx = 1
 
-		if self.add_neutral:  # take the neutral class into account when computing softmax
-			entail_contradiction_logits = logits
 		else:
-			entail_contradiction_logits = logits[:, [0, entail_idx]]
+			raise ValueError("Unrecognized TE_model_type. Should be in ['bert', 'bertl', 'roberta', 'robertal', 'bartl'].")
 
-		probs = entail_contradiction_logits.softmax(1)
-		if self.add_neutral:
-			entail_prob = float(probs[:, entail_idx])
-		else:
-			entail_prob = float(probs[:, -1])
+		probs = logits.softmax(1)
+		entail_prob = float(probs[:, entail_idx])
 
 		return entail_prob
+
+	def answer_ex(self, question, context_tokens):
+		"""Answers an extractive question."""
+
+		# Capitalize the first letter
+		if context_tokens and len(context_tokens) > 1:
+			context_tokens[0] = context_tokens[0][0].upper() + context_tokens[0][1:]
+		question = question[0].upper() + question[1:]
+		if question[-1] != '?':
+			question = question + '?'
+
+		# Encode the question and context separately
+		question_tensor = self.QA_tokenizer.encode(question, return_tensors="pt")
+		question_input_ids = question_tensor.tolist()[0]
+		question_tokens = self.QA_tokenizer.convert_ids_to_tokens(question_input_ids)
+		question_len = len(question_input_ids)
+
+		context_tensor, context_bert_tokens, goldid_2_bertid, bertid_2_goldid = span_utils.gold_to_bert_tokens(self.QA_tokenizer, context_tokens, self.QA_model_type)
+		context_len = len(context_bert_tokens)
+
+		input_tensor = torch.cat((question_tensor, context_tensor), 1).to('cuda:0')
+		input_ids = input_tensor.tolist()[0]
+		bert_tokens = question_tokens + context_bert_tokens
+
+		# Deal with BERT-based models and other models separately
+		if self.QA_model_type in span_utils.bert_type_models:
+			token_type_ids = torch.tensor([0] * question_len + [1] * context_len)
+			token_type_ids = torch.unsqueeze(token_type_ids, 0).to('cuda:0')
+
+			attention_mask = torch.tensor([1] * (question_len + context_len)).to('cuda:0')
+			attention_mask = torch.unsqueeze(attention_mask, 0).to('cuda:0')
+
+			input_dict = {'input_ids': input_tensor,
+			              'token_type_ids': token_type_ids,
+			              'attention_mask': attention_mask}
+			outputs = self.QA_model(**input_dict)
+		else:
+			outputs = self.QA_model(input_tensor)
+
+		# Get the top k answers with post-processing function
+		start_logits = outputs[0].cpu().detach().numpy()[0]
+		end_logits = outputs[1].cpu().detach().numpy()[0]
+		predictions, null_prediction = postprocessing.postprocess_qa_predictions(input_ids=input_ids,
+		                                                          predictions=(start_logits, end_logits),
+		                                                          question_len = question_len,
+		                                                          version_2_with_negative=True,
+		                                                          max_answer_length=20,
+		                                                          null_score_diff_threshold=0.0
+		                                                          )
+
+		# reformat
+		null_prediction = {'span': None,
+					        'answer': None,
+					        'answer_tokens': None,
+					        'confidence': null_prediction["confidence"],
+					        "start_logit": null_prediction["start_logit"],
+					        "end_logit": null_prediction["end_logit"],
+					        }
+
+		## Match the predicted spans to texts
+		final_predictions = []
+		for pred in predictions:
+			final_pred = span_utils.match_bert_span_to_text(pred, bertid_2_goldid, question_len, context_tokens)
+			if final_pred is not None:  # valid prediction
+				final_predictions.append(final_pred)
+
+
+		# Pick the best prediction. If the null answer is not possible, this is easy.
+		best_prediction = None
+		best_non_null_pred = None
+
+		# Otherwise we first need to find the best non-empty prediction.
+		for i, pred in enumerate(final_predictions):
+			if final_predictions[i]["answer"] is None:
+				continue
+			else:
+				best_non_null_pred = final_predictions[i]
+				break
+
+		if best_non_null_pred is None: # we don't have any non-null prediction
+			best_prediction = null_prediction
+		else:
+			# Then we compare to the null prediction using the threshold.
+			score_diff = null_prediction["start_logit"] + null_prediction["end_logit"] - best_non_null_pred["start_logit"] - best_non_null_pred["end_logit"]
+			if score_diff > 0.0:
+				best_prediction = null_prediction
+			else:
+				best_prediction = best_non_null_pred
+
+		return best_prediction
 
 	def predict_batch(self, batch):
 		# TODO

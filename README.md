@@ -8,7 +8,8 @@ A lot of the infrastructure (preprocessing, scorer, etc.) is adapted from the [O
 
 ### Environment
 
-- `environment.yml` specifies the conda environment needed running the code. You can create the environment using it according to [this guildeline](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file).
+- If you are a [CogComp](https://cogcomp.seas.upenn.edu/) member, you can directly run `/shared/lyuqing/probing_for_event/env` on any NLP server to activate the conda environment.
+- Otherwise, `environment.yml` specifies the conda environment needed running the code. You can create the environment using it according to [this guildeline](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file).
 
 ### Data
 - ACE-2005 (LDC2006T06): Available from [LDC's release](https://catalog.ldc.upenn.edu/LDC2006T06).
@@ -31,27 +32,20 @@ No need to pre-download them yourself; once you follow the instructions to run t
     * `ERE_converted/`: The preprocessed ERE corpus. Specifically, `all.event.json` will be the file elevant to event extraction only.
     * `srl_output/`: The output of running SRL on the preprocessed ACE/ERE. The event extraction model loads SRL outputs from this directory when making predictions.
     * `splits`: The train/dev/test splits from OneIE.
-* `output_dir/`: The folder that saves the event extraction predictions.  
-* `output_model_dir/`: The folder that saves various finetuned QA/TE models.  
+* `output_dir/`: The folder for model predictions.  
 * `source/`: The source codes.
 	* `config/`: Model configuration files. A specific README is included within.
 	* `prepreocessing/`: Preprocessing scripts for ACE and ERE data.
 	* `lexicon/`: Stores various txt files.
-		* `probes/`: The "probe" files. Each file contains a set of probes (i.e. hypothese templates / question templates). Each file name is in the format of `{arg|trg}_{te|qa}_probes_{setting}.txt`. The most recently developed (and the best performing) ones are `trg_te_probes_topical.txt` and `arg_te_probes_manual.txt`.
-		* `anno_guideline_examples`: The example sentences from the annotation guideline. 
+		* `probes/`: The "probe" files. Each file contains a set of probes (i.e. hypothese templates / question templates). Each file name is in the format of `{arg|trg}_{te|qa}_probes_{setting}.txt`.
 		* `arg_srl2ace.txt`: A one-to-many mapping from SRL argument names to ACE argument names.
 	* `configuration.py`: The Configuration class. Adapted from OneIE.
-	* `model_te.py`: The TE-based event extraction pipeline. See comments inside.
-	* `model_qa.py`: The QA-based event extraction pipeline (under development).
-	* `predict.py`: The code to make predictions with the event extraction pipeline.
-	* `evaluate.py`: The code to evaluate model predictions against gold annotations.
-	* `scorer.py`: The scorer called by `evaluate.py`. Adapted from OneIE.
+	* `model.py`: The main event extraction pipeline. See comments inside.
+	* `predict_evaluate.py`: The code to make predictions and evaluate the model.
+	* `scorer.py`: The scorer called by `predict_evaluate.py`. Adapted from OneIE.
 	* `graph.py`: The Graph class. Adapted from OneIE.
 	* `data.py`: The Dataset class. Adapted from OneIE.
-	* `util.py`: Helper functions. Adapted from OneIE.
-	* `srl.sh`: The scripts to run verbSRL (AllenNLP) and nomSRL (Celine's). See comments in the file. For more details, refer to [Celine's repo](https://github.com/celine-lee/nominal-srl-allennlpv0.9.0).
-* `transformers/`: The huggingface transformers repository cloned from source. This is for the purpose of finetuning QA/TE models.  
-
+	* `utils/`: Helper functions.
 
 ## Usage
 Here are the instructions on how to run our system for inference.
@@ -127,14 +121,8 @@ Each sample file has only one sentence, due to ACE confidentiality restrictions.
 Go to `source/config`, and set the configuration in `config.json`. See `source/config/config_README.md` for details on each parameter.
 
 
-
-### Make predictions
-Open `source/predict.py`, and change the config file name in the `config_path` variable accordingly. Then, run `python predict.py`.   
-The gold and predicted events will be printed to std output. A json version of the predicted events will also be saved to `output_dir/`, in the same format as the input file.
-
-### Evaluate the model
-Open `source/evaluate.py`, and change the config file name in the `config_path` variable accordingly.  Then, run `python evaluate.py`.  
-The scores will be printed to std output.
+### Make predictions & Evaluate the model
+Run `python source/predict_evaluate.py`. The gold and predicted events, as well as the scores, will be printed to std output. A json version of the predicted events will also be saved to `output_dir/`, in the same format as the input file.
 
 
 ## Citation

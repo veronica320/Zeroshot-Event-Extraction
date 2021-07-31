@@ -2,6 +2,7 @@
 
 from nltk.corpus import stopwords
 import json
+from utils import span_utils
 
 def load_srl(input_file):
 	"""Loads cached SRL predictions for an input file."""
@@ -118,12 +119,12 @@ def get_srl_result_for_instance(srl_dict, instance):
 def get_srl_results(instance,
                     srl_dicts,
                     stopwords,
-                    srl_consts,
+                    srl_consts_for_trg
                     ):
 	"""Get the SRL result, text pieces, token maps for one instance. """
 
 	srl_id_results = {}  # verb+nom srl results. Each item stores the result of a predicate. Format: {srl_id: srl_result, ....}
-	text_pieces = {}  # pieces of text from the input sentence (e.g. concatenation of V, A0, A1) as the premise. Format: {srl_id: text_piece, ....}
+	text_pieces = {}  # pieces of text from the input sentence (e.g. concatenation of V, A0, A1) as the trigger extraction premise. Format: {srl_id: text_piece, ....}
 	trg_cands = {}  # trigger candidates. Format: {srl_id: ((span_start, span_end), trigger_text), ....}
 	srl2gold_maps = [] # mapping from srl tokens to gold tokens
 	srl_id = 0  # a common key used across srl_id_results, text_pieces, verbs
@@ -146,9 +147,12 @@ def get_srl_results(instance,
 			span = [i for i, tag in enumerate(res['tags']) if tag in ['B-V', 'I-V']]
 			if span:
 				span = (verb_srl2gold[span[0]], verb_srl2gold[span[-1]] + 1)  # map srl ids to gold ids
+
+				# get the text piece as the concatenation of the SRL predicate and certain arguments
 				text_piece = ' '.join([verb_srl_tokens[i] for i, tag in enumerate(res['tags']) if
-				                       overlap(tag, srl_consts)])  # get the text piece as the concatenation of the SRL predicate and certain arguments
+				                       overlap(tag, srl_consts_for_trg)])
 				text_pieces[srl_id] = text_piece
+
 				trg_cands[srl_id] = (span, res['verb'])
 				srl_id_results[srl_id] = res
 				srl_id_results[srl_id]['predicate_type'] = 'verb'
@@ -170,9 +174,12 @@ def get_srl_results(instance,
 			span = [i for i, tag in enumerate(res['tags']) if tag in ['B-V', 'I-V']]
 			if span:
 				span = (nom_srl2gold[span[0]], nom_srl2gold[span[-1]] + 1)  # map srl ids to gold ids
-				text_piece = ' '.join([nom_srl_tokens[i] for i, tag in enumerate(res['tags']) if
-				                       overlap(tag, srl_consts)])  # get the text piece as the concatenation of the SRL predicate and certain arguments
+
+				# get the text piece as the concatenation of the SRL predicate and certain arguments
+				text_piece = ' '.join([verb_srl_tokens[i] for i, tag in enumerate(res['tags']) if
+				                           overlap(tag, srl_consts_for_trg)])
 				text_pieces[srl_id] = text_piece
+
 				trg_cands[srl_id] = (span, res['nominal'])
 				srl_id_results[srl_id] = res
 				srl_id_results[srl_id]['predicate_type'] = 'nom'
@@ -180,3 +187,16 @@ def get_srl_results(instance,
 				srl_id += 1
 
 	return srl_id_results, text_pieces, trg_cands, srl2gold_maps
+
+def get_srl_id_and_premise(sent, trigger_text, trg_cands, text_pieces, constituency_parser):
+	"""Get the SRL ID and premise for a gigven event trigger. """
+
+	srl_id, text_piece = None, None
+	for id, cand in trg_cands.items():
+		if trigger_text in cand[1] or cand[1] in trigger_text:  # if SRL predicate overlaps with the gold trigger
+			text_piece = text_pieces[id]  # Use the srl text piece as the premise
+			srl_id = id
+	if text_piece == None:  # if the gold trigger isn't in SRL prediates
+		#  use the lowest constituent above the trigger as the premise
+		text_piece = span_utils.find_lowest_constituent(constituency_parser, trigger_text, sent)
+	return srl_id, text_piece

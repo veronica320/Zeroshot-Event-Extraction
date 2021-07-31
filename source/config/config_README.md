@@ -17,7 +17,8 @@ This document explains the meaning of each parameter in the configuration file.
 
 #### Trigger-related configs
 * `TE_model`: The Textual Entailment model to be used in trigger extration. Default to `veronica320/TE-for-Event-Extraction`. You can change it to another TE model which is an instance of [AutoModelForSequenceClassification](https://huggingface.co/transformers/model_doc/auto.html#automodelforsequenceclassification).
-* `srl_consts_for_trg`: The SRL constituents to include in the TE premise for trigger extraction. See Appendix C.2 in the paper for more details.
+* `TE_model_type`: The Transformers model type of the `TE_model`. Can be `bert`, `bertl`, `roberta`, `robertal`, `bartl`.
+* `srl_consts`: The SRL constituents to include in the TE premise for trigger extraction. See Appendix C.2 in the paper for more details.
 * `trg_thresh`: The minimum confidence score required for the pretrained model to output a SRL predicate as an identified event trigger. See Appendix C.2 in the paper for more details.
 * `trg_probe_type`: The type of trigger probes to use. Each option corresponds to a file under `lexicon/probes/{dataset}`. See Appendix C.2 for more details.
 	* `topical`: The probes are in the form of `This is about {topic}.`, corresponding to the file `trg_te_probes_topical.txt`.
@@ -26,7 +27,7 @@ This document explains the meaning of each parameter in the configuration file.
 	
 #### Argument-related configs
 * `QA_model`: The Question Answering model to be used in argument extration. Default to `veronica320/QA-for-Event-Extraction`. You can change it to another QA model which is an instance of [AutoModelForQuestionAnswering](https://huggingface.co/transformers/model_doc/auto.html#automodelforquestionanswering).
-* `srl_consts_for_arg`: Similarly, the SRL constituents to include in the QA context for argument extraction.
+* `QA_model_type`: The Transformers model type of the `QA_model`. Can be `bert`, `bertl`, `roberta`, `robertal`, `bartl`.
 * `arg_thresh`: The minimum onfidence score for the pretrained model to output a SRL argument as an identified event argument.
 * `arg_probe_type`: The type of argument probes to use. Each option corresponds to a file under `lexicon/probes/{dataset}`. See Appendix C.2 for more details.
 	* `static`: The probes are fixed for each event
