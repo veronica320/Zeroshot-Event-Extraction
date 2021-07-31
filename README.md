@@ -124,7 +124,7 @@ To see what format the output files should be, please refer to the sample files:
 Each sample file has only one sentence, due to ACE confidentiality restrictions.
 
 ### Set the configuration
-Go to `source/config`, and set the configuration for the TE and QA models in `{te|qa}.json`. See `source/config/config_README.md` for details on each parameter.
+Go to `source/config`, and set the configuration in `config.json`. See `source/config/config_README.md` for details on each parameter.
 
 
 

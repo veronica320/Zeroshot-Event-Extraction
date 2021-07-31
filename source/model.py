@@ -5,72 +5,73 @@ import re
 import os
 import allennlp
 from nltk import wordpunct_tokenize, pos_tag
-from allennlp.predictors.predictor import Predictor
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-import torch
 from collections import OrderedDict
 import json
 from pprint import pprint
 import ipdb
 import sys
 import utils
+import torch
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModelForQuestionAnswering
+from allennlp.predictors.predictor import Predictor
 
 # repo root dir; change to your own
 root_dir = "/shared/lyuqing/Zeroshot-Event-Extraction"
 os.chdir(root_dir)
 
-class EventDetectorTE():
-	"""The Textual-Entailment-based event extraction pipeline."""
+class EventDetector():
+	"""The Event Extraction pipeline."""
 
 	def __init__(self,
 	             config,
 	             ):
 
 		## Config
-		# dirs, devices
-		self.cache_dir = config.bert_cache_dir
-		self.bert_model_type = config.bert_model_type
-		self.te_model_name = "veronica320/TE-for-event-extraction"
+
+		# devices
 		if config.use_gpu and config.gpu_devices != -1:
 			self.gpu_devices = [int(_) for _ in config.gpu_devices.split(",")]
+			os.environ["CUDA_VISIBLE_DEVICES"] = self.gpu_devices
 		else:
 			self.gpu_devices = None
 
-		# eval settings
-		self.classification_only = config.classification_only
-		self.gold_trigger = config.gold_trigger
+		# dirs
+		self.transformers_cache_dir = config.transformers_cache_dir
+		input_dir = eval(config.input_dir)
+		split = eval(config.split)
+		if "ACE" in input_dir:
+			dataset = "ACE"
+		elif "ERE" in input_dir:
+			dataset = "ERE"
+		else:
+			raise ValueError("Unknown dataset")
+		input_file = f"{input_dir}/{split}.event.json"
 
-		# trigger-related configs
-		self.srl_args = eval(config.srl_args)
+		# eval settings
+		self.setting = config.setting
+
+		# TE-related config
+		self.TE_model_name = config.TE_model
+		self.srl_consts_for_trg = eval(config.srl_consts_for_trg)
 		self.trg_thresh = eval(config.trg_thresh)
 		self.trg_probe_type = eval(config.trg_probe_type)
 
-		# argument-related configs
+		# QA-related config
+		self.QA_model_name = config.QA_model
+		self.srl_consts_for_arg = eval(config.srl_consts_for_arg)
 		self.arg_thresh = eval(config.arg_thresh)
 		self.arg_probe_type = eval(config.arg_probe_type)
 		self.identify_head = config.identify_head
 
 
-		## Input data path
-		input_path = eval(config.input_path)
-		split = eval(config.split)
-		if "ACE" in input_path:
-			dataset = "ACE"
-		elif "ERE" in input_path:
-			dataset = "ERE"
-		else:
-			raise ValueError("Unknown dataset")
-		input_file = f"{input_path}/{split}.event.json"
-
-
 		## Probes
 		# Load trigger probes
 		probe_dir = f'source/lexicon/probes/{dataset}'
-		trg_probes_frn = f'{probe_dir}/trg_te_probes_{trg_probe_type}.txt'
+		trg_probes_frn = f'{probe_dir}/trg_te_probes_{self.trg_probe_type}.txt'
 		with open(trg_probes_frn, 'r') as fr:
 			self.trg_probe_lexicon = utils.load_trg_probe_lexicon(fr)
 
-		# Load argument probes and the SRL-to-ACE argument map
+		# Load argument probes and the SRL-to-ACE argument type mapping
 		arg_probes_frn = f'{probe_dir}/arg_qa_probes_{self.arg_probe_type}.txt'
 		with open(arg_probes_frn, 'r') as fr:
 			self.arg_probe_lexicon = utils.load_arg_probe_lexicon(fr, self.arg_probe_type)
@@ -78,19 +79,15 @@ class EventDetectorTE():
 			self.arg_map = utils.load_arg_map(fr)
 
 
-		## Event ontology
+		## Event types
 		self.trg_subtypes = self.trg_probe_lexicon.keys()
 
 
-
-		## Load srl-related
-
+		## SRL-related
 		# stopwords that will be exluded from SRL predicates as potential triggers
 		self.sw = utils.load_stopwords()
-
 		# cached SRL output
-		self.verb_srl_dict, self.nom_srl_dict = utils.load_srl(self.srl_model, input_file)
-
+		self.verb_srl_dict, self.nom_srl_dict = utils.load_srl(input_file)
 
 
 	def load_models(self):
@@ -100,18 +97,25 @@ class EventDetectorTE():
 		self.constituency_parser = Predictor.from_path(
 			"https://s3-us-west-2.amazonaws.com/allennlp/models/elmo-constituency-parser-2018.03.14.tar.gz")
 
-		if self.tune_on_gdl:  # load the TE model tuned on the annotation guideline
-			te_model_path = f'output_model_dir/gdl_te_{self.tune_on_gdl}_{self.te_model_name}'
-		else:
-			te_model_path = self.te_model_name
 
-		print(f'Loading Textual Entailment model...')
+		print(f'Loading TE model...')
 		if self.gpu_devices:
-			self.te_model = AutoModelForSequenceClassification.from_pretrained(te_model_path, cache_dir=self.cache_dir
-			                                                                   ).to('cuda:0')
+			self.TE_model = AutoModelForSequenceClassification.from_pretrained(self.TE_model_name,
+			                                                                   cache_dir=self.transformers_cache_dir).to('cuda:0')
 		else:
-			self.te_model = AutoModelForSequenceClassification.from_pretrained(te_model_path, cache_dir=self.cache_dir)
-		self.tokenizer = AutoTokenizer.from_pretrained(self.te_model_name, cache_dir=self.cache_dir)
+			self.TE_model = AutoModelForSequenceClassification.from_pretrained(self.TE_model_name,
+			                                                                   cache_dir=self.transformers_cache_dir)
+		self.TE_tokenizer = AutoTokenizer.from_pretrained(self.TE_model_name, cache_dir=self.transformers_cache_dir)
+
+		print('Loading QA model...')
+		if self.gpu_devices:
+			self.QA_model = AutoModelForQuestionAnswering.from_pretrained(self.QA_model_name,
+			                                                              cache_dir=self.transformers_cache_dir).to('cuda:0')
+		else:
+			self.QA_model = AutoModelForQuestionAnswering.from_pretrained(self.QA_model_name,
+			                                                              cache_dir=self.transformers_cache_dir)
+
+		self.QA_tokenizer = AutoTokenizer.from_pretrained(self.QA_model_name, cache_dir=self.transformers_cache_dir)
 
 	def predict(self, instance):
 		"""Predict on a single instance.

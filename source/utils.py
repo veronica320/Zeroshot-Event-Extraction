@@ -501,20 +501,19 @@ def load_srl(input_file):
 	split = input_file.split('/')[-1].split('.')[0]
 
 	for type in ['verb', 'nom']:
-		path = None
-		path = f"data/srl_output/{dataset}/{split}/{type}SRL_{srl_model}_{split}.jsonl"
+		path = f"data/srl_output/{dataset}/{split}/{type}SRL_{split}.jsonl"
 		with open(path, 'r') as fr:
 			for line in fr:
 				srl_res = json.loads(line)
 				sent_id = srl_res["sent_id"]
 				if type == 'nom':
 					nom_srl_dict[sent_id] = {"nominals": srl_res["nominals"],
-										 "words": srl_res["words"],
-										 }
+					                         "words": srl_res["words"]
+					                         }
 				if type == 'verb':
 					verb_srl_dict[sent_id] = {"verbs": srl_res["verbs"],
-										 "words": srl_res["words"],
-										 }
+					                          "words": srl_res["words"]
+					                          }
 	return verb_srl_dict, nom_srl_dict
 
 def get_head(dependency_parser, span, tokens, pos_tags):
