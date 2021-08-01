@@ -8,8 +8,8 @@ A lot of the infrastructure (preprocessing, scorer, etc.) is adapted from the [O
 
 ### Environment
 
-- If you are a [CogComp](https://cogcomp.seas.upenn.edu/) member, you can directly run `/shared/lyuqing/probing_for_event/env` on any NLP server to activate the conda environment.
-- Otherwise, `environment.yml` specifies the conda environment needed running the code. You can create the environment using it according to [this guildeline](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file).
+- If you are a [CogComp](https://cogcomp.seas.upenn.edu/) member, you can directly run `conda activate /shared/lyuqing/probing_for_event/env` on any NLP server to activate the conda environment.
+- Otherwise, `environment.yml` specifies the environment requirements. You can create the environment using it according to [this guildeline](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file).
 
 ### Data
 - ACE-2005 (LDC2006T06): Available from [LDC's release](https://catalog.ldc.upenn.edu/LDC2006T06).
