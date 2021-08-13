@@ -105,10 +105,7 @@ Arguments:
 
 After preprocessing, we run the SRL model developed by [Celine Lee](https://github.com/celine-lee). The SRL output will be used by the subsequent event extracion components.
 
-To run the SRL models, you can clone the SRL repos below and follow their instructions:
-
-- [Verb SRL](https://github.com/celine-lee/transformers-srl)
-- [Nominal SRL](https://github.com/celine-lee/nominal-srl-allennlpv0.9.0)
+To run the SRL models, you can clone [this repo](https://github.com/CogComp/SRL-English) and follow its instructions. It includes both Verb SRL and Nominal SRL.
 
 You should put the SRL output files under `data/SRL_output/ACE` or `data/SRL_output/ERE`. The output files should be named `{nom|verb}SRL_{split}.jsonl`. For example, `data/SRL_output/ACE/nomSRL_dev.jsonl`, or `data/SRL_output/ERE/nomSRL_all.jsonl`.
 
