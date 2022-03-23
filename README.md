@@ -103,9 +103,12 @@ Arguments:
 
 ### Getting the SRL output
 
-After preprocessing, we run the SRL model developed by [Celine Lee](https://github.com/celine-lee). The SRL output will be used by the subsequent event extracion components.
 
-To run the SRL models, you can clone [this repo](https://github.com/CogComp/SRL-English) and follow its instructions. It includes both Verb SRL and Nominal SRL.
+After preprocessing, we run the SRL model developed by [Celine Lee](https://github.com/celine-lee). The SRL output will be used by the subsequent event extracion components. 
+
+To run the SRL models, you can clone [this repo](https://github.com/CogComp/SRL-English) and follow its instructions. It includes both Verb SRL and Nominal SRL, corresponding to "SRL_VERB" and "SRL_NOM_ALL" under "The folders and views". Please follow the "to predict" part in the repo for input format and prediction scripts. 
+
+(PS: In the experiments of our paper, we used a group-internal request API to access the SRL model. But since it's hosted on our servers, it's unlikely to be publicly available. Instead, the CogComp group released the Github repo of the SRL model for people to run locally.)
 
 You should put the SRL output files under `data/SRL_output/ACE` or `data/SRL_output/ERE`. The output files should be named `{nom|verb}SRL_{split}.jsonl`. For example, `data/SRL_output/ACE/nomSRL_dev.jsonl`, or `data/SRL_output/ERE/nomSRL_all.jsonl`.
 
