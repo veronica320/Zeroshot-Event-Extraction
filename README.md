@@ -83,7 +83,7 @@ Arguments:
 The `prepreocessing/process_ere.py` script converts raw ERE dataset to the format used by our system.
 
 Usage:
-
+Run at the repository root directory
 ```
 python preprocessing/process_ere.py -i <INPUT_DIR> -o <OUTPUT_DIR> -b <BERT_MODEL> -c <CACHE_DIR> -l <LANGUAGE>
 ```
