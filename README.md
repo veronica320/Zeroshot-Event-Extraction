@@ -58,6 +58,7 @@ Our preprocessing scripts are adapted from the [OneIE codebase](http://blender.c
 The `prepreocessing/process_ace.py` script converts raw ACE2005 datasets to the format used by our system. 
 
 Usage:
+Run at the repository root directory
 
 ```
 python preprocessing/process_ace.py -i <INPUT_DIR> -o <OUTPUT_DIR> -s data/splits/ACE05-E -b <BERT_MODEL> -c <CACHE_DIR> -l <LANGUAGE> --time_and_val
@@ -124,7 +125,14 @@ Go to `source/config`, and set the configuration in `config.json`. See `source/c
 ### Make predictions & Evaluate the model
 Run `python source/predict_evaluate.py`. The gold and predicted events, as well as the scores, will be printed to std output. A json version of the predicted events will also be saved to `output_dir/`, in the same format as the input file.
 
-
+Note:
+- You'll need to specify your own root directory in 'predict_evaluate.py' (line 5).
+- Running our model requires downloading AllenNLP's dependency parser and constituency parser (line 94-97 in `model.py`). In case downloading at run-time does not work for you, an alternative is to download the parsers ahead of time at the following link:
+	- https://s3-us-west-2.amazonaws.com/allennlp/models/biaffine-dependency-parser-ptb-2018.08.23.tar.gz
+	- https://s3-us-west-2.amazonaws.com/allennlp/models/elmo-constituency-parser-2018.03.14.tar.gz
+	
+  then in lines 94 to 97 in 'model.py', replace the url links by the paths for the downloaded files.
+ 
 ## Citation
 If you find this repo useful, please cite the following paper:
 
