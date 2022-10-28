@@ -17,7 +17,7 @@
 
     "QA_model": "veronica320/QA-for-Event-Extraction",
     "QA_model_type": "['bert', 'bertl', 'roberta', 'robertal', 'bartl'][3]",
-    "arg_thresh": "[0.900, 0.95, 0.99][0]",
+    "arg_thresh": "[0.0, 0.900, 0.95, 0.99][0]",
     "arg_probe_type":"['static', 'contextualized'][1]",
     "identify_head": true
 }
