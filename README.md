@@ -47,9 +47,14 @@ No need to pre-download them yourself; once you follow the instructions to run t
 	* `data.py`: The Dataset class. Adapted from OneIE.
 	* `utils/`: Helper functions.
 
+
 ## Usage
 Here are the instructions on how to run our system for inference.
 To start, go to the `source` folder.
+
+### Reproducibility notes
+
+Because of the data copyright issue, we can't publicly release the output file of our system. If you already have access to the ACE/ERE data and have difficulty in reproducing the results, please feel free to [email me](lyuqing@sas.upenn.edu) with a copy of the data you have and I'm happy to share all the intermediate output files of our system.
 
 ### Data preprocessing
 Our preprocessing scripts are adapted from the [OneIE codebase](http://blender.cs.illinois.edu/software/oneie/).
@@ -110,6 +115,9 @@ After preprocessing, we run the SRL model developed by [Celine Lee](https://gith
 To run the SRL models, you can clone [this repo](https://github.com/CogComp/SRL-English) and follow its instructions. It includes both Verb SRL and Nominal SRL, corresponding to "SRL_VERB" and "SRL_NOM_ALL" under "The folders and views". Please follow the "to predict" part in the repo for input format and prediction scripts. 
 
 (PS: In the experiments of our paper, we used a group-internal request API to access the SRL model. But since it's hosted on our servers, it's unlikely to be publicly available. Instead, the CogComp group released the Github repo of the SRL model for people to run locally.)
+
+UPDATE (10/28/2022): The SRL model has gone through several updates by the Cogcomp group since we wrote this paper. If you already have the ACE/ERE data, feel free to email me for a copy of the SRL output at the time of our paper. 
+Alternatively, if you'd like to fix the inconsistency on your own, here's how: in our code, the nominal candidate span is determined by 'B-V' and 'I-V' in the tag sequence here: https://github.com/veronica320/Zeroshot-Event-Extraction/blob/master/source/utils/srl.py#L174. However, the SRL model provided in the SRL-english GitHub does not output 'B-V', instead, it ouputs 'O' or 'ARG-0' in the corresponding position. As a result, the system won't consider any nominal trigger candidate. As a walkaround, you can get the nominal span directly from SRL model (the 'predicate_index'), and see if the corresponding tag is 'O'. If so, change it to 'B-V'.
 
 You should put the SRL output files under `data/SRL_output/ACE` or `data/SRL_output/ERE`. The output files should be named `{nom|verb}SRL_{split}.jsonl`. For example, `data/SRL_output/ACE/nomSRL_dev.jsonl`, or `data/SRL_output/ERE/nomSRL_all.jsonl`.
 
